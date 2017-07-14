@@ -1,1 +1,1 @@
-# machinima-studio-wow-vanilla
+Bugcraft Studio
