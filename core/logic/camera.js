@@ -4,8 +4,24 @@ const cameraBuffer     = new Buffer(cameraBufferSize);
 const cameraPosition   = new Buffer(0xC);
 const robot            = require('robot-js');
 const Keyboard         = robot.Keyboard;
-module.exports = (process, module, memory, window) => {
 
+/**
+ * Add a button to shake the camera like this https://www.youtube.com/watch?v=JNOxz9paA6E
+ */
+
+module.exports = (process, module, memory, window, offsets) => {
+
+  const cameraInstructionsPtr = memory.find(offsets.vanilla.camera.pattern.toString('hex'), 0, -1, 1, "-x")[0];
+
+  const cameraPtr = memory.readMultiLevelPtr(offsets.vanilla.camera.base);
+
+  if (!cameraPtr) {
+    throw new Error('Can\'t find camera');
+  }
+
+  let isSpectatorEnabled = true;
+  let spectatorInterval  = null;
+  let speed              = 0.20;
   const camera = {
     viewMatrix: [
       [0, 0, 0,],
@@ -34,7 +50,7 @@ module.exports = (process, module, memory, window) => {
    * @return {[type]} [description]
    */
   const getCameraData = () => {
-    memory.readData(0x0F69B008, cameraBuffer, cameraBufferSize);
+    memory.readData(cameraPtr, cameraBuffer, cameraBufferSize);
 
     camera.position.x = cameraBuffer.readFloatLE(0x8);
     camera.position.y = cameraBuffer.readFloatLE(0xC);
@@ -67,40 +83,60 @@ module.exports = (process, module, memory, window) => {
   }
 
   const setCameraPosition = (x, y, z) => {
-    console.log(Date.now(), x, y, z);
     cameraPosition.writeFloatLE(x, 0x0);
     cameraPosition.writeFloatLE(y, 0x4);
     cameraPosition.writeFloatLE(z, 0x8);
-    memory.writeData(0x0F69B008 + 0x8, cameraPosition, 0xC);
+    memory.writeData(cameraPtr + 0x8, cameraPosition, 0xC);
   };
 
-  setInterval(() => {
-    if (robot.Window.getActive().getTitle() !== "World of Warcraft") {
-      return; // only move the camera if the current window is the game window
-    }
-    if(Keyboard.getState(robot.KEY_W)) {
-      const data = getCameraData();
-      const x = camera.position.x + camera.forward.x * 2;
-      const y = camera.position.y + camera.forward.y * 2;
-      const z = camera.position.z + camera.forward.z * 2;
-      setCameraPosition(x, y, z);
-    }
-    if(Keyboard.getState(robot.KEY_S)) {
-      const data = getCameraData();
-      const x = camera.position.x - camera.forward.x * 2;
-      const y = camera.position.y - camera.forward.y * 2;
-      const z = camera.position.z - camera.forward.z * 2;
-      setCameraPosition(x, y, z);
-    }
-  }, 16);
+  const disableSpectator = () => {
+    enableInstructions();
+    isSpectatorEnabled = true;
+    clearInterval(spectatorInterval);
+  };
+
+  const disableInstructions = () => {
+    memory.writeData(cameraInstructionsPtr, offsets.vanilla.camera.fix, offsets.vanilla.camera.fix.byteLength)
+  };
+
+  const enableInstructions = () => {
+    memory.writeData(cameraInstructionsPtr, offsets.vanilla.camera.pattern, offsets.vanilla.camera.pattern.byteLength)
+  };
+
+  const enableSpectator = () => {
+
+    disableInstructions();
+
+    isSpectatorEnabled = false;
+    spectatorInterval  = setInterval(() => {
+      if (robot.Window.getActive().getTitle() !== "World of Warcraft") {
+        return; // only move the camera if the active window is the game window
+      }
+      if(Keyboard.getState(robot.KEY_W)) {
+        const data = getCameraData();
+        const x = camera.position.x + camera.forward.x * speed;
+        const y = camera.position.y + camera.forward.y * speed;
+        const z = camera.position.z + camera.forward.z * speed;
+        setCameraPosition(x, y, z);
+      }
+      if(Keyboard.getState(robot.KEY_S)) {
+        const data = getCameraData();
+        const x = camera.position.x - camera.forward.x * speed;
+        const y = camera.position.y - camera.forward.y * speed;
+        const z = camera.position.z - camera.forward.z * speed;
+        setCameraPosition(x, y, z);
+      }
+    }, 0);
+  };
+
 
   return {
     enableSpectator: () => {
-      const data = getCameraData();
-      console.log('data',             data);
-      console.log('data.position',    data.position);
-      console.log('data.viewMatrix',  data.viewMatrix);
-      console.log('data.forward',     data.forward);
+      if (isSpectatorEnabled) {
+        enableSpectator()
+      } else {
+        disableSpectator();
+      }
     }
   }
 }

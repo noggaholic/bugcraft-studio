@@ -1,8 +1,8 @@
 const createCamera = require('./logic/camera.js');
 
-module.exports = (process, module, memory, window) => {
+module.exports = (process, module, memory, window, offets) => {
 
-  const camera = createCamera(process, module, memory, window);
+  const camera = createCamera(process, module, memory, window, offets);
 
   return {
     sendMessage: (kind, data) => {

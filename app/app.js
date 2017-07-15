@@ -1,16 +1,5 @@
 const shell = require('electron').shell;
 const CreateUI = (err, manager) => {
-
-  // var burger = document.querySelector('.nav-toggle');
-  // var menu = document.querySelector('.nav-menu');
-  // burger.addEventListener('click', function() {
-  //     burger.classList.toggle('is-active');
-  //     menu.classList.toggle('is-active');
-  // });
-
-  /**
-   * Add a button to shake the camera like this https://www.youtube.com/watch?v=JNOxz9paA6E
-   */
   var app = new Vue({
     el: '#app',
     data: {
