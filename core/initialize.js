@@ -12,6 +12,19 @@ module.exports = (cb) => {
 
   const GAME_WINDOW = "World of Warcraft";
 
+  /*
+   * Resolves the given multi level pointer to
+   * the correct offset of the memory
+   */
+  const readMultiLevelPtr = function(offsets) {
+    var address = module + Number(offsets[0]);
+    for (var i = 1; i < offsets.length; i++) {
+      address = memory.readPtr(address);
+      address += offsets[i];
+    }
+    return address;
+  };
+
   function selectByWindow(wind) {
     // Check if arguments are correct
     if (!(wind instanceof Window)) {
@@ -40,6 +53,7 @@ module.exports = (cb) => {
 
     // Create a new memory object
     memory = Memory(process);
+    memory.readMultiLevelPtr = readMultiLevelPtr;
     window = wind;
     return true;
   }
