@@ -1,5 +1,5 @@
 const shell = require('electron').shell;
-const launch = (process, module, memory, window) => {
+const CreateUI = (err, manager) => {
 
   // var burger = document.querySelector('.nav-toggle');
   // var menu = document.querySelector('.nav-menu');
@@ -11,7 +11,6 @@ const launch = (process, module, memory, window) => {
   /**
    * Add a button to shake the camera like this https://www.youtube.com/watch?v=JNOxz9paA6E
    */
-
   var app = new Vue({
     el: '#app',
     data: {
@@ -35,6 +34,11 @@ const launch = (process, module, memory, window) => {
       },
       disableCurr: function(section) {
         document.querySelector('a[data-id="' + section + '"]').classList.toggle('is-active');
+      },
+      sendMessage: (element) => {
+        const domElement = element.currentTarget;
+        const messageId  = domElement.getAttribute('data-id');
+        manager.sendMessage(messageId);
       },
       toggleMenu: () => {
         var burger = document.querySelector('.nav-toggle');

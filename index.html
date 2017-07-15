@@ -10,12 +10,7 @@
     <script src="app/app.js"></script>
     <script type="text/javascript">
       window.onload = () => {
-        require('./core/index.js')((err, process, module, memory, window) => {
-          if (err) {
-            return document.write(err.message);
-          }
-          launch(process, module, memory, window);
-        });
+        require('./core/index.js')((err, manager) => CreateUI(err, manager));
       }
     </script>
   </head>
@@ -131,7 +126,7 @@
             <div class="column">
               <label class="label is-normal">Spectate options</label>
               <div class="field">
-                <input type="checkbox" id="toggle_spectate" name="toggle_spectate" />
+                <input type="checkbox" id="toggle_spectate" name="toggle_spectate" data-id="ENABLE_SPECTATOR" v-on:click="sendMessage" />
                 <label for="toggle_spectate"><span></span>Toggle Spectate Mode</label>
               </div>
               <div class="field">
