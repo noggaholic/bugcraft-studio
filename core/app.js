@@ -10,6 +10,7 @@ module.exports = (cb) => {
   let module;
   let window;
 
+  const GAME_WINDOW = "World of Warcraft";
 
   function selectByWindow(wind) {
     // Check if arguments are correct
@@ -18,7 +19,7 @@ module.exports = (cb) => {
     }
 
     // Check if the window title correctly matches
-    if (wind.getTitle() !== "World of Warcraft") {
+    if (wind.getTitle() !== GAME_WINDOW) {
       return false;
     }
 
@@ -39,16 +40,15 @@ module.exports = (cb) => {
 
     // Create a new memory object
     memory = Memory(process);
-    memory.readMultiLevelPtr = readMultiLevelPtr;
     window = wind;
     return true;
   }
 
-  for (let w of Window.getList("World of Warcraft")) {
+  for (let w of Window.getList(GAME_WINDOW)) {
     if (selectByWindow(w)) {
       return cb(null, process, module, memory, w);
     }
   }
 
-  return cb(new Error('Cannot find "World of Warcraft" window'));
+  return cb(new Error('Cannot open process'));
 };
