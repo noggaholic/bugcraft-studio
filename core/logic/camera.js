@@ -9,11 +9,17 @@ const Keyboard         = robot.Keyboard;
  * Add a button to shake the camera like this https://www.youtube.com/watch?v=JNOxz9paA6E
  */
 
-module.exports = (process, module, memory, window, offsets) => {
+module.exports = (process, module, memory, window, offsets, game) => {
 
-  const cameraInstructionsPtr = memory.find(offsets.vanilla.camera.pattern.toString('hex'), 0, -1, 1, "-x")[0];
+  const cameraInstructionsPtr = memory.find(offsets[game.client].camera.pattern.toString('hex'), 0, -1, 1, "-x")[0];
 
-  const cameraPtr = memory.readMultiLevelPtr(offsets.vanilla.camera.base);
+  const instructionBase = offsets[game.client].camera.base;
+  const ptrFix          = offsets[game.client].camera.base.version[game.build].ptrFix;
+  let cameraPtr = memory.resolvePtrBySetOfInstruction(instructionBase, ptrFix);
+
+  if (game.client === 'alpha') {
+    cameraPtr += 0xC4;
+  }
 
   if (!cameraPtr) {
     throw new Error('Can\'t find camera');
@@ -21,7 +27,7 @@ module.exports = (process, module, memory, window, offsets) => {
 
   let isSpectatorEnabled = true;
   let spectatorInterval  = null;
-  let speed              = 0.20;
+  let speed              = 0.60;
   const camera = {
     viewMatrix: [
       [0, 0, 0,],
@@ -82,7 +88,7 @@ module.exports = (process, module, memory, window, offsets) => {
     return camera;
   }
 
-  const setCameraPosition = (x, y, z) => {
+  const setPosition = (x, y, z) => {
     cameraPosition.writeFloatLE(x, 0x0);
     cameraPosition.writeFloatLE(y, 0x4);
     cameraPosition.writeFloatLE(z, 0x8);
@@ -96,11 +102,11 @@ module.exports = (process, module, memory, window, offsets) => {
   };
 
   const disableInstructions = () => {
-    memory.writeData(cameraInstructionsPtr, offsets.vanilla.camera.fix, offsets.vanilla.camera.fix.byteLength)
+    memory.writeData(cameraInstructionsPtr, offsets[game.client].camera.fix, offsets[game.client].camera.fix.byteLength)
   };
 
   const enableInstructions = () => {
-    memory.writeData(cameraInstructionsPtr, offsets.vanilla.camera.pattern, offsets.vanilla.camera.pattern.byteLength)
+    memory.writeData(cameraInstructionsPtr, offsets[game.client].camera.pattern, offsets[game.client].camera.pattern.byteLength)
   };
 
   const enableSpectator = () => {
@@ -117,14 +123,14 @@ module.exports = (process, module, memory, window, offsets) => {
         const x = camera.position.x + camera.forward.x * speed;
         const y = camera.position.y + camera.forward.y * speed;
         const z = camera.position.z + camera.forward.z * speed;
-        setCameraPosition(x, y, z);
+        setPosition(x, y, z);
       }
       if(Keyboard.getState(robot.KEY_S)) {
         const data = getCameraData();
         const x = camera.position.x - camera.forward.x * speed;
         const y = camera.position.y - camera.forward.y * speed;
         const z = camera.position.z - camera.forward.z * speed;
-        setCameraPosition(x, y, z);
+        setPosition(x, y, z);
       }
     }, 0);
   };
@@ -137,6 +143,12 @@ module.exports = (process, module, memory, window, offsets) => {
       } else {
         disableSpectator();
       }
+    },
+    setSpeed: (newSpeed) => {
+      speed = newSpeed;
+    },
+    setPosition: (data) => {
+      setPosition(data.x, data.y, data.z);
     }
   }
 }

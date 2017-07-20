@@ -17,40 +17,7 @@
   </head>
   <body>
     <div class="container" id="app">
-      <nav class="nav has-shadow">
-        <div class="container">
-          <div class="nav-left menu-tabs">
-            <span class="nav-item" style="-webkit-app-region: drag;font-size: 1.2rem;">
-              {{ brand }}
-            </span>
-            <a class="nav-item is-tab is-hidden-mobile is-active" data-id="general" v-on:click="setActiveItem">General</a>
-            <a class="nav-item is-tab is-hidden-mobile" data-id="spectate" v-on:click="setActiveItem">Spectate</a>
-            <a class="nav-item is-tab is-hidden-mobile" data-id="environment" v-on:click="setActiveItem">Environment</a>
-            <a class="nav-item is-tab is-hidden-mobile" data-id="faq" v-on:click="setActiveItem">F.A.Q</a>
-          </div>
-          <span class="nav-toggle" v-on:click="toggleMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-          <div class="nav-right menu-tabs nav-menu">
-            <a class="nav-item is-tab is-hidden-tablet is-active">General</a>
-            <a class="nav-item is-tab is-hidden-tablet">Spectate</a>
-            <a class="nav-item is-tab is-hidden-tablet">Environment</a>
-            <a class="nav-item is-tab is-hidden-tablet">F.A.Q</a>
-            <a class="nav-item is-tab">
-              <figure class="image is-16x16">
-                <i class="fa fa-github"></i>
-              </figure>
-            </a>
-            <a class="nav-item is-tab" v-on:click="openLink" href="http://www.twitter.com/k4rliky">
-              <figure class="image is-16x16">
-                <i class="fa fa-twitter"></i>
-              </figure>
-            </a>
-          </div>
-        </div>
-      </nav>
+      <navigation v-bind:section="section"></navigation>
         <div class="container wrapper" v-if="section === 'general'">
           <div class="columns">
             <div class="column">

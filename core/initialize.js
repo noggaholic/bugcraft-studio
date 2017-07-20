@@ -25,6 +25,32 @@ module.exports = (cb) => {
     return address;
   };
 
+  const ptrContainer = new Buffer(0x4);
+
+  const reverseArrayOfBytes = (buffPtr) => {
+    return buffPtr.toString('hex').match(/[a-fA-F0-9]{2}/g).reverse().join('');
+  };
+
+  const resolvePtrBySetOfInstruction = (patternBase, ptrFix) => {
+    ptrFix = ptrFix || 0;
+    let patternPtr = findPattern(patternBase.pattern.toString('hex'));
+    if (patternPtr.length === 0) return;
+    patternPtr = patternPtr.shift();
+    patternPtr += patternBase.patternFix;
+    memory.readData(patternPtr, ptrContainer, ptrContainer.byteLength);
+    const ptr = reverseArrayOfBytes(ptrContainer);
+    return memory.readPtr((parseInt(ptr, 16) + ptrFix));
+  };
+
+  const findPattern = (pattern) => {
+    return memory.find(pattern, 0, -1, 1, "-x");
+  }
+
+  const findStrPattern = (str) => {
+    var searchPattern = Buffer.from(str).toString('hex');
+    return memory.find(searchPattern, 0, -1, 1);
+  }
+
   function selectByWindow(wind) {
     // Check if arguments are correct
     if (!(wind instanceof Window)) {
@@ -53,7 +79,10 @@ module.exports = (cb) => {
 
     // Create a new memory object
     memory = Memory(process);
-    memory.readMultiLevelPtr = readMultiLevelPtr;
+    memory.readMultiLevelPtr            = readMultiLevelPtr;
+    memory.resolvePtrBySetOfInstruction = resolvePtrBySetOfInstruction;
+    memory.findPattern                  = findPattern;
+    memory.findStrPattern               = findStrPattern;
     window = wind;
     return true;
   }
