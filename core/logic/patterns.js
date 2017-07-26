@@ -4,6 +4,8 @@ module.exports = {
       return { client: 'alpha', build: '0.5.3' }
       if(memory.findStrPattern('Alpha 0.8.0.3734').length > 0)
       return { client: 'alpha', build: '0.8.0' }
+      if(memory.findStrPattern('World of Warcraft Vanilla 1.8').length > 0)
+      return { client: 'vanilla', build: '1.8.0' }
 
       return undefined;
   },
