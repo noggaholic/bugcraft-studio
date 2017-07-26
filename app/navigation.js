@@ -5,16 +5,10 @@ const navData = () => {
     brand: 'Bugcraft Studio',
     section: 'general'
   }
-}
+};
+
 Vue.component('navigation', {
   data: navData,
-  methods: {
-    sendMessage: (element) => {
-      const domElement = element.currentTarget;
-      const messageId  = domElement.getAttribute('data-id');
-      manager.sendMessage(messageId);
-    }
-  },
   template: `
   <div class="wrapper">
     <nav class="nav has-shadow">
@@ -34,10 +28,10 @@ Vue.component('navigation', {
           <span></span>
         </span>
         <div class="nav-right menu-tabs nav-menu">
-          <a class="nav-item is-tab is-hidden-tablet is-active">General</a>
-          <a class="nav-item is-tab is-hidden-tablet">Spectate</a>
-          <a class="nav-item is-tab is-hidden-tablet">Environment</a>
-          <a class="nav-item is-tab is-hidden-tablet">F.A.Q</a>
+          <a class="nav-item is-tab is-hidden-tablet is-active" data-id="general" v-on:click="setActiveItem">General</a>
+          <a class="nav-item is-tab is-hidden-tablet" data-id="spectate" v-on:click="setActiveItem">Spectate</a>
+          <a class="nav-item is-tab is-hidden-tablet" data-id="environment" v-on:click="setActiveItem">Environment</a>
+          <a class="nav-item is-tab is-hidden-tablet" data-id="faq" v-on:click="setActiveItem">F.A.Q</a>
           <a class="nav-item is-tab">
             <figure class="image is-16x16">
               <i class="fa fa-github"></i>
@@ -219,6 +213,11 @@ Vue.component('navigation', {
       var menu = document.querySelector('.nav-menu');
       burger.classList.toggle('is-active');
       menu.classList.toggle('is-active');
+    },
+    sendMessage: (element) => {
+      const domElement = element.currentTarget;
+      const messageId  = domElement.getAttribute('data-id');
+      manager.sendMessage(messageId);
     }
   }
 })
