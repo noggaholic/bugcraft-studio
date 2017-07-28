@@ -127,7 +127,7 @@ Vue.component('navigation', {
 
           <div class="navbar-dropdown">
             <a class="navbar-item">
-              waypoints
+              Cinematic
             </a>
           </div>
         </div>
