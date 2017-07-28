@@ -45,120 +45,10 @@ Vue.component('navigation', {
         </div>
       </div>
     </nav>
-    <div class="container wrapper" v-if="section === 'general'">
-      <div class="columns">
-        <div class="column">
-          <div class="field">
-            <label class="label is-normal">Camera zoom</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-          <div class="field">
-            <label class="label is-normal">Slow motion (FPS:60)</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-          <div class="field">
-            <label class="label is-normal">Time of day</label>
-            <p class="control">
-              <input class="input range ltpurple" type="text" placeholder="00:00">
-            </p>
-          </div>
-        </div>
-        <div class="column">
-          <div class="field">
-            <label class="label is-normal">Attach x</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-          <div class="field">
-            <label class="label is-normal">Attach y</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-          <div class="field">
-            <label class="label is-normal">Attach z</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-        </div>
-        <div class="column render">
-          <label class="label is-normal">Render</label>
-              <div class="field">
-                <input type="checkbox" checked="checked" id="renderer_m2" name="renderer_m2" />
-                <label for="renderer_m2"><span></span>Decoration objects (M2)</label>
-              </div>
-              <div class="field">
-                <input type="checkbox" checked="checked" id="renderer_details" name="renderer_details" />
-                <label for="renderer_details"><span></span>Details</label>
-              </div>
-              <div class="field">
-                <input type="checkbox" checked="checked" id="renderer_terrain" name="renderer_terrain" />
-                <label for="renderer_terrain"><span></span>Terrain</label>
-              </div>
-              <div class="field">
-                <input type="checkbox" checked="checked" id="renderer_wmo" name="renderer_wmo" />
-                <label for="renderer_wmo"><span></span>World Model Object (WMO)</label>
-              </div>
-              <div class="field">
-                <input type="checkbox" checked="checked" id="renderer_liquids" name="renderer_liquids" />
-                <label for="renderer_liquids"><span></span>Liquids</label>
-              </div>
-              <div class="field">
-                <input type="checkbox" checked="checked" id="renderer_mountains" name="renderer_mountains" />
-                <label for="renderer_mountains"><span></span>Mountains</label>
-              </div>
-        </div>
-      </div>
-    </div>
-    <div class="container wrapper" v-if="section === 'spectate'">
-      <div class="columns">
-        <div class="column">
-        <nav class="navbar">
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">
-            Camera settings
-          </a>
-
-          <div class="navbar-dropdown">
-            <a class="navbar-item">
-              Cinematic
-            </a>
-          </div>
-        </div>
-        </nav>
-          <table class="table">
-            <thead>
-              <tr>
-                <th><abbr title="Position">Position</abbr></th>
-                <th>Look at</th>
-                <th><abbr title="Played">Roll</abbr></th>
-                <th><abbr title="Played">Time of day</abbr></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th>0</th>
-                <th>0</th>
-                <th>0</th>
-                <th>0</th>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="container wrapper" v-if="section === 'environment'">Environment</div>
-    <div class="container wrapper content" v-if="section === 'faq'">
-      <h1>Frequently Asked Questions and Answers.</h1>
-      <h2>Author and story</h2>
-      <p>@k4rliky</p>
-    </div>
+    <general v-if="section === 'general'"></general>
+    <spectate v-if="section === 'spectate'"></spectate>
+    <environment v-if="section === 'environment'"></environment>
+    <faq class="content" v-if="section === 'faq'"></faq>
   </div>
   `,
   methods: {
@@ -175,7 +65,6 @@ Vue.component('navigation', {
         this.disableCurr(activeSection);
       }
       domElement.classList.toggle('is-active');
-      console.log("this.$emit('setSection', this.section);", this.section)
       AppEvent.$emit('setSection', this.section);
     },
     disableCurr: function(section) {
