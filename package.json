@@ -9,6 +9,7 @@
   },
   "author": "Carlos Hernández Gómez - @k4rliky",
   "dependencies": {
+    "bulma": "^0.4.4",
     "electron": "1.6.8",
     "robot-js": "git://github.com/p120ph37/robot-js.git#prebuilt"
   },

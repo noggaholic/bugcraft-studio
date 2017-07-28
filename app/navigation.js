@@ -10,7 +10,7 @@ const navData = () => {
 Vue.component('navigation', {
   data: navData,
   template: `
-  <div class="wrapper">
+  <div class="appContainer">
     <nav class="nav has-shadow">
       <div class="container">
         <div class="nav-left menu-tabs">
@@ -119,46 +119,19 @@ Vue.component('navigation', {
     <div class="container wrapper" v-if="section === 'spectate'">
       <div class="columns">
         <div class="column">
-          <label class="label is-normal">Spectate options</label>
-          <div class="field">
-            <input type="checkbox" id="toggle_spectate" name="toggle_spectate" data-id="ENABLE_SPECTATOR" v-on:click="sendMessage" />
-            <label for="toggle_spectate"><span></span>Toggle Spectate Mode</label>
-          </div>
-          <div class="field">
-            <input type="checkbox" id="toggle_collision" name="toggle_collision" />
-            <label for="toggle_collision"><span></span>Toggle Collision</label>
-          </div>
-          <div class="field">
-            <input type="checkbox" id="toggle_look_at_target" name="toggle_look_at_target" />
-            <label for="toggle_look_at_target"><span></span>Look at selected unit</label>
-          </div>
-          <div class="field">
-            <input type="checkbox" id="toggle_follow_target" name="toggle_follow_target" />
-            <label for="toggle_follow_target"><span></span>Follow target</label>
+        <nav class="navbar">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            Camera settings
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item">
+              waypoints
+            </a>
           </div>
         </div>
-        <div class="column">
-          <div class="field">
-            <label class="label is-normal">Pan x</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-          <div class="field">
-            <label class="label is-normal">Pan y</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-          <div class="field">
-            <label class="label is-normal">Pan z</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-        </div>
-        <div class="column is-half">
-          <label class="label is-normal">Camera waypoints</label>
+        </nav>
           <table class="table">
             <thead>
               <tr>
