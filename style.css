@@ -5242,5 +5242,7 @@ input[type="checkbox"]:checked + label span {
   .container {
     max-width: 100%;
     width: 100%; } }
+.hide {
+  display: none; }
 
 /*# sourceMappingURL=style.css.map */
