@@ -48,7 +48,7 @@ Vue.component('navigation', {
     <general v-if="section === 'general'"></general>
     <spectate v-if="section === 'spectate'"></spectate>
     <environment v-if="section === 'environment'"></environment>
-    <faq class="content" v-if="section === 'faq'"></faq>
+    <faq v-if="section === 'faq'"></faq>
   </div>
   `,
   methods: {
