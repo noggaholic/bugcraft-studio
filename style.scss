@@ -8,15 +8,6 @@ html, body {
   overflow:hidden;
 }
 
-#app {
-  margin: 0;
-}
-
-#app nav .container {
-  margin-left: 0;
-  margin-right: 0;
-}
-
 .table {
   background-color: #363636;
 }
@@ -125,6 +116,28 @@ html, body {
 
 .render .field:not(:last-child) {
     margin-bottom: 0.4rem;
+}
+
+.tabs a {
+  color: #eee;
+}
+
+.tabs.is-boxed a:hover {
+  background-color: #363636;
+  border-bottom-color: #dbdbdb;
+}
+
+.tabs a:hover {
+    border-bottom-color: #363636;
+    color: #ffffff;
+}
+
+.box {
+  background-color: #233239;
+}
+
+.tile.is-ancestor {
+  padding: 0 10px;
 }
 
 .input, .input:hover, .input.is-hovered, .textarea:hover, .textarea.is-hovered,
@@ -290,27 +303,6 @@ input[type="checkbox"]:checked + label span {
   .nav-menu.nav-right .nav-item {
       border-top: transparent;
       padding: 0.75rem;
-  }
-}
-
-@media screen and (min-width: 1384px) {
-  .container {
-      max-width: 100%;
-      width: 100%;
-  }
-}
-
-@media screen and (min-width: 1192px) {
-  .container {
-    max-width: 100%;
-    width: 100%;
-  }
-}
-
-@media screen and (min-width: 1000px) {
-  .container {
-    max-width: 100%;
-    width: 100%;
   }
 }
 

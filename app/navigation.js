@@ -12,7 +12,7 @@ Vue.component('navigation', {
   template: `
   <div class="appContainer">
     <nav class="nav has-shadow">
-      <div class="container">
+      <div class="container is-fluid">
         <div class="nav-left menu-tabs">
           <span class="nav-item" style="-webkit-app-region: drag;font-size: 1.2rem;">
             {{ brand }}

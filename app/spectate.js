@@ -15,8 +15,6 @@ Vue.component('spectate', {
       const spectateSection = document.querySelector('.spectateSection');
       const currMainSection = spectateSection.innerHTML;
       const currSubSection  = domElement.innerHTML;
-      domElement.innerHTML      = currMainSection;
-      spectateSection.innerHTML = currSubSection;
       this.spectateSection      = section;
 
       const spectateSettings = document.querySelector('div[data-id="spectateSettings"]');
@@ -28,18 +26,22 @@ Vue.component('spectate', {
   },
   template: `<div class="columns">
    <div class="column">
-      <nav class="navbar">
-         <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link spectateSection">
-            Camera settings
+      <div class="tabs is-boxed">
+        <ul>
+          <li>
+            <a v-on:click="switchSection"  class="spectateSection">
+              <span class="icon is-small"><i class="fa fa-video-camera"></i></span>
+              <span>Settings</span>
             </a>
-            <div class="navbar-dropdown">
-               <a class="navbar-item" v-on:click="switchSection">
-               Cinematic builder
-               </a>
-            </div>
-         </div>
-      </nav>
+          </li>
+          <li>
+            <a v-on:click="switchSection">
+              <span class="icon is-small"><i class="fa fa-film"></i></span>
+              <span>Cinematic</span>
+            </a>
+          </li>
+        </ul>
+      </div>
       <div data-id="spectateSettings" class="">
          <div class="columns">
             <div class="column">
@@ -66,7 +68,7 @@ Vue.component('spectate', {
                <label class="label is-normal">Spectate options</label>
                <div class="field">
                   <input type="checkbox" id="toggle_spectate" name="toggle_spectate" data-id="ENABLE_SPECTATOR" />
-                  <label for="toggle_spectate"><span></span>Toggle Spectate Mode</label>
+                  <label for="toggle_spectate"><span></span>Toggle Spectate Mode (F3)</label>
                </div>
                <div class="field">
                   <input type="checkbox" id="toggle_collision" name="toggle_collision" />
@@ -91,24 +93,27 @@ Vue.component('spectate', {
          </div>
       </div>
       <div data-id="cinematicBuilder" class="hide">
-         <table class="table">
-            <thead>
-               <tr>
-                  <th><abbr title="Position">Position</abbr></th>
-                  <th>Look at</th>
-                  <th><abbr title="Played">Roll</abbr></th>
-                  <th><abbr title="Played">Time of day</abbr></th>
-               </tr>
-            </thead>
-            <tbody>
-               <tr>
-                  <th>0</th>
-                  <th>0</th>
-                  <th>0</th>
-                  <th>0</th>
-               </tr>
-            </tbody>
-         </table>
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+             <article class="tile is-child box">
+               <p class="title">Toggle Spectate Mode</p>
+               <p class="subtitle">Press F3 and you'll be able to move the camera around.</p>
+             </article>
+            </div>
+            <div class="tile is-parent">
+             <article class="tile is-child box">
+               <p class="title">Add Waypoints</p>
+               <p class="subtitle">Press F4 to add the current camera position to the cinematic builder</p>
+             </article>
+            </div>
+            <div class="tile is-parent">
+             <article class="tile is-child box">
+               <p class="title">Play it!</p>
+               <p class="subtitle">Press F5 to play the entire cinematic.</p>
+             </article>
+            </div>
+          </div>
+        </div>
       </div>
    </div>
 </div>`
