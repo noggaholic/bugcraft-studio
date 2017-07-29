@@ -7,7 +7,7 @@ const genData = () => {
 Vue.component('general', {
   data: genData,
   template: `
-  <div class="container">
+  <div class="container container-top">
     <div class="columns">
       <div class="column">
         <div class="field">

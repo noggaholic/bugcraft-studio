@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Bugcraft studio</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway|Lato">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/vue"></script>
 
@@ -26,7 +26,10 @@
          * is here
          */
         if (process.platform === 'win32') {
-          require('./core/index.js')((err, manager) => CreateUI(err, manager));
+          require('./core/index.js')((err, manager) => {
+            window.manager = manager;
+            CreateUI(err, manager);
+          });
         } else {
           CreateUI(null, {});
         }

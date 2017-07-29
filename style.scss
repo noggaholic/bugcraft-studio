@@ -4,8 +4,12 @@
 html, body {
   background-color: #1a1a1a;
   color: #ffffff;
-  font-family: Lato;
+  font-family: 'Open Sans', sans-serif;
   overflow:hidden;
+}
+
+.container-top {
+  padding-top: 10px;
 }
 
 .table {

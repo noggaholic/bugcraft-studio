@@ -118,19 +118,32 @@ module.exports = (process, module, memory, window, offsets, game) => {
       if (robot.Window.getActive().getTitle() !== "World of Warcraft") {
         return; // only move the camera if the active window is the game window
       }
+
+      getCameraData();
+
       if(Keyboard.getState(robot.KEY_W)) {
-        const data = getCameraData();
         const x = camera.position.x + camera.forward.x * speed;
         const y = camera.position.y + camera.forward.y * speed;
         const z = camera.position.z + camera.forward.z * speed;
-        setPosition(x, y, z);
+        return setPosition(x, y, z);
       }
       if(Keyboard.getState(robot.KEY_S)) {
-        const data = getCameraData();
         const x = camera.position.x - camera.forward.x * speed;
         const y = camera.position.y - camera.forward.y * speed;
         const z = camera.position.z - camera.forward.z * speed;
-        setPosition(x, y, z);
+        return setPosition(x, y, z);
+      }
+      if(Keyboard.getState(robot.KEY_SPACE)) {
+        const x = camera.position.x;
+        const y = camera.position.y;
+        const z = camera.position.z + 0.50;
+        return setPosition(x, y, z);
+      }
+      if(Keyboard.getState(robot.KEY_LCONTROL)) {
+        const x = camera.position.x;
+        const y = camera.position.y;
+        const z = camera.position.z - 0.50;
+        return setPosition(x, y, z);
       }
     }, 0);
   };

@@ -32,7 +32,7 @@ Vue.component('navigation', {
           <a class="nav-item is-tab is-hidden-tablet" data-id="spectate" v-on:click="setActiveItem">Spectate</a>
           <a class="nav-item is-tab is-hidden-tablet" data-id="environment" v-on:click="setActiveItem">Environment</a>
           <a class="nav-item is-tab is-hidden-tablet" data-id="faq" v-on:click="setActiveItem">F.A.Q</a>
-          <a class="nav-item is-tab">
+          <a class="nav-item is-tab" v-on:click="openLink" href="https://github.com/noggaholic/bugcraft-studio">
             <figure class="image is-16x16">
               <i class="fa fa-github"></i>
             </figure>
