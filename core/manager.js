@@ -24,6 +24,12 @@ module.exports = (process, module, memory, window, patterns) => {
           break;
         default:
       }
+    },
+    getMessage: (kind) => {
+      switch (kind) {
+        case 'CAMERA_VIEW_MATRIX':
+          return camera.getViewMatrix();
+      }
     }
   };
 

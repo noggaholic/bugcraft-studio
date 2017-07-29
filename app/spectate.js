@@ -6,6 +6,7 @@ const spectateData = () => {
   }
 };
 
+
 Vue.component('spectate', {
   data: spectateData,
   methods: {
@@ -100,6 +101,9 @@ Vue.component('spectate', {
                     <p class="control">
                        <input class="input range ltpurple" name="speed" type="range" min="0.01" max="1.4" step="0.005" value="0.7" v-on:input="setSpeed" >
                     </p>
+                 </div>
+                 <div class="field">
+                    <cameraViewer />
                  </div>
               </div>
            </div>

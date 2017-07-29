@@ -162,6 +162,7 @@ module.exports = (process, module, memory, window, offsets, game) => {
     },
     setPosition: (data) => {
       setPosition(data.x, data.y, data.z);
-    }
+    },
+    getViewMatrix: () => getCameraData().viewMatrix
   }
 }
