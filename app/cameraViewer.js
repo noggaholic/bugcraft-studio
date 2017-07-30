@@ -25,8 +25,8 @@ const start = () => {
   	container = document.createElement( 'div' );
   	cameraContainer.appendChild( container );
 
-  	camera = new THREE.PerspectiveCamera( 15, window.innerWidth / window.innerHeight, 1, 1000 );
-  	camera.position.z = 100;
+  	camera = new THREE.PerspectiveCamera( 10, window.innerWidth / window.innerHeight, 1, 1000 );
+  	camera.position.z = 140;
 
   	// scene
 
@@ -85,6 +85,7 @@ const start = () => {
   		} );
 
       object.name = "camera";
+      object.position.z -= 70;
 
       var camAxis = new THREE.AxisHelper(20);
       object.add(camAxis);
@@ -135,12 +136,12 @@ const start = () => {
 };
 
 const getViewMatrix = () => setInterval(() => {
-  // Call me maybe?
   const m = manager.getMessage('CAMERA_VIEW_MATRIX')
-  matrix.set(m[0][0], m[0][1], m[0][2], 0,
-             m[1][0], m[1][1], m[1][2], 0,
-             m[2][0] ,m[2][1], m[2][2], 0,
+  matrix.set(m[0][0], m[1][0], m[2][0], 0,
+             m[0][1], m[1][1], m[2][1], 0,
+             m[0][2], m[1][2], m[2][2], 0,
               0.0000,  0.0000, 0.000,  1);
+
 }, 16);
 
 let viewMatrixInterval = null;
@@ -148,11 +149,11 @@ let viewMatrixInterval = null;
 Vue.component('cameraViewer', {
   data: cameraViewerData,
   mounted: () => {
-    start();
-    viewMatrixInterval = getViewMatrix();
+    // start();
+    // viewMatrixInterval = getViewMatrix();
   },
   beforeDestroy:  () => {
     clearInterval(viewMatrixInterval);
   },
-  template: `<div id="cameraContainer" style="width:150px;height:150px"></div>`
+  template: `<div id="cameraContainer"></div>`
 });

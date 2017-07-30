@@ -27,19 +27,25 @@ module.exports = (cb) => {
 
   const ptrContainer = new Buffer(0x4);
 
-  const reverseArrayOfBytes = (buffPtr) => {
-    return buffPtr.toString('hex').match(/[a-fA-F0-9]{2}/g).reverse().join('');
+  const reverseArrayOfBytesAsNumber = (buffPtr) => {
+    return parseInt(buffPtr.toString('hex').match(/[a-fA-F0-9]{2}/g).reverse().join(''), 16);
   };
 
   const resolvePtrBySetOfInstruction = (patternBase, ptrFix) => {
     ptrFix = ptrFix || 0;
-    let patternPtr = findPattern(patternBase.pattern.toString('hex'));
+    const hexPattern = patternBase.pattern.toString('hex');
+    let patternPtr = findPattern(hexPattern);
     if (patternPtr.length === 0) return;
     patternPtr = patternPtr.shift();
     patternPtr += patternBase.patternFix;
     memory.readData(patternPtr, ptrContainer, ptrContainer.byteLength);
-    const ptr = reverseArrayOfBytes(ptrContainer);
-    return memory.readPtr((parseInt(ptr, 16) + ptrFix));
+    const ptr = reverseArrayOfBytesAsNumber(ptrContainer);
+    if (Array.isArray(ptrFix)) {
+      const path = [(ptr - module)].concat(ptrFix);
+      return readMultiLevelPtr(path);
+    } else {
+      return memory.readPtr((ptr + ptrFix));
+    }
   };
 
   const findPattern = (pattern) => {
@@ -54,7 +60,7 @@ module.exports = (cb) => {
   function selectByWindow(wind) {
     // Check if arguments are correct
     if (!(wind instanceof Window)) {
-      throw new TypeError('Invalid arguments');
+      return cb(new Error('Invalid arguments when searching for game window'));
     }
 
     // Check if the window title correctly matches
@@ -64,7 +70,7 @@ module.exports = (cb) => {
 
     process = wind.getProcess();
     // Ensure that the process was opened
-    if (!process.isValid()) return false;
+    if (!process.isValid()) return cb(new Error('Invalid process handle'));
     /* eslint-disable quotes, no-useless-escape */
     module = process.getModules(".*\.exe")[0];
     if (!module) return false;
@@ -92,6 +98,4 @@ module.exports = (cb) => {
       return cb(null, process, module, memory, w);
     }
   }
-
-  return cb(new Error('Cannot open process'));
 };

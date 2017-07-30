@@ -3,9 +3,8 @@ const createCamera = require('./logic/camera.js');
 module.exports = (process, module, memory, window, patterns) => {
 
   const gameVersion = patterns.getVersion(memory);
-
   if (!gameVersion) {
-    throw new Error('Unsupported game version');
+    throw new Error('Unsupported game version :|');
   }
 
   const camera = createCamera(process, module, memory, window, patterns, gameVersion);

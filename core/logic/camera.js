@@ -15,8 +15,11 @@ module.exports = (process, module, memory, window, offsets, game) => {
 
   const instructionBase = offsets[game.client].camera.base;
   const ptrFix          = offsets[game.client].camera.base.version[game.build].ptrFix;
-  let cameraPtr = memory.resolvePtrBySetOfInstruction(instructionBase, ptrFix);
+  let cameraPtr         = memory.resolvePtrBySetOfInstruction(instructionBase, ptrFix);
 
+  /**
+   * Move this somewhere
+  */
   if (game.client === 'alpha') {
     cameraPtr += 0xC4;
   }
