@@ -19,6 +19,7 @@ function createWindow() {
     height: 340,
     frame: false,
     bottom: 0,
+    backgroundColor: '#1a1a1a',
     webPreferences: {
       devTools: true
     }

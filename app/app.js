@@ -11,6 +11,10 @@ const CreateUI = (err, manager) => {
       brand: 'Bugcraft Studio',
       section: 'general'
     },
+    mounted: () => {
+      const loading = document.getElementById('loading');
+      loading.outerHTML = "";
+    },
     template: '<navigation></navigation>'
   });
 };

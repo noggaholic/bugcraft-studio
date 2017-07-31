@@ -5246,4 +5246,7 @@ input[type="checkbox"]:checked + label span {
 .hide {
   display: none; }
 
+.modal-background.loading {
+  background-color: #000; }
+
 /*# sourceMappingURL=style.css.map */
