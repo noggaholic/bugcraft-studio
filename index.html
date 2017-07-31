@@ -30,10 +30,12 @@
          * is here
          */
         if (process.platform === 'win32') {
-          require('./core/index.js')((err, manager) => {
-            window.manager = manager;
-            CreateUI(err, manager);
-          });
+          setTimeout(() => {
+            require('./core/index.js')((err, manager) => {
+              window.manager = manager;
+              CreateUI(err, manager);
+            });
+          }, 0);
         } else {
           CreateUI(null, {});
         }
@@ -43,8 +45,8 @@
   <body>
     <div class="modal is-active" id="loading">
       <div class="modal-background loading"></div>
-      <div class="modal-content" style="text-align:center">
-        <img src="resources/images/loading.webp" alt="">
+      <div class="modal-content loading-text" style="text-align:center;">
+        Drinking some Noggenfogger Elixir...
       </div>
     </div>
     <div class="container" id="app"></div>

@@ -5247,6 +5247,13 @@ input[type="checkbox"]:checked + label span {
   display: none; }
 
 .modal-background.loading {
-  background-color: #000; }
+  background-image: url(resources/images/cover.png);
+  background-size: cover;
+  background-position: center -150px; }
+
+.modal-content.loading-text {
+  color: #e0e0e0;
+  text-shadow: 2px 2px 8px #859aff;
+  font-size: 2em; }
 
 /*# sourceMappingURL=style.css.map */
