@@ -1,11 +1,50 @@
 'use strict';
 
+const robot     = require('robot-js');
+const Keyboard  = robot.Keyboard;
 const cinematicBuilderData = () => {
   return {}
 };
 
+let skip = false;
+
+/**
+ * Refactor this to support multiple keys
+ * @type {Number}
+ */
+var notyet = 0;
+function clearTimer() {
+  notyet = 0;
+}
+
+const checkForKeyStroke = (key) => {
+  if (Keyboard.getState(key)) {
+    if (notyet === 1) {
+      return;
+    }
+    notyet = 1;
+    setTimeout(clearTimer, 300);
+    return true;
+  }
+};
+
+const handleKeyboard = () => {
+  if (skip) return;
+  if (checkForKeyStroke(robot.KEY_F3)) {
+    console.log('F3 pressed')
+  }
+  setImmediate(handleKeyboard);
+};
+
 Vue.component('cinematicBuilder', {
   data: cinematicBuilderData,
+  mounted: () => {
+    skip = false;
+    setImmediate(handleKeyboard);
+  },
+  beforeDestroy: () => {
+    skip = true;
+  },
   template: `<div>
     <div class="tile is-ancestor">
         <div class="tile is-parent">
