@@ -14,6 +14,7 @@
     <!-- Vue components -->
     <script src="app/faq.js"></script>
     <script src="app/environment.js"></script>
+    <script src="app/cinematicBuilder.js"></script>
     <script src="app/cameraViewer.js"></script>
     <script src="app/spectate.js"></script>
     <script src="app/general.js"></script>
@@ -30,12 +31,10 @@
          * is here
          */
         if (process.platform === 'win32') {
-          setTimeout(() => {
-            require('./core/index.js')((err, manager) => {
-              window.manager = manager;
-              CreateUI(err, manager);
-            });
-          }, 0);
+          require('./core/index.js')((err, manager) => {
+            window.manager = manager;
+            CreateUI(err, manager);
+          });
         } else {
           CreateUI(null, {});
         }

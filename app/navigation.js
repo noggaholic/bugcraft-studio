@@ -65,7 +65,6 @@ Vue.component('navigation', {
         this.disableCurr(activeSection);
       }
       domElement.classList.toggle('is-active');
-      AppEvent.$emit('setSection', this.section);
     },
     disableCurr: function(section) {
       document.querySelector('a[data-id="' + section + '"]').classList.toggle('is-active');
