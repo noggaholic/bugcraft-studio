@@ -4,7 +4,7 @@ const cameraBuffer     = new Buffer(cameraBufferSize);
 const cameraPosition   = new Buffer(0xC);
 const robot            = require('robot-js');
 const Keyboard         = robot.Keyboard;
-
+const Mouse            = robot.Mouse;
 /**
  * Add a button to shake the camera like this https://www.youtube.com/watch?v=JNOxz9paA6E
  */
@@ -117,8 +117,8 @@ module.exports = (process, module, memory, window, offsets, game) => {
       }
 
       getCameraData();
-
-      if (Keyboard.getState(robot.KEY_W)) {
+      const state = Mouse.getState();
+      if (Keyboard.getState(robot.KEY_W) || (state[robot.BUTTON_LEFT] && state[robot.BUTTON_RIGHT])) {
         const x = camera.position.x + camera.forward.x * speed;
         const y = camera.position.y + camera.forward.y * speed;
         const z = camera.position.z + camera.forward.z * speed;
