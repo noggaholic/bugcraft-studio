@@ -16,7 +16,7 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-    "postinstall": "npm run lint:fix",
+    "postinstall": "npm run lint:fix && electron-builder install-app-deps",
     "dist:win": "node-pre-gyp install -C node_modules/robot-js --target_platform=win32 --target_arch=ia32 && node-pre-gyp install -C node_modules/robot-js --target_platform=win32 --target_arch=x64 && node-pre-gyp install -C node_modules/robot-js --target_platform=linux --target_arch=ia32 && node-pre-gyp install -C node_modules/robot-js --target_platform=linux --target_arch=x64 && node-pre-gyp install -C node_modules/robot-js --target_platform=darwin --target_arch=x64 && node .electron-vue/build.js && electron-builder --dir"
   },
   "build": {
@@ -60,7 +60,7 @@
     "vue-router": "^2.5.3",
     "vuex": "^2.3.1",
     "bulma": "^0.4.4",
-    "robot-js": "git://github.com/p120ph37/robot-js.git#prebuilt"
+    "robot-js": "git@github.com:Robot/robot-js.git"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
@@ -94,7 +94,7 @@
     "html-webpack-plugin": "^2.16.1",
     "json-loader": "^0.5.4",
     "multispinner": "^0.2.1",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.13.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.1",
     "url-loader": "^0.5.7",
