@@ -56,11 +56,9 @@
     },
     mounted: () => {
       BugCraft.sendMessage('ADD_CINEMATIC_LISTENER', (event) => {
-        if (event === 'ADD_KEYFRAME') {
-          cinematicSteps.push(Object.assign({}, BugCraft.getMessage('CAMERA_VIEW')));
-          console.log('Add keyframe', cinematicSteps);
-        }
-        if (event === 'PLAY') console.log('Playing cinematic...');
+        console.log('event', event);
+        if (event === 'ADD_KEYFRAME') cinematicSteps.push(BugCraft.getMessage('CAMERA_VIEW'));
+        if (event === 'PLAY') BugCraft.sendMessage('PLAY_CINEMATIC', cinematicSteps);
       });
     },
     components: {

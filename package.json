@@ -56,6 +56,7 @@
   "dependencies": {
     "axios": "^0.16.1",
     "bulma": "^0.4.4",
+    "gsap": "^3.0.2",
     "lodash.clonedeep": "^4.5.0",
     "robot-js": "git@github.com:Robot/robot-js.git#dev",
     "vue": "^2.3.3",

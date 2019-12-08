@@ -14,6 +14,7 @@
 
     <script src="https://threejs.org/build/three.js"></script>
     <script src="https://threejs.org/examples/js/loaders/OBJLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.0.2/dist/gsap.min.js"></script>
     <script src="core.js"></script>
     <script type="text/javascript">
       launch((err, manager) => {
@@ -29,10 +30,11 @@
     <!-- Set `__static` path to static files in production -->
     <script>
       if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
-      window.addEventListener("beforeunload", function(e){
-        const BugCraft = window.BugCraft;
-        if (BugCraft.getMessage('CAMERA_STATE') === true) BugCraft.sendMessage('ENABLE_SPECTATOR');
-      }, false);
+      window.onload = function () {  
+        document.onkeydown = function (e) {  
+            return (e.which || e.keyCode) != 116;  
+        };  
+      };  
     </script>
 
     <!-- webpack builds are automatically injected -->

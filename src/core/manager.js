@@ -28,6 +28,9 @@ module.exports = (process, module, memory, window, patterns) => {
         case 'ADD_CINEMATIC_LISTENER':
           camera.addCinematicListener(data);
           break;
+        case 'PLAY_CINEMATIC':
+          camera.playCinematic(data);
+          break;
         default:
       }
     },
