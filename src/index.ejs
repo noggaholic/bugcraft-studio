@@ -9,9 +9,6 @@
         require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
       </script>
     <% } %>
-    <script>
-      require('electron').remote.getCurrentWindow().toggleDevTools();
-    </script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
@@ -31,7 +28,11 @@
     <div id="app"></div>
     <!-- Set `__static` path to static files in production -->
     <script>
-      if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+      if (process.env.NODE_ENV !== 'development') window.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
+      window.addEventListener("beforeunload", function(e){
+        const BugCraft = window.BugCraft;
+        if (BugCraft.getMessage('CAMERA_STATE') === true) BugCraft.sendMessage('ENABLE_SPECTATOR');
+      }, false);
     </script>
 
     <!-- webpack builds are automatically injected -->

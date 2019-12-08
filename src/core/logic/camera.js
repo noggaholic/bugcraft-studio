@@ -5,6 +5,8 @@ const cameraPosition   = new Buffer(0xC);
 const robot            = require('robot-js');
 const Keyboard         = robot.Keyboard;
 const Mouse            = robot.Mouse;
+const clonedeep = require('lodash.clonedeep');
+
 /**
  * Add a button to shake the camera like this https://www.youtube.com/watch?v=JNOxz9paA6E
  */
@@ -29,7 +31,10 @@ module.exports = (process, module, memory, window, offsets, game) => {
   }
 
   let isSpectatorEnabled = true;
+  let isCinematicModeEnabled = false;
+  let cinematicCbListener = null;
   let spectatorInterval  = null;
+  let cinematicModeInterval = null;
   let speed              = 0.60;
   const camera = {
     viewMatrix: [
@@ -88,7 +93,7 @@ module.exports = (process, module, memory, window, offsets, game) => {
     camera.NearClip = cameraBuffer.readFloatLE(0x3C);
     camera.FarClip  = cameraBuffer.readFloatLE(0x40);
     camera.Aspect   = cameraBuffer.readFloatLE(0x44);
-    return camera;
+    return clonedeep(camera);
   };
 
   const setPosition = (x, y, z) => {
@@ -151,20 +156,59 @@ module.exports = (process, module, memory, window, offsets, game) => {
     clearInterval(spectatorInterval);
   };
 
+  const toggleCamera = () => {
+    if (isSpectatorEnabled) {
+      enableSpectator();
+    } else {
+      disableSpectator();
+    }
+  };
+
+  let currTime = new Date();
+
+  const shouldNotify = () => {
+    const now = new Date().getTime();
+    if (now > currTime.getTime() + 300) {
+      currTime = new Date();
+      return true;
+    }
+  };
+
+  const shoulEnableCamera = () => Keyboard.getState(robot.KEY_F3) && shouldNotify()  && cinematicCbListener;
+  const shouldAddKeyFrame = () => Keyboard.getState(robot.KEY_F4) && shouldNotify() && cinematicCbListener;
+  const shouldPlayCinematic = () => Keyboard.getState(robot.KEY_F5) && shouldNotify()  && cinematicCbListener;
+
+  const enableCinematicMode = () => {
+    if (!isSpectatorEnabled) return;
+    isCinematicModeEnabled = true;
+    cinematicModeInterval = setInterval(() => {
+      if (shoulEnableCamera()) return toggleCamera();
+      if (shouldAddKeyFrame()) return cinematicCbListener('ADD_KEYFRAME');
+      if (shouldPlayCinematic()) return cinematicCbListener('PLAY');
+    }, 0);
+  };
+
+  const disableCinematicMode = () => {
+    cinematicCbListener = false;
+    isCinematicModeEnabled = false;
+    clearInterval(cinematicModeInterval);
+  };
+
   return {
-    enableSpectator: () => {
-      if (isSpectatorEnabled) {
-        enableSpectator();
-      } else {
-        disableSpectator();
-      }
-    },
+    enableSpectator: () => toggleCamera(),
+    isSpectatorEnabled,
     setSpeed: (newSpeed) => {
       speed = newSpeed;
     },
     setPosition: (data) => {
       setPosition(data.x, data.y, data.z);
     },
-    getViewMatrix: () => getCameraData().viewMatrix
+    getViewMatrix: () => getCameraData().viewMatrix,
+    getView: () => getCameraData(),
+    toggleCinematicBuilder: () => {
+      if (isCinematicModeEnabled) return disableCinematicMode();
+      enableCinematicMode();
+    },
+    addCinematicListener: (cb) => (cinematicCbListener = cb)
   };
 };

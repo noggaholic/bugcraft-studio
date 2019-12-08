@@ -22,6 +22,12 @@ module.exports = (process, module, memory, window, patterns) => {
         case 'SET_CAMERA_POSITION':
           camera.setPosition(data);
           break;
+        case 'TOGGLE_CINEMATIC_BUILDER':
+          camera.toggleCinematicBuilder(data);
+          break;
+        case 'ADD_CINEMATIC_LISTENER':
+          camera.addCinematicListener(data);
+          break;
         default:
       }
     },
@@ -29,6 +35,10 @@ module.exports = (process, module, memory, window, patterns) => {
       switch (kind) {
         case 'CAMERA_VIEW_MATRIX':
           return camera.getViewMatrix();
+        case 'CAMERA_STATE':
+          return camera.isSpectatorEnabled();
+        case 'CAMERA_VIEW':
+          return camera.getView();
         default:
       }
     },

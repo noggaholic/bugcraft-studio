@@ -149,6 +149,10 @@
     border: 1px solid #4fc08d;
   }
 
+  .table td, .table th {
+    color: #fff;
+  }
+
   .doc button.alt {
     color: #42b983;
     background-color: transparent;

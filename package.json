@@ -54,13 +54,14 @@
     }
   },
   "dependencies": {
-    "vue": "^2.3.3",
     "axios": "^0.16.1",
+    "bulma": "^0.4.4",
+    "lodash.clonedeep": "^4.5.0",
+    "robot-js": "git@github.com:Robot/robot-js.git#dev",
+    "vue": "^2.3.3",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.5.3",
-    "vuex": "^2.3.1",
-    "bulma": "^0.4.4",
-    "robot-js": "git@github.com:Robot/robot-js.git"
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
