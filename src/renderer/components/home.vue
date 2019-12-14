@@ -2,7 +2,7 @@
     <div class="appContainer">
         <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-                <a class="navbar-item" href="https://bulma.io"  style="-webkit-app-region: drag;font-size: 1.2rem;">
+                <a class="navbar-item" style="-webkit-app-region: drag;font-size: 1.2rem;">
                     {{ brand }}
                 </a>
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
@@ -19,7 +19,6 @@
                     <router-link to="/environment" class="navbar-item" data-id="environment" >Environment</router-link>
                     <a class="navbar-item" v-on:click="open('https://github.com/noggaholic/bugcraft-studio/wiki')" data-id="faq">Documentation</a>
                 </div>
-
                 <div class="navbar-end">
                     <a class="navbar-item" v-on:click="open('http://www.twitter.com/k4rliky')">
                         <span class="icon">
