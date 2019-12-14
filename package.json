@@ -11,12 +11,10 @@
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
     "dev": "node .electron-vue/dev-runner.js",
-    "lint": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter src",
-    "lint:fix": "eslint --ext .js,.vue -f ./node_modules/eslint-friendly-formatter --fix src",
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-    "postinstall": "npm run lint:fix && electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps",
     "dist:win": "node-pre-gyp install -C node_modules/robot-js --target_platform=win32 --target_arch=ia32 && node-pre-gyp install -C node_modules/robot-js --target_platform=win32 --target_arch=x64 && node-pre-gyp install -C node_modules/robot-js --target_platform=linux --target_arch=ia32 && node-pre-gyp install -C node_modules/robot-js --target_platform=linux --target_arch=x64 && node-pre-gyp install -C node_modules/robot-js --target_platform=darwin --target_arch=x64 && node .electron-vue/build.js && electron-builder --dir"
   },
   "build": {
@@ -59,7 +57,7 @@
     "gsap": "^3.0.2",
     "lodash.clonedeep": "^4.5.0",
     "robot-js": "git@github.com:Robot/robot-js.git#dev",
-    "vue": "^2.3.3",
+    "vue": "2.6.11",
     "vue-electron": "^1.0.6",
     "vue-router": "^2.5.3",
     "vuex": "^2.3.1"
@@ -103,7 +101,7 @@
     "vue-html-loader": "^1.2.2",
     "vue-loader": "^12.2.1",
     "vue-style-loader": "^3.0.1",
-    "vue-template-compiler": "^2.3.3",
+    "vue-template-compiler": "2.6.11",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0",
     "webpack-hot-middleware": "^2.18.0"
