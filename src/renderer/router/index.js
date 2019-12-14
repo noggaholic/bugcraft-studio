@@ -20,5 +20,12 @@ export default new Router({
         { path: 'cinematicBuilder', component: require('@/components/sections/cinematicBuilder') },
       ],
     },
+    {
+      path: '/environment',
+      component: require('@/components/home'),
+      children: [
+        { path: '', component: require('@/components/sections/environment') },
+      ],
+    },
   ],
 });

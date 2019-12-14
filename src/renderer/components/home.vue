@@ -1,47 +1,44 @@
 <template>
-  <div class="appContainer">
-      <nav class="nav has-shadow">
-        <div class="container is-fluid">
-          <div class="nav-left menu-tabs">
-            <span class="nav-item" style="-webkit-app-region: drag;font-size: 1.2rem;">
-              {{ brand }}
-            </span>
-            <a class="nav-item is-tab is-hidden-mobile is-active" data-id="general" >General</a>
-            <router-link to="/spectate" class="nav-item is-tab is-hidden-mobile" data-id="spectate">Spectate</router-link>
-            <a class="nav-item is-tab is-hidden-mobile" data-id="environment" >Environment</a>
-            <a class="nav-item is-tab is-hidden-mobile" data-id="faq" >F.A.Q</a>
-          </div>
-          <span class="nav-toggle" v-on:click="toggleMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-          <div class="nav-right menu-tabs nav-menu">
-            <a class="nav-item is-tab is-hidden-tablet is-active" data-id="general" >General</a>
-            <a class="nav-item is-tab is-hidden-tablet" data-id="spectate" >Spectate</a>
-            <a class="nav-item is-tab is-hidden-tablet" data-id="environment" >Environment</a>
-            <a class="nav-item is-tab is-hidden-tablet" data-id="faq" >F.A.Q</a>
-            <a class="nav-item is-tab" v-on:click="open" href="https://github.com/noggaholic/bugcraft-studio">
-              <figure class="image is-16x16">
-                <i class="fa fa-github"></i>
-              </figure>
-            </a>
-            <a class="nav-item is-tab" v-on:click="open" href="http://www.twitter.com/k4rliky">
-              <figure class="image is-16x16">
-                <i class="fa fa-twitter"></i>
-              </figure>
-            </a>
-          </div>
-        </div>
-      </nav>
-      <router-view></router-view>
-      <!--<spectate v-if="section === 'spectate'"></spectate>
-      <environment v-if="section === 'environment'"></environment>
-      <faq v-if="section === 'faq'"></faq> -->
+    <div class="appContainer">
+        <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="https://bulma.io"  style="-webkit-app-region: drag;font-size: 1.2rem;">
+                    {{ brand }}
+                </a>
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+                    data-target="navPortraitMenu">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navPortraitMenu" class="navbar-menu">
+                <div class="navbar-start">
+                    <router-link to="/" class="navbar-item" data-id="general" >General</router-link>
+                    <router-link to="/spectate" class="navbar-item" data-id="spectate">Spectate</router-link>
+                    <router-link to="/environment" class="navbar-item" data-id="environment" >Environment</router-link>
+                    <a class="navbar-item" v-on:click="open('https://github.com/noggaholic/bugcraft-studio/wiki')" data-id="faq">Documentation</a>
+                </div>
+
+                <div class="navbar-end">
+                    <a class="navbar-item" v-on:click="open('http://www.twitter.com/k4rliky')">
+                        <span class="icon">
+                            <i class="fa fa-twitter"></i>
+                        </span>
+                    </a>
+                    <a class="navbar-item" v-on:click="open('https://github.com/noggaholic/bugcraft-studio')">
+                        <span class="icon">
+                            <i class="fa fa-github"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <router-view></router-view>
     </div>
 </template>
-
 <script>
+  const { shell } = require('electron');
 
   function navData() {
     return {
@@ -55,7 +52,7 @@
     data: navData,
     methods: {
       open(link) {
-        this.$electron.shell.openExternal(link);
+        shell.openExternal(link);
       },
       setActiveItem() {
 
@@ -77,6 +74,14 @@
   }
 
   body { font-family: 'Source Sans Pro', sans-serif; }
+
+  .navbar.is-dark .navbar-brand > a.navbar-item:hover {
+    background-color: inherit;
+  }
+
+  .navbar.is-dark .navbar-brand > a.navbar-item {
+    cursor: pointer;
+  }
 
   #wrapper {
     background:
