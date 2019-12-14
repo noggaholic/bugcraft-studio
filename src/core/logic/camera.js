@@ -194,8 +194,16 @@ module.exports = (process, module, memory, window, offsets, game) => {
     clearInterval(cinematicModeInterval);
   };
 
-  const playCinematic = (data) => {
-    console.log('Playing cinematic', data);
+  const setCameraView = (view) => {
+    console.log('setCameraView', view.x, view.y, view.z);
+    setPosition(view.x, view.y, view.z);
+    if (isSpectatorEnabled === false) {
+      isSpectatorEnabled = true;
+      clearInterval(spectatorInterval);
+    }
+    if (isCinematicModeEnabled) {
+      disableCinematicMode();
+    }
   };
 
   return {
@@ -214,6 +222,6 @@ module.exports = (process, module, memory, window, offsets, game) => {
       enableCinematicMode();
     },
     addCinematicListener: (cb) => (cinematicCbListener = cb),
-    playCinematic
+    setCameraView,
   };
 };

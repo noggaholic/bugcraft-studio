@@ -29,7 +29,7 @@ module.exports = (process, module, memory, window, patterns) => {
           camera.addCinematicListener(data);
           break;
         case 'PLAY_CINEMATIC':
-          camera.playCinematic(data);
+          camera.setCameraView(data);
           break;
         default:
       }
