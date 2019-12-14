@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron' // eslint-disable-line
-
+const path = require('path');
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -22,7 +22,9 @@ function createWindow() {
     minWidth: 330,
     height: 340,
     frame: false,
+    title: 'BugCraft Studio',
     bottom: 0,
+    icon: path.join(__dirname, '/../../static/resources/bugcraftstudio.ico'),
     backgroundColor: '#1a1a1a',
     webPreferences: {
       devTools: true,

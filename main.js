@@ -19,9 +19,10 @@ function createWindow() {
     height: 340,
     frame: false,
     bottom: 0,
+    icon: path.join(__dirname, '/static/resources/bugcraftstudio.ico'),
     backgroundColor: '#1a1a1a',
     webPreferences: {
-      devTools: true
+      devTools: true,
     }
   });
 
