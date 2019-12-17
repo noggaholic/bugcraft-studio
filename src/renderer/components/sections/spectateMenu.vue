@@ -9,7 +9,7 @@
     <li>
       <router-link to="/spectate/cinematicBuilder" class="nav-item is-tab is-hidden-mobile"  v-bind:class="{ 'is-active': cinematicBuilderActived }">
         <span class="icon is-small"><i class="fa fa-film"></i></span>
-        <span>Cinematic</span>
+        <span>Cinematic mode</span>
       </router-link>
     </li>
   </ul>
