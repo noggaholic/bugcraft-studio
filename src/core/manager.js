@@ -14,7 +14,7 @@ module.exports = (process, module, memory, window, patterns) => {
     sendMessage: (kind, data) => {
       switch (kind) {
         case 'ENABLE_SPECTATOR':
-          camera.enableSpectator();
+          camera.toggleCamera();
           break;
         case 'SET_CAMERA_SPEED':
           camera.setSpeed(data);
@@ -28,8 +28,16 @@ module.exports = (process, module, memory, window, patterns) => {
         case 'ADD_CINEMATIC_LISTENER':
           camera.addCinematicListener(data);
           break;
-        case 'PLAY_CINEMATIC':
+        case 'PLAY_CINEMATIC_STEP':
           camera.setCameraView(data);
+          break;
+        case 'START_CINEMATIC':
+          camera.disableSpectatorMode();
+          camera.disableViewMatrixUpdate();
+          break;
+        case 'STOP_CINEMATIC':
+          camera.enableSpectator();
+          camera.enableViewMatrixUpdate();
           break;
         default:
       }

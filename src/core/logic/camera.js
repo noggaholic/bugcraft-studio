@@ -2,6 +2,7 @@
 const cameraBufferSize = 0x48;
 const cameraBuffer     = new Buffer(cameraBufferSize);
 const cameraPosition   = new Buffer(0xC);
+const viewMatrixBuffer = new Buffer(0x24);
 const robot            = require('robot-js');
 const Keyboard         = robot.Keyboard;
 const Mouse            = robot.Mouse;
@@ -14,6 +15,7 @@ const clonedeep = require('lodash.clonedeep');
 module.exports = (process, module, memory, window, offsets, game) => {
 
   const cameraInstructionsPtr = memory.find(offsets[game.client].camera.pattern.toString('hex'), 0, -1, 1, '-x')[0];
+  const cameraViewMatrixInstructionsPtr = memory.find(offsets[game.client].cameraViewMatrix.pattern.toString('hex'), 0, -1, 1, '-x')[0];
 
   const instructionBase = offsets[game.client].camera.base;
   const ptrFix          = offsets[game.client].camera.base.version[game.build].ptrFix;
@@ -103,8 +105,37 @@ module.exports = (process, module, memory, window, offsets, game) => {
     memory.writeData(cameraPtr + 0x8, cameraPosition, 0xC);
   };
 
+  const setViewMatrix = (x, y, z, viewMatrix) => {
+    viewMatrixBuffer.writeFloatLE(viewMatrix[0][0], 0x0);
+    viewMatrixBuffer.writeFloatLE(viewMatrix[0][1], 0x4);
+    viewMatrixBuffer.writeFloatLE(viewMatrix[0][2], 0x8);
+
+    viewMatrixBuffer.writeFloatLE(viewMatrix[1][0], 0xC);
+    viewMatrixBuffer.writeFloatLE(viewMatrix[1][1], 0x10);
+    viewMatrixBuffer.writeFloatLE(viewMatrix[1][2], 0x14);
+
+    viewMatrixBuffer.writeFloatLE(viewMatrix[2][0], 0x18);
+    viewMatrixBuffer.writeFloatLE(viewMatrix[2][1], 0x1C);
+    viewMatrixBuffer.writeFloatLE(viewMatrix[2][2], 0x20);
+
+    setPosition(x, y, z);
+    memory.writeData(cameraPtr + 0x14, viewMatrixBuffer, viewMatrixBuffer.byteLength);
+  };
+
   const disableInstructions = () => {
     memory.writeData(cameraInstructionsPtr, offsets[game.client].camera.fix, offsets[game.client].camera.fix.byteLength);
+  };
+
+  const disableViewMatrixUpdate = () => {
+    if (game.client === 'vanilla') {
+      memory.writeData(cameraViewMatrixInstructionsPtr, offsets[game.client].cameraViewMatrix.fix, offsets[game.client].cameraViewMatrix.fix.byteLength);
+    }
+  };
+
+  const enableViewMatrixUpdate = () => {
+    if (game.client === 'vanilla') {
+      memory.writeData(cameraViewMatrixInstructionsPtr, offsets[game.client].cameraViewMatrix.pattern, offsets[game.client].cameraViewMatrix.pattern.byteLength);
+    }
   };
 
   const enableInstructions = () => {
@@ -177,6 +208,7 @@ module.exports = (process, module, memory, window, offsets, game) => {
   const shoulEnableCamera = () => Keyboard.getState(robot.KEY_F3) && shouldNotify()  && cinematicCbListener;
   const shouldAddKeyFrame = () => Keyboard.getState(robot.KEY_F4) && shouldNotify() && cinematicCbListener;
   const shouldPlayCinematic = () => Keyboard.getState(robot.KEY_F5) && shouldNotify()  && cinematicCbListener;
+  const shouldClearCinematic = () => Keyboard.getState(robot.KEY_F6) && shouldNotify()  && cinematicCbListener;
 
   const enableCinematicMode = () => {
     if (!isSpectatorEnabled) return;
@@ -185,6 +217,7 @@ module.exports = (process, module, memory, window, offsets, game) => {
       if (shoulEnableCamera()) return toggleCamera();
       if (shouldAddKeyFrame()) return cinematicCbListener('ADD_KEYFRAME');
       if (shouldPlayCinematic()) return cinematicCbListener('PLAY');
+      if (shouldClearCinematic()) return cinematicCbListener('CLEAR');
     }, 0);
   };
 
@@ -194,20 +227,31 @@ module.exports = (process, module, memory, window, offsets, game) => {
     clearInterval(cinematicModeInterval);
   };
 
-  const setCameraView = (view) => {
-    console.log('setCameraView', view.x, view.y, view.z);
-    setPosition(view.x, view.y, view.z);
+  const disableSpectatorMode = () => {
     if (isSpectatorEnabled === false) {
       isSpectatorEnabled = true;
       clearInterval(spectatorInterval);
     }
-    if (isCinematicModeEnabled) {
-      disableCinematicMode();
-    }
+  };
+
+  const setCameraView = (view) => {
+    const { x, y, z } = view;
+    const matrix = [
+      [view.viewMatrix00, view.viewMatrix01, view.viewMatrix02],
+      [view.viewMatrix10, view.viewMatrix11, view.viewMatrix12],
+      [view.viewMatrix20, view.viewMatrix21, view.viewMatrix22]
+    ];
+    setViewMatrix(x, y, z, matrix);
   };
 
   return {
-    enableSpectator: () => toggleCamera(),
+    enableViewMatrixUpdate,
+    disableViewMatrixUpdate,
+    disableCinematicMode,
+    disableSpectatorMode,
+    enableSpectator,
+    enableCinematicMode,
+    toggleCamera,
     isSpectatorEnabled,
     setSpeed: (newSpeed) => {
       speed = newSpeed;

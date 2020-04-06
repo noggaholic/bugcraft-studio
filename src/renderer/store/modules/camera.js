@@ -1,18 +1,18 @@
-const state = {
-  speed: 0,
-};
-
-const mutations = {
-  SET_SPEED(speed) {
-    state.speed = speed;
-  },
-};
-
-const actions = {
-};
 
 export default {
-  state,
-  mutations,
-  actions,
+  state: {
+    speed: 0,
+    cinematicSteps: [],
+  },
+  mutations: {
+    SET_SPEED(speed) {
+      this.state.speed = speed;
+    },
+    addCinematicStep(state, step) {
+      state.cinematicSteps.push(step);
+    },
+    cleanCinematicSteps(state) {
+      state.cinematicSteps.splice(0);
+    },
+  },
 };

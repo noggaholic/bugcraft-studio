@@ -58,14 +58,23 @@
 
 <script>
   const BugCraft = window.BugCraft;
-  const cinematicSteps = [];
 
   const playCinematic = (cinematicSteps) => {
     const firstStep = cinematicSteps[0];
+    console.log('# firstStep', firstStep);
     const cinematicValues = {
       x: firstStep.position.x,
       y: firstStep.position.y,
       z: firstStep.position.z,
+      viewMatrix00: firstStep.viewMatrix[0][0],
+      viewMatrix01: firstStep.viewMatrix[0][1],
+      viewMatrix02: firstStep.viewMatrix[0][2],
+      viewMatrix10: firstStep.viewMatrix[1][0],
+      viewMatrix11: firstStep.viewMatrix[1][1],
+      viewMatrix12: firstStep.viewMatrix[1][2],
+      viewMatrix20: firstStep.viewMatrix[2][0],
+      viewMatrix21: firstStep.viewMatrix[2][1],
+      viewMatrix22: firstStep.viewMatrix[2][2],
     };
 
     const keyframes = cinematicSteps.map((step) => {
@@ -73,14 +82,20 @@
         x: step.position.x,
         y: step.position.y,
         z: step.position.z,
+        viewMatrix00: step.viewMatrix[0][0],
+        viewMatrix01: step.viewMatrix[0][1],
+        viewMatrix02: step.viewMatrix[0][2],
+        viewMatrix10: step.viewMatrix[1][0],
+        viewMatrix11: step.viewMatrix[1][1],
+        viewMatrix12: step.viewMatrix[1][2],
+        viewMatrix20: step.viewMatrix[2][0],
+        viewMatrix21: step.viewMatrix[2][1],
+        viewMatrix22: step.viewMatrix[2][2],
       };
     });
 
-    const onUpdate = () => {
-      BugCraft.sendMessage('PLAY_CINEMATIC', cinematicValues);
-    };
-
-    const tween = TweenLite.to(cinematicValues, 8, {
+    BugCraft.sendMessage('START_CINEMATIC');
+    const tween = TweenLite.to(cinematicValues, 20, {
       bezier: {
         values: keyframes,
         curviness: 0,
@@ -92,8 +107,8 @@
         sub: 'easeNone',
         configurable: null,
       },
-      onComplete: () => console.log('onComplete'),
-      onUpdate,
+      onComplete: () => BugCraft.sendMessage('STOP_CINEMATIC'),
+      onUpdate: () => BugCraft.sendMessage('PLAY_CINEMATIC_STEP', cinematicValues)
     });
   };
 
@@ -105,18 +120,19 @@
     beforeDestroy: () => {
       BugCraft.sendMessage('TOGGLE_CINEMATIC_BUILDER');
     },
-    mounted: () => {
-      BugCraft.sendMessage('ADD_CINEMATIC_LISTENER', (event) => {
-        console.log('event', event);
-        if (event === 'ADD_KEYFRAME') cinematicSteps.push(BugCraft.getMessage('CAMERA_VIEW'));
-        if (event === 'PLAY') playCinematic(cinematicSteps);
-      });
+    mounted: function() {
+      console.log('# this.$store.state.camera.cinematicSteps', this.$store.state.camera.cinematicSteps);
+      BugCraft.sendMessage('ADD_CINEMATIC_LISTENER', function(event) {
+        if (event === 'ADD_KEYFRAME') this.$store.commit('addCinematicStep', BugCraft.getMessage('CAMERA_VIEW'));
+        if (event === 'PLAY') playCinematic(this.$store.state.camera.cinematicSteps);
+        if (event === 'CLEAR') this.$store.commit('cleanCinematicSteps');
+      }.bind(this));
     },
     components: {
       spectateMenu: require('./spectateMenu'),
     },
     data() {
-      return { cinematicSteps };
+      return { cinematicSteps: this.$store.state.camera.cinematicSteps };
     },
   };
 </script>
