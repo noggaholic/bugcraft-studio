@@ -50,7 +50,17 @@ module.exports = (process, module, memory, window, offsets, game) => {
       y: 0,
       z: 0,
     },
-    forward: {
+    yaw: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+    pitch: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
+    roll: {
       x: 0,
       y: 0,
       z: 0,
@@ -88,9 +98,17 @@ module.exports = (process, module, memory, window, offsets, game) => {
     /**
      * First row of the View Matrix is the forward vector
      */
-    camera.forward.x = camera.viewMatrix[0][0];
-    camera.forward.y = camera.viewMatrix[0][1];
-    camera.forward.z = camera.viewMatrix[0][2];
+    camera.yaw.x = camera.viewMatrix[0][0];
+    camera.yaw.y = camera.viewMatrix[0][1];
+    camera.yaw.z = camera.viewMatrix[0][2];
+
+    camera.pitch.x = camera.viewMatrix[1][0];
+    camera.pitch.y = camera.viewMatrix[1][1];
+    camera.pitch.z = camera.viewMatrix[1][2];
+    
+    camera.roll.x = camera.viewMatrix[2][0];
+    camera.roll.y = camera.viewMatrix[2][1];
+    camera.roll.z = camera.viewMatrix[2][2];
 
     camera.Fov      = cameraBuffer.readFloatLE(0x38);
     camera.NearClip = cameraBuffer.readFloatLE(0x3C);
@@ -156,15 +174,15 @@ module.exports = (process, module, memory, window, offsets, game) => {
       getCameraData();
       const state = Mouse.getState();
       if (Keyboard.getState(robot.KEY_W) || (state[robot.BUTTON_LEFT] && state[robot.BUTTON_RIGHT])) {
-        const x = camera.position.x + camera.forward.x * speed;
-        const y = camera.position.y + camera.forward.y * speed;
-        const z = camera.position.z + camera.forward.z * speed;
+        const x = camera.position.x + camera.yaw.x * speed;
+        const y = camera.position.y + camera.yaw.y * speed;
+        const z = camera.position.z + camera.yaw.z * speed;
         return setPosition(x, y, z);
       }
       if (Keyboard.getState(robot.KEY_S)) {
-        const x = camera.position.x - camera.forward.x * speed;
-        const y = camera.position.y - camera.forward.y * speed;
-        const z = camera.position.z - camera.forward.z * speed;
+        const x = camera.position.x - camera.yaw.x * speed;
+        const y = camera.position.y - camera.yaw.y * speed;
+        const z = camera.position.z - camera.yaw.z * speed;
         return setPosition(x, y, z);
       }
       if (Keyboard.getState(robot.KEY_SPACE)) {
