@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable consistent-return, no-restricted-syntax,padded-blocks,no-multi-spaces,key-spacing,comma-dangle,max-len,no-mixed-operators */
 const cameraBufferSize = 0x48;
 const cameraBuffer     = new Buffer(cameraBufferSize);
@@ -169,13 +170,13 @@ module.exports = (process, module, memory, window, offsets, game) => {
       if (Keyboard.getState(robot.KEY_SPACE)) {
         const x = camera.position.x;
         const y = camera.position.y;
-        const z = camera.position.z + 0.50;
+        const z = camera.position.z + speed;
         return setPosition(x, y, z);
       }
       if (Keyboard.getState(robot.KEY_LCONTROL)) {
         const x = camera.position.x;
         const y = camera.position.y;
-        const z = camera.position.z - 0.50;
+        const z = camera.position.z - speed;
         return setPosition(x, y, z);
       }
     }, 0);
@@ -213,6 +214,7 @@ module.exports = (process, module, memory, window, offsets, game) => {
   const enableCinematicMode = () => {
     if (!isSpectatorEnabled) return;
     isCinematicModeEnabled = true;
+    if (cinematicCbListener) cinematicCbListener('START_CAPTURING');
     cinematicModeInterval = setInterval(() => {
       if (shoulEnableCamera()) return toggleCamera();
       if (shouldAddKeyFrame()) return cinematicCbListener('ADD_KEYFRAME');
@@ -253,9 +255,7 @@ module.exports = (process, module, memory, window, offsets, game) => {
     enableCinematicMode,
     toggleCamera,
     isSpectatorEnabled,
-    setSpeed: (newSpeed) => {
-      speed = newSpeed;
-    },
+    setSpeed: (newSpeed) => speed = Number(newSpeed),
     setPosition: (data) => {
       setPosition(data.x, data.y, data.z);
     },

@@ -31,7 +31,7 @@
                   </div>
               </div>
           </div>
-          <div v-if="cinematicSteps.length">
+          <div v-if="cinematicSteps.length" class="is-scrollable" ref="table_cinematic">
             <div class="table-container">
               <table class="table">
                   <thead>
@@ -59,9 +59,9 @@
 <script>
   const BugCraft = window.BugCraft;
 
-  const playCinematic = (cinematicSteps) => {
+   function playCinematic(cinematicSteps) {
+    this.$store.commit('setMode', 'PLAYING');
     const firstStep = cinematicSteps[0];
-    console.log('# firstStep', firstStep);
     const cinematicValues = {
       x: firstStep.position.x,
       y: firstStep.position.y,
@@ -107,10 +107,18 @@
         sub: 'easeNone',
         configurable: null,
       },
-      onComplete: () => BugCraft.sendMessage('STOP_CINEMATIC'),
+      onComplete: () => {
+        this.$store.commit('setMode', 'SPECTATE');
+        BugCraft.sendMessage('STOP_CINEMATIC');
+      },
       onUpdate: () => BugCraft.sendMessage('PLAY_CINEMATIC_STEP', cinematicValues)
     });
   };
+
+  function reportWindowSize() {
+    const height = window.innerHeight - 100;
+    this.$refs.table_cinematic.style.height = `${height}px`;
+  }
 
   export default {
     name: 'cinematicBuilder',
@@ -120,13 +128,33 @@
     beforeDestroy: () => {
       BugCraft.sendMessage('TOGGLE_CINEMATIC_BUILDER');
     },
+    destroyed: function() {
+      window.removeEventListener('resize', reportWindowSize);
+    },
     mounted: function() {
-      console.log('# this.$store.state.camera.cinematicSteps', this.$store.state.camera.cinematicSteps);
       BugCraft.sendMessage('ADD_CINEMATIC_LISTENER', function(event) {
-        if (event === 'ADD_KEYFRAME') this.$store.commit('addCinematicStep', BugCraft.getMessage('CAMERA_VIEW'));
-        if (event === 'PLAY') playCinematic(this.$store.state.camera.cinematicSteps);
-        if (event === 'CLEAR') this.$store.commit('cleanCinematicSteps');
+        console.log('# event', event);
+        if (event === 'START_CAPTURING') this.$store.commit('setMode', 'SPECTATE');
+        if (event === 'ADD_KEYFRAME') {
+          this.$store.commit('addCinematicStep', BugCraft.getMessage('CAMERA_VIEW'));
+          this.$store.commit('setMode', 'SPECTATE');
+          if (this.$refs.table_cinematic) {
+            const height = window.innerHeight - 100;
+            this.$refs.table_cinematic.style.height = `${height}px`;
+          }
+        }
+        if (event === 'PLAY') playCinematic.bind(this)(this.$store.state.camera.cinematicSteps);
+        if (event === 'CLEAR') {
+          this.$store.commit('cleanCinematicSteps');
+          this.$store.commit('setMode', 'DISABLED');
+        }
       }.bind(this));
+
+      window.addEventListener('resize', reportWindowSize.bind(this));
+      if (this.$refs.table_cinematic) {
+        const height = window.innerHeight - 100;
+        this.$refs.table_cinematic.style.height = `${height}px`;
+      }
     },
     components: {
       spectateMenu: require('./spectateMenu'),
@@ -136,3 +164,30 @@
     },
   };
 </script>
+
+<style>
+  table {
+    width: 100%;
+  }
+  .is-scrollable {
+    overflow: auto;
+  }
+
+  .is-scrollable::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: rgb(49, 49, 49);
+  }
+
+  .is-scrollable::-webkit-scrollbar {
+    width: 12px;
+    background-color: rgb(49, 49, 49);
+  }
+
+  .is-scrollable::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #555;
+  }
+
+</style>
