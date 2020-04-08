@@ -7,7 +7,7 @@ function launchCore(cb) {
     if (err) {
       return cb(err);
     }
-
+    console.log('process, module, memory, window, patterns');
     const program = createProgram(process, module, memory, window, patterns);
     return cb(err, program);
   };

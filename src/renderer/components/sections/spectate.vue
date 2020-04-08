@@ -88,7 +88,6 @@
       setSpeed(element) {
          const domElement = element.currentTarget;
          const speed = domElement.value;
-         console.log('# setting speed', speed);
          this.$store.commit('setSpeed', speed);
          BugCraft.sendMessage('SET_CAMERA_SPEED', speed);
       },

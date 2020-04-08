@@ -32,6 +32,13 @@
               </div>
           </div>
           <div v-if="cinematicSteps.length" class="is-scrollable" ref="table_cinematic">
+            <div class="field">
+              <label class="label">Cinematic speed</label>
+              <div class="control">
+                <input class="input" type="text" ref="cinematic_speed" placeholder="Value in seconds, default to 10.">
+              </div>
+              <p class="help">From 0.1 to whatever you want.</p>
+            </div>
             <div class="table-container">
               <table class="table">
                   <thead>
@@ -95,7 +102,8 @@
     });
 
     BugCraft.sendMessage('START_CINEMATIC');
-    const tween = TweenLite.to(cinematicValues, 20, {
+    const cinematicSpeed = Number(this.$refs.cinematic_speed.value || 10);
+    const tween = TweenLite.to(cinematicValues, cinematicSpeed, {
       bezier: {
         values: keyframes,
         curviness: 0,

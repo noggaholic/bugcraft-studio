@@ -106,6 +106,7 @@ html, body {
 
 .input {
   background-color: hsl(0, 0%, 21%);
+  color:white;
 }
 
 .nav-item a:not(.button).is-tab.is-active, a.nav-item:not(.button).is-tab.is-active {

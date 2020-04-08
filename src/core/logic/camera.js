@@ -16,12 +16,14 @@ const clonedeep = require('lodash.clonedeep');
 module.exports = (process, module, memory, window, offsets, game) => {
 
   const cameraInstructionsPtr = memory.find(offsets[game.client].camera.pattern.toString('hex'), 0, -1, 1, '-x')[0];
-  const cameraViewMatrixInstructionsPtr = memory.find(offsets[game.client].cameraViewMatrix.pattern.toString('hex'), 0, -1, 1, '-x')[0];
+
+  const viewMatrixFixPtr = offsets[game.client].cameraViewMatrix.version[game.build].pattern;
+  const cameraViewMatrixInstructionsPtr = memory.find(viewMatrixFixPtr.toString('hex'), 0, -1, 1, '-x')[0];
 
   const instructionBase = offsets[game.client].camera.base;
   const ptrFix          = offsets[game.client].camera.base.version[game.build].ptrFix;
   let cameraPtr         = memory.resolvePtrBySetOfInstruction(instructionBase, ptrFix);
-
+  console.log('# Camera PTR found at', `0x${cameraPtr.toString(16)}`);
   /**
    * Move this somewhere
   */
@@ -146,14 +148,20 @@ module.exports = (process, module, memory, window, offsets, game) => {
   };
 
   const disableViewMatrixUpdate = () => {
-    if (game.client === 'vanilla') {
-      memory.writeData(cameraViewMatrixInstructionsPtr, offsets[game.client].cameraViewMatrix.fix, offsets[game.client].cameraViewMatrix.fix.byteLength);
+    if (game.client === 'vanilla' || game.client === 'alpha') {
+      memory.writeData(cameraViewMatrixInstructionsPtr, 
+        offsets[game.client].cameraViewMatrix.version[game.build].fix, 
+        offsets[game.client].cameraViewMatrix.version[game.build].fix.byteLength
+        );
     }
   };
 
   const enableViewMatrixUpdate = () => {
-    if (game.client === 'vanilla') {
-      memory.writeData(cameraViewMatrixInstructionsPtr, offsets[game.client].cameraViewMatrix.pattern, offsets[game.client].cameraViewMatrix.pattern.byteLength);
+    if (game.client === 'vanilla' || game.client === 'alpha') {
+      memory.writeData(cameraViewMatrixInstructionsPtr, 
+        offsets[game.client].cameraViewMatrix.version[game.build].pattern, 
+        offsets[game.client].cameraViewMatrix.version[game.build].pattern.byteLength
+        );
     }
   };
 
