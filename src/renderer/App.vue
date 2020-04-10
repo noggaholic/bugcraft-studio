@@ -7,6 +7,16 @@
 <script>
   export default {
     name: 'bugcraft-studio',
+    mounted() {
+      const store = this.$store;
+      launch((error, AppManager) => {
+        if (error) {
+          if (this.$route.path !== '/error') this.$router.push({ name: 'error', params: { error: error.message }});
+          return;
+        }
+        store.commit('setCore', AppManager);
+      });
+    }
   };
 </script>
 
@@ -19,7 +29,6 @@
 html, body {
   background-color: #1a1a1a;
   color: #ffffff;
-  font-family: 'Open Sans', sans-serif;
   overflow:hidden;
 }
 
@@ -143,6 +152,14 @@ html, body {
 
 .tabs a {
   color: #eee;
+}
+
+a {
+  color: #eee;
+}
+
+a:hover {
+  color: #ccc;
 }
 
 .tabs.is-boxed a:hover {

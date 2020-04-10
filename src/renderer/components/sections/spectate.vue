@@ -30,7 +30,14 @@
               <div class="column">
                  <label class="label is-normal">Spectate options</label>
                  <div class="field">
-                    <input type="checkbox" id="toggle_spectate" name="toggle_spectate" ref="toggle_spectate" data-id="ENABLE_SPECTATOR" v-on:click="sendMessage" />
+                    <input 
+                      type="checkbox" 
+                      id="toggle_spectate" 
+                      :checked="this.$store.state.camera.mode !== 'DISABLED'" 
+                      name="toggle_spectate" 
+                      ref="toggle_spectate" 
+                      data-id="ENABLE_SPECTATOR" 
+                      v-on:click="toggle_spectate" />
                     <label for="toggle_spectate"><span></span>Toggle Spectate Mode (F3)</label>
                  </div>
                  <div class="field">
@@ -50,7 +57,7 @@
                  <div class="field">
                     <label class="label is-normal">Speed</label>
                     <p class="control">
-                       <input class="input range ltpurple" name="speed" type="range" min="0.01" max="1.4" step="0.005" value="0.73" v-on:input="setSpeed" >
+                       <input class="input range ltpurple" name="speed" type="range" min="0.01" max="1.9" step="0.005" value="0.73" v-on:input="setSpeed" >
                     </p>
                  </div>
                  <div class="field">
@@ -65,32 +72,24 @@
 </template>
 
 <script>
-  const BugCraft = window.BugCraft;
   export default {
     name: 'spectate',
     components: {
       spectateMenu: require('./spectateMenu'),
       cameraViewer: require('./cameraViewer'),
     },
-    mounted: function() {
-       if (this.$store.state.camera.mode !== 'DISABLED') {
-         this.$refs.toggle_spectate.setAttribute('checked', true);
-       } else {
-         this.$refs.toggle_spectate.removeAttribute('checked');
-       }
-    },
     methods: {
-      sendMessage(element) {
+      toggle_spectate(element) {
         const domElement = element.currentTarget;
-        const messageId = domElement.getAttribute('data-id');
-        BugCraft.sendMessage(messageId);
+        const isChecked = domElement.checked;
+        if (isChecked) return this.$store.commit('setMode', 'SPECTATE');
+        return this.$store.commit('setMode', 'DISABLED');
       },
       setSpeed(element) {
-         const domElement = element.currentTarget;
-         const speed = domElement.value;
-         this.$store.commit('setSpeed', speed);
-         BugCraft.sendMessage('SET_CAMERA_SPEED', speed);
-      },
+        const domElement = element.currentTarget;
+        const speed = domElement.value;
+        this.$store.commit('setSpeed', speed);
+      }
     },
     data() {
       return {

@@ -1,5 +1,6 @@
 <template>
     <div class="appContainer">
+        <keyboard/>
         <navbar></navbar>
         <router-view></router-view>
     </div>
@@ -16,6 +17,7 @@
     data: home,
     components: {
       navbar: require('./navbar'),
+      keyboard: require('./keyboard'),
     },
   };
 </script>
@@ -28,8 +30,6 @@
     margin: 0;
     padding: 0;
   }
-
-  body { font-family: 'Source Sans Pro', sans-serif; }
 
   .navbar.is-dark .navbar-brand > a.navbar-item:hover {
     background-color: inherit;

@@ -2,7 +2,7 @@
   <ul class="spectateMenu">
     <li>
       <router-link to="/spectate" class="nav-item is-tab is-hidden-mobile" v-bind:class="{ 'is-active': spectateActived }">
-        <span class="icon is-small"><i class="fa fa-video-camera"></i></span>
+        <span class="icon is-small"><i class="fa fa-video"></i></span>
         <span>Settings</span>
       </router-link>
     </li>

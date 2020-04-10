@@ -13,6 +13,11 @@ export default new Router({
       ],
     },
     {
+      name: 'error',
+      path: '/error',
+      component: require('@/components/error'),
+    },
+    {
       path: '/spectate',
       component: require('@/components/home'),
       children: [

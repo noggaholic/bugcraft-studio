@@ -11,6 +11,7 @@ module.exports = (process, module, memory, window, patterns) => {
   const camera = createCamera(process, module, memory, window, patterns, gameVersion);
 
   const obj = {
+    camera,
     sendMessage: (kind, data) => {
       switch (kind) {
         case 'ENABLE_SPECTATOR':

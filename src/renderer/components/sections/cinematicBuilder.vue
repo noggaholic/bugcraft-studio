@@ -32,13 +32,23 @@
               </div>
           </div>
           <div v-if="cinematicSteps.length" class="is-scrollable" ref="table_cinematic">
-            <div class="field">
-              <label class="label">Cinematic speed</label>
-              <div class="control">
-                <input class="input" type="text" ref="cinematic_speed" placeholder="Value in seconds, default to 10.">
+            <div class="columns">
+            <div class="column is-one-fifth">
+              <div class="field">
+                <label class="label">Cinematic speed</label>
+                <div class="control">
+                  <input 
+                    class="input" 
+                    type="number" 
+                    ref="cinematic_speed"
+                    v-model="cinematicSpeed"
+                    v-on:input="setCinematicSpeed($event)"
+                    placeholder="Value in seconds, default to 10.">
+                </div>
+                <p class="help">From 0.1 to whatever you want.</p>
               </div>
-              <p class="help">From 0.1 to whatever you want.</p>
             </div>
+          </div>
             <div class="table-container">
               <table class="table">
                   <thead>
@@ -64,112 +74,46 @@
 </template>
 
 <script>
-  const BugCraft = window.BugCraft;
-
-   function playCinematic(cinematicSteps) {
-    this.$store.commit('setMode', 'PLAYING');
-    const firstStep = cinematicSteps[0];
-    const cinematicValues = {
-      x: firstStep.position.x,
-      y: firstStep.position.y,
-      z: firstStep.position.z,
-      viewMatrix00: firstStep.viewMatrix[0][0],
-      viewMatrix01: firstStep.viewMatrix[0][1],
-      viewMatrix02: firstStep.viewMatrix[0][2],
-      viewMatrix10: firstStep.viewMatrix[1][0],
-      viewMatrix11: firstStep.viewMatrix[1][1],
-      viewMatrix12: firstStep.viewMatrix[1][2],
-      viewMatrix20: firstStep.viewMatrix[2][0],
-      viewMatrix21: firstStep.viewMatrix[2][1],
-      viewMatrix22: firstStep.viewMatrix[2][2],
-    };
-
-    const keyframes = cinematicSteps.map((step) => {
-      return {
-        x: step.position.x,
-        y: step.position.y,
-        z: step.position.z,
-        viewMatrix00: step.viewMatrix[0][0],
-        viewMatrix01: step.viewMatrix[0][1],
-        viewMatrix02: step.viewMatrix[0][2],
-        viewMatrix10: step.viewMatrix[1][0],
-        viewMatrix11: step.viewMatrix[1][1],
-        viewMatrix12: step.viewMatrix[1][2],
-        viewMatrix20: step.viewMatrix[2][0],
-        viewMatrix21: step.viewMatrix[2][1],
-        viewMatrix22: step.viewMatrix[2][2],
-      };
-    });
-
-    BugCraft.sendMessage('START_CINEMATIC');
-    const cinematicSpeed = Number(this.$refs.cinematic_speed.value || 10);
-    const tween = TweenLite.to(cinematicValues, cinematicSpeed, {
-      bezier: {
-        values: keyframes,
-        curviness: 0,
-        type: 'soft',
-        timeResolution: 0,
-      },
-      ease: {
-        base: 'Power0',
-        sub: 'easeNone',
-        configurable: null,
-      },
-      onComplete: () => {
-        this.$store.commit('setMode', 'SPECTATE');
-        BugCraft.sendMessage('STOP_CINEMATIC');
-      },
-      onUpdate: () => BugCraft.sendMessage('PLAY_CINEMATIC_STEP', cinematicValues)
-    });
-  };
-
+  
   function reportWindowSize() {
-    const height = window.innerHeight - 100;
-    this.$refs.table_cinematic.style.height = `${height}px`;
+    if (this.$refs.table_cinematic) {
+      const height = window.innerHeight - 100;
+      this.$refs.table_cinematic.style.height = `${height}px`;
+    }
   }
 
   export default {
     name: 'cinematicBuilder',
     beforeCreate: () => {
-      BugCraft.sendMessage('TOGGLE_CINEMATIC_BUILDER');
+      
     },
     beforeDestroy: () => {
-      BugCraft.sendMessage('TOGGLE_CINEMATIC_BUILDER');
+      
     },
+    methods: {
+		  setCinematicSpeed: function({ target: element }) {
+        this.$store.commit('setCinematicSpeed', element.value);
+		  }
+	  },
     destroyed: function() {
       window.removeEventListener('resize', reportWindowSize);
     },
     mounted: function() {
-      BugCraft.sendMessage('ADD_CINEMATIC_LISTENER', function(event) {
-        console.log('# event', event);
-        if (event === 'START_CAPTURING') this.$store.commit('setMode', 'SPECTATE');
-        if (event === 'ADD_KEYFRAME') {
-          this.$store.commit('addCinematicStep', BugCraft.getMessage('CAMERA_VIEW'));
-          this.$store.commit('setMode', 'SPECTATE');
-          if (this.$refs.table_cinematic) {
-            const height = window.innerHeight - 100;
-            this.$refs.table_cinematic.style.height = `${height}px`;
-          }
-        }
-        if (event === 'PLAY') playCinematic.bind(this)(this.$store.state.camera.cinematicSteps);
-        if (event === 'CLEAR') {
-          this.$store.commit('cleanCinematicSteps');
-          this.$store.commit('setMode', 'DISABLED');
-        }
-      }.bind(this));
-
+      reportWindowSize.bind(this)();
       window.addEventListener('resize', reportWindowSize.bind(this));
-      if (this.$refs.table_cinematic) {
-        const height = window.innerHeight - 100;
-        this.$refs.table_cinematic.style.height = `${height}px`;
-      }
     },
     components: {
       spectateMenu: require('./spectateMenu'),
     },
     data() {
-      return { cinematicSteps: this.$store.state.camera.cinematicSteps };
+      return { 
+        cinematicSteps: this.$store.state.camera.cinematicSteps,
+        cinematicSpeed: this.$store.state.camera.cinematicSpeed
+      };
     },
+    watch: {
+      cinematicSteps (cameraState) { reportWindowSize.bind(this)(); }
+    }
   };
 </script>
 

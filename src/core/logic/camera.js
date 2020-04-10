@@ -172,9 +172,9 @@ module.exports = (process, module, memory, window, offsets, game) => {
   const enableSpectator = () => {
 
     disableInstructions();
-
-    isSpectatorEnabled = false;
+    enableViewMatrixUpdate();
     spectatorInterval  = setInterval(() => {
+      
       if (robot.Window.getActive().getTitle() !== 'World of Warcraft') {
         return; // only move the camera if the active window is the game window
       }
@@ -209,9 +209,9 @@ module.exports = (process, module, memory, window, offsets, game) => {
   };
 
   const disableSpectator = () => {
-    enableInstructions();
-    isSpectatorEnabled = true;
     clearInterval(spectatorInterval);
+    enableInstructions();
+    enableViewMatrixUpdate();
   };
 
   const toggleCamera = () => {
@@ -256,10 +256,7 @@ module.exports = (process, module, memory, window, offsets, game) => {
   };
 
   const disableSpectatorMode = () => {
-    if (isSpectatorEnabled === false) {
-      isSpectatorEnabled = true;
-      clearInterval(spectatorInterval);
-    }
+    clearInterval(spectatorInterval);
   };
 
   const setCameraView = (view) => {
@@ -277,6 +274,7 @@ module.exports = (process, module, memory, window, offsets, game) => {
     disableViewMatrixUpdate,
     disableCinematicMode,
     disableSpectatorMode,
+    disableSpectator,
     enableSpectator,
     enableCinematicMode,
     toggleCamera,

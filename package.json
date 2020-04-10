@@ -15,7 +15,7 @@
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
     "postinstall": "electron-builder install-app-deps",
-    "dist:win": "node-pre-gyp install -C node_modules/robot-js --target_platform=win32 --target_arch=ia32 && node-pre-gyp install -C node_modules/robot-js --target_platform=win32 --target_arch=x64 && node-pre-gyp install -C node_modules/robot-js --target_platform=linux --target_arch=ia32 && node-pre-gyp install -C node_modules/robot-js --target_platform=linux --target_arch=x64 && node-pre-gyp install -C node_modules/robot-js --target_platform=darwin --target_arch=x64 && node .electron-vue/build.js && electron-builder --dir"
+    "dist:win": "node .electron-vue/build.js && electron-builder"
   },
   "build": {
     "productName": "bugcraft-studio",

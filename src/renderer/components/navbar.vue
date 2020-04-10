@@ -34,23 +34,26 @@
                         &nbsp;Documentation</a>
                 </div>
                 <div class="navbar-end">
-                    <a class="navbar-item">
-                        <div v-if="this.$store.state.camera.mode === 'SPECTATE'">
+                    <div class="navbar-item">
+                        <div v-if="this.$store.state.camera.mode === 'SPECTATE'" class="spectate-status">
                             <span class="icon" style="color: green;">
                                 <i class="fas fa-circle"></i>
                             </span>
+                            <div>[F4] Add wp - [F5] Play - [F6] Clear wps</div>
                         </div>
-                        <div v-if="this.$store.state.camera.mode === 'DISABLED'">
+                        <div v-if="this.$store.state.camera.mode === 'DISABLED'" class="spectate-status">
                             <span class="icon" style="color: gray;">
                                 <i class="fas fa-circle"></i>
                             </span>
+                            <div>[F3] Toggle Spectate</div>
                         </div>
-                        <div v-if="this.$store.state.camera.mode === 'PLAYING'">
+                        <div v-if="this.$store.state.camera.mode === 'PLAYING'" class="spectate-status">
                             <span class="icon" style="color: red;">
                                 <i class="fas fa-circle"></i>
                             </span>
-                        </div><div>&nbsp;&nbsp;&nbsp;Spectate mode</div>
-                    </a>
+                            <div>[F5] Stop cinematic</div>
+                        </div>
+                    </div>
                     <a class="navbar-item" v-on:click="open('http://www.twitter.com/k4rliky')">
                         <span class="icon">
                             <i class="fab fa-twitter"></i>
@@ -87,5 +90,13 @@
 </script>
 
 <style>
+  .spectate-status {                        
+    display:flex;
+    align-items:center;
+  }
 
+  #navPortraitMenu > div.navbar-end > a:nth-child(1):hover {
+    background: transparent;
+    cursor: initial;
+  }
 </style>
