@@ -15,8 +15,14 @@
       </div>
     </div>
   </div>
+  <!-- <div class="card card--default is-active">
+  <div class="card__header">
+    <img class="card__img"..../>
+    <h1 class="card__title"></h1>
+  </div>
+  <div class="card__body"></div>
+</div> -->
 </template>
-
 <script>
   const { shell, remote } = require('electron');
 

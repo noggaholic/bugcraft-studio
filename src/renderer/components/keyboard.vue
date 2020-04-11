@@ -20,7 +20,7 @@
     return Keyboard.getState(key) && shouldNotify();
   }
 
-  function playCinematic(cinematicSteps, speed, commit, Camera) {
+  function playCinematic(cinematicSteps, speed, commit, shouldLoop, Camera) {
     if (cinematicSteps.length === 0) return commit('setMode', 'SPECTATE');
     const firstStep = cinematicSteps[0];
     const cinematicValues = {
@@ -69,6 +69,7 @@
         configurable: null,
       },
       onComplete: () => {
+        if (shouldLoop) return playCinematic(cinematicSteps, speed, commit, shouldLoop, Camera);
         commit('setMode', 'SPECTATE');
         tween = null;
       },
@@ -88,7 +89,9 @@
   export default {
     name: 'keyboard',
     data() {
-      return {};
+      return {
+        
+      };
     },
     mounted() {
       const store = this.$store;
@@ -126,7 +129,8 @@
             const { camera: Camera } = this.$store.getters.core;
             const speed = this.$store.getters.cinematicSpeed;
             const { commit } = this.$store;
-            return playCinematic(steps, speed, commit, Camera);
+            const shouldLoop = this.$store.state.camera.loopCinematic;
+            return playCinematic(steps, speed, commit, shouldLoop, Camera);
           }
         },
         deep: true

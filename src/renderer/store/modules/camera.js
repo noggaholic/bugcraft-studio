@@ -5,6 +5,7 @@ export default {
     mode: 'DISABLED', // ['DISABLED', 'SPECTATE', 'PLAYING']
     cinematicSteps: [],
     cinematicSpeed: 10,
+    loopCinematic: false,
   },
   getters: {
     isSpectateEnabled: state => {
@@ -28,6 +29,9 @@ export default {
     },
     setCinematicSpeed(state, speed) {
       state.cinematicSpeed = speed;
+    },
+    setLoopCinematic(state, loop) {
+      state.loopCinematic = loop;
     },
     addCinematicStep(state, step) {
       state.cinematicSteps.push(step);
