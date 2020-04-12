@@ -33,34 +33,34 @@
           </div>
           <div v-if="cinematicSteps.length" class="is-scrollable" ref="table_cinematic">
             <div class="columns">
-            <div class="column is-one-third">
-              <div class="field">
-                <label class="label">Cinematic speed</label>
-                <div class="control">
-                  <input 
-                    class="input" 
-                    type="number" 
-                    ref="cinematic_speed"
-                    v-model="cinematicSpeed"
-                    v-on:input="setCinematicSpeed($event)"
-                    placeholder="Value in seconds, default to 10.">
+              <div class="column is-one-third">
+                <div class="field">
+                  <label class="label">Cinematic speed</label>
+                  <div class="control">
+                    <input 
+                      class="input" 
+                      type="number" 
+                      ref="cinematic_speed"
+                      v-model="cinematicSpeed"
+                      v-on:input="setCinematicSpeed($event)"
+                      placeholder="Value in seconds, default to 10.">
+                  </div>
+                  <p class="help">From 0.1 to whatever you want.</p>
                 </div>
-                <p class="help">From 0.1 to whatever you want.</p>
               </div>
-            </div>
-            <div class="column">
-              <div class="field">
-                <input 
-                  type="checkbox" 
-                  id="loop_cinematic" 
-                  name="loop_cinematic"
-                  v-model="loopCinematic" 
-                  v-on:change="setLoopCinematic($event)"
-                />
-                <label for="loop_cinematic"><span></span>Loop cinematic</label>
-                <p class="help">Cinematic plays in infinite loop</p>
+              <div class="column">
+                <div class="field">
+                  <input 
+                    type="checkbox" 
+                    id="loop_cinematic" 
+                    name="loop_cinematic"
+                    v-model="loopCinematic" 
+                    v-on:change="setLoopCinematic($event)"
+                  />
+                  <label for="loop_cinematic"><span></span>Loop cinematic</label>
+                  <p class="help">Cinematic plays in infinite loop</p>
+                </div>
               </div>
-            </div>
           </div>
             <div class="table-container">
               <table class="table">

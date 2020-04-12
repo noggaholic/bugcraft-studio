@@ -32,5 +32,12 @@ export default new Router({
         { path: '', component: require('@/components/sections/environment') },
       ],
     },
+    {
+      path: '/settings',
+      component: require('@/components/home'),
+      children: [
+        { path: '', component: require('@/components/sections/settings') },
+      ],
+    },
   ],
 });

@@ -25,7 +25,7 @@ function createWindow() {
     title: 'BugCraft Studio',
     bottom: 0,
     icon: path.join(__dirname, '/../../static/resources/bugcraftstudio.ico'),
-    backgroundColor: '#1a1a1a',
+    transparent: true,
     webPreferences: {
       devTools: true,
     },
