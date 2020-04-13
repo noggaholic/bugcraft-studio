@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "karliky <karliky@gmail.com>",
   "description": "In-game cinematics for World of Warcraft",
-  "license": null,
+  "license": "https://unlicense.org/",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
