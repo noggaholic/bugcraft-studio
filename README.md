@@ -13,7 +13,7 @@
 
 ![screenshot](https://noggaholic.github.io/UI.png)
 
-## Key Features
+## Key Features 🎉
 
 * All WoW versions supported from Alpha to Legion
   - Out of the box support for 0.5.3, 0.8.0 ... 1.12 ... 2.3.4... 3.3.5a ... 7.3
@@ -24,7 +24,7 @@
 
 ## How To Install
 
-Grab the latest release from the [Releases](https://github.com/noggaholic/bugcraft-studio) section.
+Grab the latest release from the [Releases](https://github.com/noggaholic/bugcraft-studio/releases) section.
 
 Uncompress the file you've download and execute the installer. A desktop short-cut will be created after installation, always open it `as administrator`.
 
