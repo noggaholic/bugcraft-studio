@@ -6,7 +6,7 @@
 <h4 align="center">An open source Machinima tool for WoW machinima makers.</h4>
 
 <p align="center">
-  <a href="#key-features">Key Features</a> •
+  <a href="#key-features-">Key Features</a> •
   <a href="#how-to-install">How To Use</a> •
   <a href="#license">License</a>
 </p>
