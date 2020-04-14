@@ -6,7 +6,7 @@ const Keyboard = robot.Keyboard;
 const Mouse = robot.Mouse;
 const clonedeep = require('lodash.clonedeep');
 
-module.exports = (GetCameraPtr) => {
+module.exports = (GetCameraPtr, EnableSpectate, DisableSpectate, EnableViewMatrixUpdate, DisableViewMatrixUpdate) => {
   let speed = 0.60;
   const cameraStructureSize = 0x48;
   const buffer     = new Buffer(cameraStructureSize);

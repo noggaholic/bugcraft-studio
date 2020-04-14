@@ -25,6 +25,7 @@ module.exports = {
     'import/newline-after-import': 0,
     'no-multi-assign': 0,
     'indent': 0,
+    'max-len': 0,
     'no-return-assign': 0,
     "arrow-body-style": 0,
     "import/first": 0,

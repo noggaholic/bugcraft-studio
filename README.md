@@ -20,6 +20,7 @@
 * Built with latest technologies like Electron.js, Vue.js, Bulma.io and Robot.js
 * Build complex cinematic scenes with it's built-in editor
 * Full control of the environment
+* An explorer's dream come true ✨
 * Custom free camera mode for Alpha and Vanilla
 
 ## How To Install
@@ -31,6 +32,7 @@ Uncompress the file you've download and execute the installer. A desktop short-c
 ## You may also like...
 
 - [Machinima Studio](https://github.com/noggaholic/machinima-studio) - Machinima Studio for Guild Wars 2
+- [AIO Sandbox](https://github.com/barncastle/AIO-Sandbox) - An "All In One" sandbox server that supports all pre-Cata builds of WoW with an emphasis on exploration.
 
 ## License
 
