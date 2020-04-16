@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "author": "karliky <karliky@gmail.com>",
   "description": "In-game cinematics for World of Warcraft",
-  "license": "https://unlicense.org/",
+  "license": "Unlicense",
   "main": "./dist/electron/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noggaholic/bugcraft-studio"
+  },
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",

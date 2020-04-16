@@ -1,4 +1,3 @@
-
 function GetCameraPtr() {
     return (game, memory, offsets) => {
         const InstructionPointer = memory.find(offsets[game.client].camera.pattern.toString('hex'), 0, -1, 1, '-x')[0];

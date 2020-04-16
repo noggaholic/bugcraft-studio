@@ -73,7 +73,7 @@
         commit('setMode', 'SPECTATE');
         tween = null;
       },
-      onUpdate: () => Camera.setCameraView(cinematicValues)
+      onUpdate: () => Camera.SetCameraView(cinematicValues)
     });
   };
 

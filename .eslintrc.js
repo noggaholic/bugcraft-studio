@@ -28,8 +28,10 @@ module.exports = {
     'max-len': 0,
     'no-return-assign': 0,
     "arrow-body-style": 0,
+    "no-use-before-define": 0,
     "import/first": 0,
     'arrow-parens': 0,
+    'no-mixed-operators': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }

@@ -57,7 +57,7 @@
                  <div class="field">
                     <label class="label is-normal">Speed</label>
                     <p class="control">
-                       <input class="input range ltpurple" name="speed" type="range" min="0.01" max="1.9" step="0.005" value="0.975" v-on:input="setSpeed" >
+                       <input class="input range ltpurple" name="speed" type="range" min="0.01" max="1.9" step="0.005" value="0.975" v-on:change="setSpeed" >
                     </p>
                  </div>
                  <div class="field">
