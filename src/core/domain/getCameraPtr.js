@@ -1,5 +1,5 @@
-function GetCameraPtr() {
-    return (Game, memory, offsets) => {
+function GetCameraPtr(Game, memory, Module, offsets) {
+    return () => {
       if (Game.client === 'vanilla' || Game.client === 'alpha') {
         const InstructionPointer = memory.find(offsets[Game.client].camera.pattern.toString('hex'), 0, -1, 1, '-x')[0];
 
@@ -34,9 +34,9 @@ function GetCameraPtr() {
       }
 
       const SpectatePointer = memory.readMultiLevelPtr(offsets[Game.client].SpectatePointer);
-      const CameraValuesPointer = '';
+      const CameraValuesPointer = offsets[Game.client].CameraValuesPointer;
 
-      console.log('# Camera SpectatePointer found at', `0x${SpectatePointer.toString(16)}`);
+      console.log('# Camera SpectatePointer found at', `0x${SpectatePointer.toString(16)} - Camera values at: 0x${CameraValuesPointer.toString(16)}`);
 
       return {
         Pointer: null,

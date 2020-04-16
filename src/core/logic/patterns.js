@@ -93,5 +93,7 @@ export const tbc = {
   SpectatePointer: [0x00871B94, 0xCC, 0x49C],
   EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
   DisableSpectate: new Buffer([0, 0, 0, 0]),
-  CameraValuesPointer: 0,
+  CameraValuesPointer: 0x00CEF468,
+  Collision: 0x48,
+  Speed: 0x44,
 };

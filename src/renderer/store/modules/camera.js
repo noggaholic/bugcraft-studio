@@ -6,6 +6,7 @@ export default {
     cinematicSteps: [],
     cinematicSpeed: 10,
     loopCinematic: false,
+    collision: true,
   },
   getters: {
     isSpectateEnabled: state => {
@@ -38,6 +39,11 @@ export default {
     },
     cleanCinematicSteps(state) {
       state.cinematicSteps.splice(0);
+    },
+    setCollision(state, enabled) {
+      state.collision = enabled;
+      const { camera: Camera } = this.getters.core;
+      Camera.SetCollision(state.collision);
     },
     setMode(state, mode) {
       const previousMode = state.mode;

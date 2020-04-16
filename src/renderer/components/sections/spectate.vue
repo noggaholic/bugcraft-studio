@@ -37,12 +37,18 @@
                       name="toggle_spectate" 
                       ref="toggle_spectate" 
                       data-id="ENABLE_SPECTATOR" 
-                      v-on:click="toggle_spectate" />
+                      v-on:click="toggleSpectate" />
                     <label for="toggle_spectate"><span></span>Toggle Spectate Mode (F3)</label>
                  </div>
                  <div class="field">
-                    <input type="checkbox" id="toggle_collision" name="toggle_collision" />
-                    <label for="toggle_collision"><span></span>Toggle Collision</label>
+                    <input 
+                    type="checkbox" 
+                     v-on:click="toggleCollision" 
+                     id="toggle_collision"
+                     name="toggle_collision"
+                     :checked="this.$store.state.camera.collision" 
+                     />
+                    <label for="toggle_collision"><span></span>Collision enabled</label>
                  </div>
                  <div class="field">
                     <input type="checkbox" id="toggle_look_at_target" name="toggle_look_at_target" />
@@ -79,11 +85,16 @@
       cameraViewer: require('./cameraViewer'),
     },
     methods: {
-      toggle_spectate(element) {
+      toggleSpectate(element) {
         const domElement = element.currentTarget;
         const isChecked = domElement.checked;
         if (isChecked) return this.$store.commit('setMode', 'SPECTATE');
         return this.$store.commit('setMode', 'DISABLED');
+      },
+      toggleCollision(element) {
+        const domElement = element.currentTarget;
+        const isChecked = domElement.checked;
+        return this.$store.commit('setCollision', isChecked);
       },
       setSpeed(element) {
         const domElement = element.currentTarget;

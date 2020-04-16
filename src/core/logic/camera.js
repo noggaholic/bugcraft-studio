@@ -12,9 +12,10 @@ module.exports = (
   GetCameraData,
   EnableKeyboardControls,
   SetPosition,
-  SetCameraView
+  SetCameraView,
+  SetCollision
 ) => {
-  return (game, memory, offsets) => {
+  return () => {
     const {
       /**
        * For custom spectate controls
@@ -27,7 +28,7 @@ module.exports = (
        */
       SpectatePointer,
       CameraValuesPointer,
-    } = GetCametaPtr(game, memory, offsets);
+    } = GetCametaPtr();
 
     const CameraStruct = {
       Pointer,
@@ -56,6 +57,7 @@ module.exports = (
     }
 
     return {
+      SetCollision: (isEnabled) => SetCollision(CameraValuesPointer, isEnabled),
       enableViewMatrixUpdate: () => EnableViewMatrixUpdate(ViewMatrixInstructionsPointer),
       disableViewMatrixUpdate: () => DisableViewMatrixUpdate(ViewMatrixInstructionsPointer),
       disableSpectatorMode,

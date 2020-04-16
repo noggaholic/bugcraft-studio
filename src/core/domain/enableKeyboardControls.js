@@ -2,7 +2,7 @@ const Robot = require('robot-js');
 const Keyboard = Robot.Keyboard;
 const Mouse = Robot.Mouse;
 
-function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition) {
+function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition, SetSpeed) {
   return (CameraStruct, speed) => {
 
     const {
@@ -11,7 +11,11 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
       ViewMatrixInstructionsPointer,
     } = CameraStruct;
 
-    if (!(Game.client === 'vanilla') && !(Game.client === 'alpha')) return EnableSpectate(CameraStruct, Pointer);
+    if (!(Game.client === 'vanilla') && !(Game.client === 'alpha')) {
+      EnableSpectate(CameraStruct, Pointer);
+      SetSpeed(CameraStruct, speed);
+      return 1;
+    }
 
     EnableSpectate(InstructionPointer);
     EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);

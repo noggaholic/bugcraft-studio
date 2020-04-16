@@ -9,8 +9,10 @@ const createGetCameraData = require('./domain/getCameraData');
 const createEnableKeyboardControls = require('./domain/enableKeyboardControls');
 const createSetPosition = require('./domain/setPosition');
 const createSetCameraView = require('./domain/setCameraView');
+const createSetCollision = require('./domain/setCollision');
+const createSetSpeed = require('./domain/setSpeed');
 
-module.exports = (process, module, Memory, window, Offsets) => {
+module.exports = (process, Module, Memory, window, Offsets) => {
 
   const Game = Offsets.getVersion(Memory);
   if (!Game) {
@@ -19,17 +21,20 @@ module.exports = (process, module, Memory, window, Offsets) => {
 
   const EnableViewMatrixUpdate = createEnableViewMatrixUpdate(Game, Memory, Offsets);
   const DisableViewMatrixUpdate = createDisableViewMatrixUpdate(Game, Memory, Offsets);
-  const GetCametaPtr = createGetCametaPtr(Game, Memory, Offsets);
-  const EnableSpectate = createEnableSpectate(Game, Memory, Offsets);
-  const DisableSpectate = createDisableSpectate(Game, Memory, Offsets, EnableViewMatrixUpdate);
+  const GetCametaPtr = createGetCametaPtr(Game, Memory, Module, Offsets);
   const GetCameraData = createGetCameraData(Memory);
+  const EnableSpectate = createEnableSpectate(Game, Memory, Offsets, GetCameraData);
+  const DisableSpectate = createDisableSpectate(Game, Memory, Offsets, EnableViewMatrixUpdate);
   const SetPosition = createSetPosition(Memory);
+  const SetCollision = createSetCollision(Game, Memory, Offsets);
+  const SetSpeed = createSetSpeed(Game, Memory, Offsets);
   const EnableKeyboardControls = createEnableKeyboardControls(
     Game,
     EnableSpectate,
     EnableViewMatrixUpdate,
     GetCameraData,
     SetPosition,
+    SetSpeed
   );
   const SetCameraView = createSetCameraView(Memory, SetPosition);
 
@@ -42,7 +47,8 @@ module.exports = (process, module, Memory, window, Offsets) => {
     EnableKeyboardControls,
     SetPosition,
     SetCameraView,
-  )(Game, Memory, Offsets);
+    SetCollision,
+  )();
   return {
     camera,
   };
