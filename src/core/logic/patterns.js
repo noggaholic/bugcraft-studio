@@ -8,6 +8,8 @@ export const getVersion = (memory) => {
     return { client: 'vanilla', build: '1.8.0' };
   if (memory.findStrPattern('World of WarCraft (build 5875)').length > 0)
     return { client: 'vanilla', build: '1.12.0' };
+  if (memory.findStrPattern('World of WarCraft (build 8606)').length > 0)
+    return { client: 'tbc', build: '2.4.3' };
 
   return undefined;
 };
@@ -85,4 +87,11 @@ export const alpha = {
       }
     }
   }
+};
+
+export const tbc = {
+  SpectatePointer: [0x00871B94, 0xCC, 0x49C],
+  EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
+  DisableSpectate: new Buffer([0, 0, 0, 0]),
+  CameraValuesPointer: 0,
 };

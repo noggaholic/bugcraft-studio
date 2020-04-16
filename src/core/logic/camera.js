@@ -16,17 +16,33 @@ module.exports = (
 ) => {
   return (game, memory, offsets) => {
     const {
+      /**
+       * For custom spectate controls
+       */
       Pointer,
       InstructionPointer,
-      ViewMatrixInstructionsPointer
+      ViewMatrixInstructionsPointer,
+      /**
+       * For in-game spectate
+       */
+      SpectatePointer,
+      CameraValuesPointer,
     } = GetCametaPtr(game, memory, offsets);
+
+    const CameraStruct = {
+      Pointer,
+      InstructionPointer,
+      ViewMatrixInstructionsPointer,
+      SpectatePointer,
+      CameraValuesPointer,
+    };
 
     let spectatorInterval = null;
     let speed = 0.375;
 
     const disableSpectator = () => {
       clearInterval(spectatorInterval);
-      DisableSpectate(InstructionPointer);
+      DisableSpectate(CameraStruct);
       EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
     };
 
@@ -36,7 +52,7 @@ module.exports = (
 
     function enableSpectator() {
       if (spectatorInterval) clearInterval(spectatorInterval);
-      spectatorInterval = EnableKeyboardControls(Pointer, InstructionPointer, ViewMatrixInstructionsPointer, speed);
+      spectatorInterval = EnableKeyboardControls(CameraStruct, speed);
     }
 
     return {

@@ -3,8 +3,15 @@ const Keyboard = Robot.Keyboard;
 const Mouse = Robot.Mouse;
 
 function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition) {
-  return (Pointer, InstructionPointer, ViewMatrixInstructionsPointer, speed) => {
-    if (!(Game.client === 'vanilla') && !(Game.client === 'alpha')) return;
+  return (CameraStruct, speed) => {
+
+    const {
+      Pointer,
+      InstructionPointer,
+      ViewMatrixInstructionsPointer,
+    } = CameraStruct;
+
+    if (!(Game.client === 'vanilla') && !(Game.client === 'alpha')) return EnableSpectate(CameraStruct, Pointer);
 
     EnableSpectate(InstructionPointer);
     EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
