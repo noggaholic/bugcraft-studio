@@ -33,7 +33,8 @@ function GetCameraPtr(Game, memory, Module, offsets) {
         };
       }
 
-      const SpectatePointer = memory.readMultiLevelPtr(offsets[Game.client].SpectatePointer);
+      const SpectatePointerFinder = offsets[Game.client].SpectatePointer;
+      const SpectatePointer = Array.isArray(SpectatePointerFinder) ? memory.readMultiLevelPtr(SpectatePointerFinder) : SpectatePointerFinder;
       const Pointer = memory.readMultiLevelPtr(offsets[Game.client].CameraPointer, true);
       const CameraValuesPointer = offsets[Game.client].CameraValuesPointer;
 
