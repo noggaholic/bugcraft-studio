@@ -1,5 +1,5 @@
 
-function enableSpectateMode(Game, Memory, Offsets) {
+function disableSpectate(Game, Memory, Offsets) {
   return (CameraStruct) => {
     const {
       InstructionPointer,
@@ -13,4 +13,4 @@ function enableSpectateMode(Game, Memory, Offsets) {
   };
 }
 
-module.exports = enableSpectateMode;
+module.exports = disableSpectate;

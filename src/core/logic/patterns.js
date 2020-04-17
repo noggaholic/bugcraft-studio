@@ -1,17 +1,28 @@
 /* eslint-disable consistent-return, no-restricted-syntax,padded-blocks,no-multi-spaces,key-spacing,comma-dangle,max-len,no-mixed-operators,curly,comma-spacing,comma-style,no-useless-computed-key */
-export const getVersion = (memory) => {
-  if (memory.findStrPattern('Alpha 0.5.3.3368').length > 0)
-    return { client: 'alpha', build: '0.5.3' };
-  if (memory.findStrPattern('Alpha 0.8.0.3734').length > 0)
-    return { client: 'alpha', build: '0.8.0' };
-  if (memory.findStrPattern('World of Warcraft Vanilla 1.8').length > 0)
-    return { client: 'vanilla', build: '1.8.0' };
-  if (memory.findStrPattern('World of WarCraft (build 5875)').length > 0)
-    return { client: 'vanilla', build: '1.12.0' };
-  if (memory.findStrPattern('World of WarCraft (build 8606)').length > 0)
-    return { client: 'tbc', build: '2.4.3' };
 
-  return undefined;
+/**
+ * World of WarCraft: Assertions Enabled Build (build 3368) <-- 0.5.3
+ * World of WarCraft: Assertions Enabled Build (build 3734) <-- 0.8.0
+ * World of WarCraft (build 4735)                           <-- 1.8.0
+ * World of WarCraft (build 5875)                           <-- 1.12.1
+ */
+
+export const getVersion = (Memory) => {
+
+  const build = Memory.findStrPattern(' (build ');
+  const buildStr = new Buffer(0xE);
+  if (build.length === 0) return;
+  const versionPtr = build[0];
+  Memory.readData(versionPtr, buildStr, buildStr.byteLength);
+  const buildFound = buildStr.toString('ascii').match(/\d/g).join('');
+  console.log('# WoW Build Found', buildFound);
+  if (buildFound === '3368') return { client: 'alpha', build: '0.5.3' };
+  if (buildFound === '3734') return { client: 'alpha', build: '0.8.0' };
+  if (buildFound === '4735') return { client: 'vanilla', build: '1.8.0' };
+  if (buildFound === '5875') return { client: 'vanilla', build: '1.12.0' };
+  if (buildFound === '8606') return { client: 'tbc', build: '2.4.3' };
+  if (buildFound === '12340') return { client: 'wlk', build: '3.3.5a' };
+  if (buildFound === '15595') return { client: 'ctl', build: '4.3.4' };
 };
 
 export const vanilla = {
@@ -91,9 +102,54 @@ export const alpha = {
 
 export const tbc = {
   SpectatePointer: [0x00871B94, 0xCC, 0x49C],
+  CameraPointer: [0x00C6ECCC, 0x732c, 0],
   EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
   DisableSpectate: new Buffer([0, 0, 0, 0]),
   CameraValuesPointer: 0x00CEF468,
   Collision: 0x48,
   Speed: 0x44,
+  cameraViewMatrix: {
+    version: {
+      ['2.4.3']: {
+        pattern: new Buffer([0xD9, 0x40, 0x1C, 0xD9, 0x5D, 0xE4, 0xD9, 0x40, 0x08, 0xD9, 0x5D, 0xE8, 0xD9, 0x40, 0x14, 0xD9, 0x5D, 0xEC, 0xD9, 0x40, 0x20, 0xD9, 0x5D, 0xF0, 0xF3, 0xA5]),
+        fix:     new Buffer([0xD9, 0x40, 0x1C, 0xD9, 0x5D, 0xE4, 0xD9, 0x40, 0x08, 0xD9, 0x5D, 0xE8, 0xD9, 0x40, 0x14, 0xD9, 0x5D, 0xEC, 0xD9, 0x40, 0x20, 0xD9, 0x5D, 0xF0, 0x90, 0x90])
+      }
+    }
+  }
+};
+
+export const wlk = {
+  SpectatePointer: [0x006DB754, 0x38, 0x98, 0x240],
+  CameraPointer: [0xB7436C, 0x7e20, 0],
+  EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
+  DisableSpectate: new Buffer([0, 0, 0, 0]),
+  CameraValuesPointer: 0x00ACE4A8,
+  Collision: 0x48,
+  Speed: 0x44,
+  cameraViewMatrix: {
+    version: {
+      ['3.3.5a']: {
+        pattern: new Buffer([0xD9, 0x40, 0x1C, 0xD9, 0x5D, 0xE4, 0xD9, 0x40, 0x08, 0xD9, 0x5D, 0xE8, 0xD9, 0x40, 0x14, 0xD9, 0x5D, 0xEC, 0xD9, 0x40, 0x20, 0xD9, 0x5D, 0xF0, 0xF3, 0xA5]),
+        fix:     new Buffer([0xD9, 0x40, 0x1C, 0xD9, 0x5D, 0xE4, 0xD9, 0x40, 0x08, 0xD9, 0x5D, 0xE8, 0xD9, 0x40, 0x14, 0xD9, 0x5D, 0xEC, 0xD9, 0x40, 0x20, 0xD9, 0x5D, 0xF0, 0x90, 0x90])
+      }
+    }
+  }
+};
+
+export const ctl = {
+  SpectatePointer: [0x006DB754, 0x38, 0x98, 0x240],
+  CameraPointer: [0xAD7A10, 0x80D0, 0],
+  EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
+  DisableSpectate: new Buffer([0, 0, 0, 0]),
+  CameraValuesPointer: 0x012F19A0,
+  Collision: 0x48,
+  Speed: 0x44,
+  cameraViewMatrix: {
+    version: {
+      ['3.3.5a']: {
+        pattern: new Buffer([0xD9, 0x40, 0x1C, 0xD9, 0x5D, 0xE4, 0xD9, 0x40, 0x08, 0xD9, 0x5D, 0xE8, 0xD9, 0x40, 0x14, 0xD9, 0x5D, 0xEC, 0xD9, 0x40, 0x20, 0xD9, 0x5D, 0xF0, 0xF3, 0xA5]),
+        fix:     new Buffer([0xD9, 0x40, 0x1C, 0xD9, 0x5D, 0xE4, 0xD9, 0x40, 0x08, 0xD9, 0x5D, 0xE8, 0xD9, 0x40, 0x14, 0xD9, 0x5D, 0xEC, 0xD9, 0x40, 0x20, 0xD9, 0x5D, 0xF0, 0x90, 0x90])
+      }
+    }
+  }
 };

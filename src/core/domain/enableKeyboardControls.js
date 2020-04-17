@@ -4,20 +4,19 @@ const Mouse = Robot.Mouse;
 
 function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition, SetSpeed) {
   return (CameraStruct, speed) => {
-
     const {
       Pointer,
-      InstructionPointer,
       ViewMatrixInstructionsPointer,
     } = CameraStruct;
 
     if (!(Game.client === 'vanilla') && !(Game.client === 'alpha')) {
       EnableSpectate(CameraStruct, Pointer);
+      EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
       SetSpeed(CameraStruct, speed);
       return 1;
     }
 
-    EnableSpectate(InstructionPointer);
+    EnableSpectate(CameraStruct, Pointer);
     EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
     return setInterval(() => {
       if (Robot.Window.getActive().getTitle() !== 'World of Warcraft') {

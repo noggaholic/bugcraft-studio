@@ -16,8 +16,10 @@ function initialize(cb) {
    * Resolves the given multi level pointer to
    * the correct offset of the memory
    */
-  function readMultiLevelPtr(offsets) {
-    let address = module + Number(offsets[0]);
+  function readMultiLevelPtr(offsets, noModule) {
+    let mod = module;
+    if (noModule) mod = 0;
+    let address = mod + Number(offsets[0]);
     for (let i = 1; i < offsets.length; i += 1) {
       address = memory.readPtr(address);
       address += offsets[i];

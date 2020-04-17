@@ -19,13 +19,15 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     throw new Error('Unsupported game version :|');
   }
 
+  console.log('# Game detected', Game);
+
   const EnableViewMatrixUpdate = createEnableViewMatrixUpdate(Game, Memory, Offsets);
   const DisableViewMatrixUpdate = createDisableViewMatrixUpdate(Game, Memory, Offsets);
   const GetCametaPtr = createGetCametaPtr(Game, Memory, Module, Offsets);
   const GetCameraData = createGetCameraData(Memory);
-  const EnableSpectate = createEnableSpectate(Game, Memory, Offsets, GetCameraData);
+  const SetPosition = createSetPosition(Game, Memory);
+  const EnableSpectate = createEnableSpectate(Game, Memory, Offsets, GetCameraData, SetPosition);
   const DisableSpectate = createDisableSpectate(Game, Memory, Offsets, EnableViewMatrixUpdate);
-  const SetPosition = createSetPosition(Memory);
   const SetCollision = createSetCollision(Game, Memory, Offsets);
   const SetSpeed = createSetSpeed(Game, Memory, Offsets);
   const EnableKeyboardControls = createEnableKeyboardControls(
@@ -34,9 +36,9 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     EnableViewMatrixUpdate,
     GetCameraData,
     SetPosition,
-    SetSpeed
+    SetSpeed,
   );
-  const SetCameraView = createSetCameraView(Memory, SetPosition);
+  const SetCameraView = createSetCameraView(Game, Memory, SetPosition);
 
   const camera = createCamera(
     GetCametaPtr,

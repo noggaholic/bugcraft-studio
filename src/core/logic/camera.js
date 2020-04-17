@@ -70,7 +70,7 @@ module.exports = (
       setPosition: (data) => SetPosition(Pointer, data.x, data.y, data.z),
       getViewMatrix: () => GetCameraData(Pointer).viewMatrix,
       getView: () => GetCameraData(Pointer),
-      SetCameraView: (cinematicValues) => SetCameraView(Pointer, cinematicValues),
+      SetCameraView: (cinematicValues) => SetCameraView(CameraStruct, cinematicValues),
     };
   };
 };
