@@ -7,7 +7,6 @@
 
 <p align="center">
   <a href="#key-features-">Key Features</a> •
-  <a href="#functionalities-per-version">Functionalities</a> •
   <a href="#how-to-install">How To Use</a> •
   <a href="#license">License</a>
 </p>
@@ -24,7 +23,7 @@
 * An explorer's dream come true ✨
 * Custom free camera mode for Alpha and Vanilla
 
-### Functionalities per version:
+### Features per version:
 
 | Version | Spectate | Cinematic | Environment |
 |---------|----------|-----------|-------------|
