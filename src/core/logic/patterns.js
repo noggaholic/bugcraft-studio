@@ -23,6 +23,7 @@ export const getVersion = (Memory) => {
   if (buildFound === '8606') return { client: 'tbc', build: '2.4.3' };
   if (buildFound === '12340') return { client: 'wlk', build: '3.3.5a' };
   if (buildFound === '15595') return { client: 'ctl', build: '4.3.4' };
+  if (buildFound === '20779') return { client: 'draenor', build: '6.2.3' };
 };
 
 export const vanilla = {
@@ -155,4 +156,22 @@ export const ctl = {
       }
     }
   },
+};
+
+export const draenor = {
+  SpectatePointer: [0x00E379B0, 0xD4, 0x50, 0x350],
+  CameraPointer: [0x012AF270, 0x7610, 0],
+  EnableSpectate: new Buffer([0x00, 0x00, 0x48, 0x00]),
+  DisableSpectate: new Buffer([0, 0, 0, 0]),
+  CameraValuesPointer: 0x01325968,
+  Collision: 0x80,
+  Speed: 0x7C,
+  cameraViewMatrix: {
+    version: {
+      ['6.2.3']: {
+        pattern: new Buffer([0x83, 0xC4, 0x18, 0x8B, 0xC8, 0xE8, 0xB2, 0x9D, 0xFF, 0xFF, 0x6A, 0x09, 0x59, 0x8B, 0xF0, 0xF3, 0xA5]),
+        fix:     new Buffer([0x83, 0xC4, 0x18, 0x8B, 0xC8, 0xE8, 0xB2, 0x9D, 0xFF, 0xFF, 0x6A, 0x09, 0x59, 0x8B, 0xF0, 0x90, 0x90])
+      }
+    }
+  }
 };
