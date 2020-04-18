@@ -7,6 +7,7 @@
 
 <p align="center">
   <a href="#key-features-">Key Features</a> •
+  <a href="#functionalities-per-version">Functionalities</a> •
   <a href="#how-to-install">How To Use</a> •
   <a href="#license">License</a>
 </p>
@@ -27,17 +28,17 @@
 
 | Version | Spectate | Cinematic | Environment |
 |---------|----------|-----------|-------------|
-| 0.5.3   | ✔️        | ✔️         | ❌           |
-| 0.8.0   | ✔️        | ✔️         | ❌           |
-| 1.8.0   | ✔️        | ✔️         | ❌           |
-| 1.12.0  | ✔️        | ✔️         | ❌           |
-| 2.4.3   | ✔️        | ✔️         | ❌           |
-| 3.3.5a  | ✔️        | ✔️         | ❌           |
-| 4.3.4   | ✔️        | ✔️         | ❌           |
-| 6.2.3   | ✔️        | ✔️         | ❌           |
-| 7.3.5   | ❌        | ❌         | ❌           |
+| 0.5.3   | ✔️        | ✔️         | ⚙️           |
+| 0.8.0   | ✔️        | ✔️         | ⚙️           |
+| 1.8.0   | ✔️        | ✔️         | ⚙️           |
+| 1.12.0  | ✔️        | ✔️         | ⚙️           |
+| 2.4.3   | ✔️        | ✔️         | ⚙️           |
+| 3.3.5a  | ✔️        | ✔️         | ⚙️           |
+| 4.3.4   | ✔️        | ✔️         | ⚙️           |
+| 6.2.3   | ✔️        | ✔️         | ⚙️           |
+| 7.3.5   | ⚙️        | ⚙️         | ⚙️           |
 
-❌ Means that development of that feature it's not finished yet for that version.
+⚙️ Means that development of that feature it's not finished yet for that version.
 
 ## How To Install
 
