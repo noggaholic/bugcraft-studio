@@ -41,7 +41,6 @@ function GetCameraPtr(Game, memory, Module, offsets) {
       console.log('# Camera SpectatePointer found at', `0x${SpectatePointer.toString(16)}
       - Camera spectate values at: 0x${CameraValuesPointer.toString(16)}
       - Camera values at: 0x${Pointer.toString(16)}`);
-
       return {
         Pointer,
         InstructionPointer: null,
