@@ -23,6 +23,22 @@
 * An explorer's dream come true ✨
 * Custom free camera mode for Alpha and Vanilla
 
+### Functionalities per version:
+
+| Version | Spectate | Cinematic | Environment |
+|---------|----------|-----------|-------------|
+| 0.5.3   | ✔️        | ✔️         | ❌           |
+| 0.8.0   | ✔️        | ✔️         | ❌           |
+| 1.8.0   | ✔️        | ✔️         | ❌           |
+| 1.12.0  | ✔️        | ✔️         | ❌           |
+| 2.4.3   | ✔️        | ✔️         | ❌           |
+| 3.3.5a  | ✔️        | ✔️         | ❌           |
+| 4.3.4   | ✔️        | ✔️         | ❌           |
+| 6.2.3   | ✔️        | ✔️         | ❌           |
+| 7.3.5   | ❌        | ❌         | ❌           |
+
+❌ Means that development of that feature it's not finished yet for that version.
+
 ## How To Install
 
 Grab the latest release from the [Releases](https://github.com/noggaholic/bugcraft-studio/releases) section.
