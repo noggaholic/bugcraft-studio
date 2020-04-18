@@ -37,6 +37,7 @@ export default new Router({
       component: require('@/components/home'),
       children: [
         { path: '', component: require('@/components/sections/settings') },
+        { path: 'laboratory', component: require('@/components/sections/laboratory') },
       ],
     },
   ],

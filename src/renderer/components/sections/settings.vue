@@ -1,5 +1,8 @@
 <template>
-  <div class="container container-top">
+  <div class="container">
+      <div class="tabs is-boxed">
+          <settingsMenu></settingsMenu>
+      </div>
       <div class="columns">
             <div class="column is-one-third">
             <div class="field">
@@ -33,23 +36,6 @@
             </div>
             </div>
         </div>
-        <article class="message is-dark">
-          <div class="message-header">
-            <p>About this tool</p>
-          </div>
-          <div class="message-body">
-            This is presented as a work of fiction and dedicated to the Nogg-aholic people. You are never too old to set another goal or to dream a new dream. <br>
-            <i>For Dopefish, Cryect, Malu05, LadyCircus, Marlamin, Kruithne, akspa420,
-              Gnauren(Bemoliph), Shn, Ch0p, Tigers, Xayo, Hergonan,
-              Mysterious, NiNtoxicated, Forg, G33k, B4t4dead,
-              MoD, Schlumpf_, Suchtino, John Staats, D3s7r0, Nayra, Akg,  
-              Witchsong, Zintos, Zor, Alram, Thunder, Dotted, 
-              Floodge, Alogon, Chosi, ClawX, Cybimaus, Syselkitna, Deletio,Drejjmit,
-              Thierry Cantet, LadislavZezula, Stiven_SRB, Michael Zahn (Michii09), Maku,
-              EvelynOFF, Funkeh, IeMag, Intenso, Jepz, KaNNis|ZzZ, KavSelj, MantaZZz, 
-              MiRia, Morbe, mrd3wd, Najimi, Riqpe, Sikk, Tetsu and those who I forgot their name but live in my heart.</i>
-          </div>
-        </article>
     </div>
 </template>
 
@@ -58,6 +44,9 @@
   const win = electron.remote.getCurrentWindow();
   export default {
     name: 'settings',
+    components: {
+      settingsMenu: require('./settingsMenu')
+    },
     methods: {
       setAlwaysOnTop: function({ target: element }) {
         this.$store.commit('setAlwaysOnTop', element.checked);

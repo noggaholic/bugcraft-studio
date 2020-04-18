@@ -16,7 +16,6 @@
 </template>
 
 <script>
-  const BugCraft = window.BugCraft;
   export default {
     name: 'environment',
     methods: {},
