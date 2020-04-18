@@ -38,7 +38,7 @@
 | 6.2.3   | ✔️        | ✔️         | ⚙️           |
 | 7.3.5   | ⚙️        | ⚙️         | ⚙️           |
 
-⚙️ Means that development of that feature it's not finished yet for that version.
+⚙️ Means that the development of that feature it's not finished yet for that version.
 
 ## How To Install
 
