@@ -2,7 +2,7 @@
 
 First of all, thanks for thinking of contributing to this project. :smile:
 
-Before sending a Pull Request, please make sure to discuss york work or proposal by creating an Issue.
+Before sending a Pull Request, please make sure to discuss your work or proposal by creating an Issue.
 
 # Developing BugCraft Studio
 
