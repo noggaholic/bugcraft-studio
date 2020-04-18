@@ -1,12 +1,5 @@
 /* eslint-disable consistent-return, no-restricted-syntax,padded-blocks,no-multi-spaces,key-spacing,comma-dangle,max-len,no-mixed-operators,curly,comma-spacing,comma-style,no-useless-computed-key */
 
-/**
- * World of WarCraft: Assertions Enabled Build (build 3368) <-- 0.5.3
- * World of WarCraft: Assertions Enabled Build (build 3734) <-- 0.8.0
- * World of WarCraft (build 4735)                           <-- 1.8.0
- * World of WarCraft (build 5875)                           <-- 1.12.1
- */
-
 export const getVersion = (Memory) => {
 
   const build = Memory.findStrPattern(' (build ');

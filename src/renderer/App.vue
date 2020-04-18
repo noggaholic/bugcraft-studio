@@ -346,6 +346,15 @@ input[type="checkbox"]:checked + label span {
   }
 }
 
+@media screen and (max-width: 1023px) {
+  .navbar-menu {
+    background-color: #363636;
+  }
+  #navPortraitMenu > div.navbar-end {
+    display: none !important;
+  }
+}
+
 .hide {
   display: none;
 }
