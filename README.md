@@ -45,9 +45,13 @@ Grab the latest release from the [Releases](https://github.com/noggaholic/bugcra
 
 Uncompress the file you've download and execute the installer. A desktop short-cut will be created after installation, always open it `as administrator`.
 
+## Contributing
+
+Your contributions are always welcome :). Please have a look at the [contribution guidelines](CONTRIBUTING.md) first. :tada:
+
 ## You may also like...
 
-- [Machinima Studio](https://github.com/noggaholic/machinima-studio) - Machinima Studio for Guild Wars 2
+- [Machinima Studio](https://github.com/noggaholic/machinima-studio) - Machinima tool for Guild Wars 2
 - [AIO Sandbox](https://github.com/barncastle/AIO-Sandbox) - An "All In One" sandbox server that supports all pre-Cata builds of WoW with an emphasis on exploration.
 
 ## License
