@@ -176,8 +176,8 @@ export const legion = {
   EnableSpectate: new Buffer([0x00, 0x00, 0x48, 0x00]),
   DisableSpectate: new Buffer([0, 0, 0, 0]),
   CameraValuesPointer: 0x01FF57C8,
-  Collision: 0x8C,
-  Speed: 0x80,
+  Collision: 0x90,
+  Speed: 0x84,
   cameraViewMatrix: {
     version: {
       ['7.3.5']: {
