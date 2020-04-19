@@ -17,6 +17,7 @@ export const getVersion = (Memory) => {
   if (buildFound === '12340') return { client: 'wlk', build: '3.3.5a' };
   if (buildFound === '15595') return { client: 'ctl', build: '4.3.4' };
   if (buildFound === '20779') return { client: 'draenor', build: '6.2.3' };
+  if (buildFound === '26972') return { client: 'legion', build: '7.3.5' };
 };
 
 export const vanilla = {
@@ -168,3 +169,31 @@ export const draenor = {
     }
   }
 };
+
+export const legion = {
+  SpectatePointer: [0x01226DA0, 0x4, 0x28, 0x8, 0x384],
+  CameraPointer: [0x01FDF9A4, 0x0324C, 0],
+  EnableSpectate: new Buffer([0x00, 0x00, 0x48, 0x00]),
+  DisableSpectate: new Buffer([0, 0, 0, 0]),
+  CameraValuesPointer: 0x01FF57C8,
+  Collision: 0x8C,
+  Speed: 0x80,
+  cameraViewMatrix: {
+    version: {
+      ['7.3.5']: {
+        pattern: new Buffer([0xE8, 0x6D, 0xA7, 0xFF, 0xFF, 0x6A, 0x09, 0x59, 0x8B, 0xF0, 0xF3, 0xA5]),
+        fix:     new Buffer([0xE8, 0x6D, 0xA7, 0xFF, 0xFF, 0x6A, 0x09, 0x59, 0x8B, 0xF0, 0x90, 0x90])
+      }
+    }
+  }
+};
+
+
+// Possible spectate pattern for 7.3.5
+// ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 08 00 08 00 00 00 00 00 00 01 00
+
+
+// Spectate speed
+// 00 00 00 00 00 00 40 41 DB 0F C9 3F DB 0F C9 3F 
+// 00 00 A0 41 01 01 00 00 00 00 00 00 00 00 C8 42 
+// 00 00 C8 42 00 00 00 00 0A D7 23 3D 0A D7 23 3D

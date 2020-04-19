@@ -35,7 +35,7 @@
 | 3.3.5a  | ✔️        | ✔️         | ⚙️           |
 | 4.3.4   | ✔️        | ✔️         | ⚙️           |
 | 6.2.3   | ✔️        | ✔️         | ⚙️           |
-| 7.3.5   | ⚙️        | ⚙️         | ⚙️           |
+| 7.3.5   | ✔️        | ⚙️         | ⚙️           |
 
 ⚙️ Means that the development of that feature it's not finished yet for that version.
 
