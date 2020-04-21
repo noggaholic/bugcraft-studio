@@ -13,7 +13,6 @@ const createSetCollision = require('./domain/setCollision');
 const createSetSpeed = require('./domain/setSpeed');
 
 module.exports = (process, Module, Memory, window, Offsets) => {
-
   const Game = Offsets.getVersion(Memory);
   if (!Game) {
     throw new Error('Unsupported game version :|');

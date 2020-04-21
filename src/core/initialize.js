@@ -87,6 +87,14 @@ function initialize(cb) {
     memory.resolvePtrBySetOfInstruction = resolvePtrBySetOfInstruction;
     memory.findPattern = findPattern;
     memory.findStrPattern = findStrPattern;
+
+    global.robot = {
+      process,
+      Memory,
+      module,
+      window,
+    };
+
     return true;
   }
 

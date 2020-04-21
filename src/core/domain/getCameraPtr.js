@@ -31,25 +31,45 @@ function GetCameraPtr(Game, memory, Module, offsets) {
           SpectatePointer: null,
           CameraValuesPointer: null,
         };
+      } else if (offsets[Game.client].base) {
+        const viewMatrixFixPtr = offsets[Game.client].cameraViewMatrix.version[Game.build].pattern;
+        const ViewMatrixInstructionsPointer = memory.find(viewMatrixFixPtr.toString('hex'), 0, -1, 1, '-x')[0];
+        const SpectatePointerFinder = offsets[Game.client].base.version[Game.build].SpectatePointer;
+        const SpectatePointer = Array.isArray(SpectatePointerFinder) ? memory.readMultiLevelPtr(SpectatePointerFinder) : SpectatePointerFinder;
+        const Pointer = memory.readMultiLevelPtr(offsets[Game.client].base.version[Game.build].CameraPointer);
+        const CameraValuesPointer = Module + offsets[Game.client].base.version[Game.build].CameraValuesPointer;
+  
+        console.log('# Camera SpectatePointer found at', `0x${SpectatePointer.toString(16)}
+        - Camera spectate values at: 0x${CameraValuesPointer.toString(16)}
+        - Camera values at: 0x${Pointer.toString(16)}
+        - ViewMatrixInstructionsPointer: 0x${ViewMatrixInstructionsPointer.toString(16)}`);
+        return {
+          Pointer,
+          InstructionPointer: null,
+          ViewMatrixInstructionsPointer,
+  
+          SpectatePointer,
+          CameraValuesPointer,
+        };
+      } else {
+        const SpectatePointerFinder = offsets[Game.client].SpectatePointer;
+        const SpectatePointer = Array.isArray(SpectatePointerFinder) ? memory.readMultiLevelPtr(SpectatePointerFinder) : SpectatePointerFinder;
+        const Pointer = memory.readMultiLevelPtr(offsets[Game.client].CameraPointer, true);
+        const CameraValuesPointer = offsets[Game.client].CameraValuesPointer;
+  
+        console.log('# Camera SpectatePointer found at', `0x${SpectatePointer.toString(16)}
+        - Camera spectate values at: 0x${CameraValuesPointer.toString(16)}
+        - Camera values at: 0x${Pointer.toString(16)}
+        - ViewMatrixInstructionsPointer: 0x${ViewMatrixInstructionsPointer.toString(16)}`);
+        return {
+          Pointer,
+          InstructionPointer: null,
+          ViewMatrixInstructionsPointer,
+  
+          SpectatePointer,
+          CameraValuesPointer,
+        };
       }
-
-      const SpectatePointerFinder = offsets[Game.client].SpectatePointer;
-      const SpectatePointer = Array.isArray(SpectatePointerFinder) ? memory.readMultiLevelPtr(SpectatePointerFinder) : SpectatePointerFinder;
-      const Pointer = memory.readMultiLevelPtr(offsets[Game.client].CameraPointer, true);
-      const CameraValuesPointer = offsets[Game.client].CameraValuesPointer;
-
-      console.log('# Camera SpectatePointer found at', `0x${SpectatePointer.toString(16)}
-      - Camera spectate values at: 0x${CameraValuesPointer.toString(16)}
-      - Camera values at: 0x${Pointer.toString(16)}
-      - ViewMatrixInstructionsPointer: 0x${ViewMatrixInstructionsPointer.toString(16)}`);
-      return {
-        Pointer,
-        InstructionPointer: null,
-        ViewMatrixInstructionsPointer,
-
-        SpectatePointer,
-        CameraValuesPointer,
-      };
     };
 }
 
