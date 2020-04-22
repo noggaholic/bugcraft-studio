@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return, no-restricted-syntax,padded-blocks */
 const createCamera = require('./logic/camera.js');
 const createGetCametaPtr = require('./domain/getCameraPtr');
+const createGetEnvPtr = require('./domain/environment/getEnvPtr');
 const createEnableSpectate = require('./domain/enableSpectate');
 const createDisableSpectate = require('./domain/disableSpectate');
 const createEnableViewMatrixUpdate = require('./domain/enableViewMatrixUpdate');
@@ -10,6 +11,7 @@ const createEnableKeyboardControls = require('./domain/enableKeyboardControls');
 const createSetPosition = require('./domain/setPosition');
 const createSetCameraView = require('./domain/setCameraView');
 const createSetCollision = require('./domain/setCollision');
+const createSetTimeOfday = require('./domain/environment/setTimeOfday');
 const createSetSpeed = require('./domain/setSpeed');
 
 module.exports = (process, Module, Memory, window, Offsets) => {
@@ -50,7 +52,14 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     SetCameraView,
     SetCollision,
   )();
+
+  const setTimeOfday = createSetTimeOfday(Game, Memory, Offsets, Module);
+  const environmentStruct = createGetEnvPtr(Game, Memory, Module, Offsets)();
+  const environment = {
+    setTimeOfday: (timeOfDay) => setTimeOfday(environmentStruct, timeOfDay),
+  };
   return {
     camera,
+    environment,
   };
 };

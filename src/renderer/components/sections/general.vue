@@ -17,7 +17,7 @@
           <div class="field">
             <label class="label is-normal">Time of day</label>
             <p class="control">
-              <input class="input range ltpurple" type="text" placeholder="00:00">
+              <input class="input range ltpurple" type="time" v-on:change="setTimeOfDay" v-on:input="setTimeOfDay" value="12:30">
             </p>
           </div>
         </div>
@@ -75,6 +75,15 @@
 <script>
   export default {
     name: 'general',
+    methods: {
+      setTimeOfDay (element) {
+        const time = element.target.value;
+        if (!time) return;
+        const hour = time.split(":")[0];
+        const minutes = time.split(":")[1];
+        this.$store.commit('setTimeOfDay', { hour, minutes });        
+      }
+    },
     data() {
       return {};
     },
