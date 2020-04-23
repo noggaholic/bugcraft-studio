@@ -59,7 +59,7 @@
                     <div>[F5] Stop cinematic</div>
                 </div>
             </div>
-            <a class="navbar-item" v-on:click="open('http://www.twitter.com/k4rliky')">
+            <a class="navbar-item" v-on:click="open('http://www.twitter.com/nogg_aholic')">
                 <span class="icon">
                     <i class="fab fa-twitter"></i>
                 </span>

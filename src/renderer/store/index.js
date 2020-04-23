@@ -1,8 +1,10 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import modules from './modules';
+import VTooltip from 'v-tooltip';
 
 Vue.use(Vuex);
+Vue.use(VTooltip);
 
 export default new Vuex.Store({
   modules,

@@ -7,11 +7,11 @@
       <div class="hero-body">
         <div class="container">
           <h1 class="title">laboratory control.</h1>
-          <h2 class="subtitle">Just a test</h2>
+          <h2 class="subtitle">Nothing implemented yet.</h2>
         </div>
       </div>
     </section>
-    <div class="modal is-active">
+    <div class="modal">
       <div class="modal-background"></div>
       <div class="modal-content">
         <article class="message is-dark">
@@ -30,7 +30,7 @@
               Floodge, Alogon, Chosi, ClawX, Cybimaus, Syselkitna, Deletio,Drejjmit,
               Thierry Cantet, LadislavZezula, Stiven_SRB, Michael Zahn (Michii09), Maku,
               EvelynOFF, Funkeh, IeMag, Intenso, Jepz, KaNNis|ZzZ, KavSelj, MantaZZz,
-              MiRia, Morbe, mrd3wd, Najimi, Riqpe, Sikk, Tetsu and those who I forgot their name but live in my heart.
+              MiRia, Morbe, mrd3wd, Najimi, Riqpe, Sikk, Tetsu, Meisio and those who I forgot their name but live in my heart.
             </i>
           </div>
         </article>
@@ -59,6 +59,7 @@ function secret(e) {
 }
 
 function wellDone() {
+  document.querySelector('.modal').classList.add('is-active');
   alert("You can clip our wings but we'll always remember what it was like to fly!");
 }
 

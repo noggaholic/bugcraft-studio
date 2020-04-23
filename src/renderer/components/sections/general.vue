@@ -3,21 +3,37 @@
       <div class="columns">
         <div class="column">
           <div class="field">
-            <label class="label is-normal">Camera zoom</label>
-            <p class="control">
-              <input class="input range ltpurple" type="range">
-            </p>
-          </div>
-          <div class="field">
             <label class="label is-normal">Slow motion (FPS:60)</label>
             <p class="control">
               <input class="input range ltpurple" type="range">
             </p>
           </div>
           <div class="field">
-            <label class="label is-normal">Time of day</label>
+            <label class="label is-normal">Time of day (hours)</label>
             <p class="control">
-              <input class="input range ltpurple" type="time" v-on:change="setTimeOfDay" v-on:input="setTimeOfDay" value="12:30">
+              <input class="input range ltpurple" 
+                v-tooltip="`Current time: ${timeOfDay.hour}:${timeOfDay.minutes}`" 
+                type="range"
+                v-on:change="setTimeOfDay($event, 'hour')"
+                v-on:input="setTimeOfDay($event, 'hour')"
+                min="0"
+                max="1"
+                step="0.005"
+                value="0.5">
+            </p>
+          </div>
+          <div class="field">
+            <label class="label is-normal">Time of day (minutes)</label>
+            <p class="control">
+              <input class="input range ltpurple" 
+                v-tooltip="`Current time: ${timeOfDay.hour}:${timeOfDay.minutes}`" 
+                type="range"
+                v-on:change="setTimeOfDay($event, 'minutes')"
+                v-on:input="setTimeOfDay($event, 'minutes')"
+                min="0"
+                max="1"
+                step="0.005"
+                value="0.5">
             </p>
           </div>
         </div>
@@ -76,16 +92,29 @@
   export default {
     name: 'general',
     methods: {
-      setTimeOfDay (element) {
+      setTimeOfDay (element, kind) {
+        const currentHour = this.$store.state.environment.timeOfDay.hour;
+        const currentMinutes = this.$store.state.environment.timeOfDay.minutes;
         const time = element.target.value;
-        if (!time) return;
-        const hour = time.split(":")[0];
-        const minutes = time.split(":")[1];
-        this.$store.commit('setTimeOfDay', { hour, minutes });        
+        const toHour = Math.floor(((time / 3600) * 86400));
+        const hour = toHour < 23 ? toHour : 23;
+        const toMinutes = Math.floor(((time / 60) * 3600));
+        const minutes = toMinutes < 59 ? toMinutes : 59;
+        if (kind === 'hour') {
+          const timeOfDay = { hour, minutes: currentMinutes };
+          this.timeOfDay = timeOfDay;
+          this.$store.commit('setTimeOfDay', timeOfDay);     
+        } else if (kind === 'minutes') {
+          const timeOfDay = { hour: currentHour, minutes };
+          this.timeOfDay = timeOfDay;
+          this.$store.commit('setTimeOfDay', timeOfDay);  
+        }
       }
     },
     data() {
-      return {};
+      return {
+        timeOfDay: this.$store.state.environment.timeOfDay,
+      };
     },
   };
 </script>
