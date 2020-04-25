@@ -16,53 +16,9 @@
     }
   };
 
-  const scene = new Scene({ camera: {
-        0: {
-          x: 0,
-          y: 0,
-          z: 0,
-          viewMatrix00: 0,
-          viewMatrix01: 0,
-          viewMatrix02: 0,
-          viewMatrix10: 0,
-          viewMatrix11: 0,
-          viewMatrix12: 0,
-          viewMatrix20: 0,
-          viewMatrix21: 0,
-          viewMatrix22: 0,
-        }
-      } }, { selector: true });
-  
-  window.scene = scene;
-
   function pressingKey(key) {
     return Keyboard.getState(key) && shouldNotify();
   }
-
-    function playScene(cinematicSteps, speed, commit, shouldLoop, Camera) {
-      if (cinematicSteps.length === 0) return commit('setMode', 'SPECTATE');
-
-      function onEnded() {
-        if (shouldLoop) return playScene(cinematicSteps, speed, commit, shouldLoop, Camera);
-        commit('setMode', 'SPECTATE');
-        scene.off('ended', onEnded);
-        scene.off('paused', onPaused);
-        scene.off('animate', onUpdate);
-      };
-
-      function onPaused() { onEnded(); }
-
-      function onUpdate(e) {
-        const cinematicValues = e.frames['camera'].properties;
-        Camera.SetCameraView(cinematicValues)
-      };
-      
-      scene.on('ended', onEnded);
-      scene.on('paused', onPaused);
-      scene.on("animate", onUpdate);
-      scene.setEasing(Scene.EASE_IN_OUT);
-      scene.play();
-    };
 
   function playCinematic(cinematicSteps, speed, commit, shouldLoop, Camera) {
     if (cinematicSteps.length === 0) return commit('setMode', 'SPECTATE');
@@ -160,7 +116,6 @@
         window.requestAnimationFrame(step);
       }
       window.requestAnimationFrame(step);
-      scene.on("play", () => store.dispatch('playCinematic'));
     },
     computed: {
       mode() { return this.$store.state.camera.mode; }
@@ -175,7 +130,7 @@
             const speed = this.$store.getters.cinematicSpeed;
             const { commit } = this.$store;
             const shouldLoop = this.$store.state.camera.loopCinematic;
-            return playScene(steps, speed, commit, shouldLoop, Camera);
+            return playCinematic(steps, speed, commit, shouldLoop, Camera);
           }
         },
         deep: true
