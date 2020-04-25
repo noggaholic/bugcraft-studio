@@ -31,55 +31,7 @@
                   </div>
               </div>
           </div>
-          <div v-if="cinematicSteps.length" class="is-scrollable" ref="table_cinematic">
-            <div class="columns">
-              <div class="column is-one-third">
-                <div class="field">
-                  <label class="label">Cinematic speed</label>
-                  <div class="control">
-                    <input 
-                      class="input" 
-                      type="number" 
-                      ref="cinematic_speed"
-                      v-model="cinematicSpeed"
-                      v-on:input="setCinematicSpeed($event)"
-                      placeholder="Value in seconds, default to 10.">
-                  </div>
-                  <p class="help">From 0.1 to whatever you want.</p>
-                </div>
-              </div>
-              <div class="column">
-                <div class="field">
-                  <input 
-                    type="checkbox" 
-                    id="loop_cinematic" 
-                    name="loop_cinematic"
-                    v-model="loopCinematic" 
-                    v-on:change="setLoopCinematic($event)"
-                  />
-                  <label for="loop_cinematic"><span></span>Loop cinematic</label>
-                  <p class="help">Cinematic plays in infinite loop</p>
-                </div>
-              </div>
-          </div>
-            <div class="table-container">
-              <table class="table">
-                  <thead>
-                    <tr>
-                      <th><abbr title="Position">Pos x</abbr></th>
-                      <th><abbr title="Position">Pos y</abbr></th>
-                      <th><abbr title="Position">Pos z</abbr></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(cinematic, index) in cinematicSteps.slice().reverse()" :key="`cinematic-${index}`">
-                      <td>{{ cinematic.position.x }}</td>
-                      <td>{{ cinematic.position.y }}</td>
-                      <td>{{ cinematic.position.z }}</td>
-                    </tr>
-                  </tbody>
-              </table>
-            </div>
+          <div ref="table_cinematic" :class="{ 'is-hidden' : cinematicSteps.length === 0}">
           </div>
       </div>
       </div>
@@ -87,18 +39,10 @@
 </template>
 
 <script>
-  
-  function reportWindowSize() {
-    if (this.$refs.table_cinematic) {
-      const height = window.innerHeight - 100;
-      this.$refs.table_cinematic.style.height = `${height}px`;
-    }
-  }
-
   export default {
     name: 'cinematicBuilder',
     beforeCreate: () => {
-      
+
     },
     beforeDestroy: () => {
       
@@ -112,11 +56,13 @@
       },
 	  },
     destroyed: function() {
-      window.removeEventListener('resize', reportWindowSize);
+
     },
     mounted: function() {
-      reportWindowSize.bind(this)();
-      window.addEventListener('resize', reportWindowSize.bind(this));
+      const table_cinematic = this.$refs.table_cinematic;
+      const scene = window.scene;
+      const timeline = new Timeline(scene, table_cinematic);
+      window.timeline = timeline;
     },
     components: {
       spectateMenu: require('./spectateMenu'),
@@ -129,7 +75,33 @@
       };
     },
     watch: {
-      cinematicSteps (cameraState) { reportWindowSize.bind(this)(); }
+      cinematicSteps (cameraState) {
+        const scene = window.scene;
+        const table_cinematic = this.$refs.table_cinematic;
+        if (cameraState.length === 0) table_cinematic.classList.add('is-hidden');
+        if (cameraState.length === 1) table_cinematic.classList.remove('is-hidden');
+
+        const items = cameraState.reduce((acc, item, index) => {
+          acc[index] = {
+            x: item.position.x,
+            y: item.position.y,
+            z: item.position.z,
+            viewMatrix00: item.viewMatrix[0][0],
+            viewMatrix01: item.viewMatrix[0][1],
+            viewMatrix02: item.viewMatrix[0][2],
+            viewMatrix10: item.viewMatrix[1][0],
+            viewMatrix11: item.viewMatrix[1][1],
+            viewMatrix12: item.viewMatrix[1][2],
+            viewMatrix20: item.viewMatrix[2][0],
+            viewMatrix21: item.viewMatrix[2][1],
+            viewMatrix22: item.viewMatrix[2][2],
+          };
+          return acc; 
+        }, {});
+        scene.removeItem("camera");
+        scene.set({ camera: items } );
+        window.timeline.update();
+      }
     }
   };
 </script>
@@ -157,6 +129,12 @@
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
+  }
+
+  body .scenejs-editor-timeline {
+    max-height: 600px;
+    width: 100%;
+    overflow: auto;
   }
 
 </style>
