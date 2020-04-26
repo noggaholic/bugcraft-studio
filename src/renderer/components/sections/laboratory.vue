@@ -14,7 +14,7 @@
     <div class="modal">
       <div class="modal-background"></div>
       <div class="modal-content">
-        <article class="message is-dark">
+        <article class="message">
           <div class="message-header">
             <p>About this tool</p>
           </div>

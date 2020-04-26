@@ -23,12 +23,12 @@ function SetCameraView(Game, Memory, SetPosition) {
     viewMatrixBuffer.writeFloatLE(viewMatrix[2][0], 0x18);
     viewMatrixBuffer.writeFloatLE(viewMatrix[2][1], 0x1C);
     viewMatrixBuffer.writeFloatLE(viewMatrix[2][2], 0x20);
+    Memory.writeData(Pointer + 0x14, viewMatrixBuffer, viewMatrixBuffer.byteLength);
     if (Game.client === 'vanilla' || Game.client === 'alpha') {
       SetPosition(Pointer, x, y, z);
     } else {
       SetPosition(CameraValuesPointer, x, y, z);
     }
-    Memory.writeData(Pointer + 0x14, viewMatrixBuffer, viewMatrixBuffer.byteLength);
   }
 }
 

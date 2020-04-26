@@ -37,7 +37,9 @@
       viewMatrix21: firstStep.viewMatrix[2][1],
       viewMatrix22: firstStep.viewMatrix[2][2],
     };
-
+    
+    Camera.SetCameraView(cinematicValues);
+    
     const keyframes = cinematicSteps.map((step) => {
       return {
         x: step.position.x,
@@ -95,11 +97,8 @@
     },
     mounted() {
       const store = this.$store;
-      function step(timestamp) {
-        if (robot.Window.getActive().getTitle() !== 'World of Warcraft') {
-          window.requestAnimationFrame(step);
-          return;
-        }
+      setInterval(() => {
+        if (robot.Window.getActive().getTitle() !== 'World of Warcraft') return;
         if (pressingKey(robot.KEY_F3)) {
           if (tween) stopCinematic(store);
           store.dispatch('toggleSpectate');
@@ -113,9 +112,7 @@
           }
         }
         if (pressingKey(robot.KEY_F6)) store.dispatch('cleanWaypoints');
-        window.requestAnimationFrame(step);
-      }
-      window.requestAnimationFrame(step);
+      }, 90);
     },
     computed: {
       mode() { return this.$store.state.camera.mode; }

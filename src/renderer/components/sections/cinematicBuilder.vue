@@ -135,28 +135,5 @@
 </script>
 
 <style>
-  table {
-    width: 100%;
-  }
-  .is-scrollable {
-    overflow: auto;
-  }
-
-  .is-scrollable::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius: 10px;
-    background-color: rgb(49, 49, 49);
-  }
-
-  .is-scrollable::-webkit-scrollbar {
-    width: 12px;
-    background-color: rgb(49, 49, 49);
-  }
-
-  .is-scrollable::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-    background-color: #555;
-  }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" style="-webkit-app-region: drag;font-size: 1.2rem;">
             {{ brand }}
@@ -125,10 +125,5 @@ document.addEventListener('DOMContentLoaded', () => {
   .spectate-status {                        
     display:flex;
     align-items:center;
-  }
-
-  #navPortraitMenu > div.navbar-end > a:nth-child(1):hover {
-    background: transparent;
-    cursor: initial;
   }
 </style>

@@ -72,7 +72,4 @@
 </script>
 
 <style>
-  .message-header{
-    border-radius: initial !important;
-  }
 </style>
