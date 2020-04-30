@@ -25,7 +25,7 @@ module.exports = (process, Module, Memory, window, Offsets) => {
   const EnableViewMatrixUpdate = createEnableViewMatrixUpdate(Game, Memory, Offsets);
   const DisableViewMatrixUpdate = createDisableViewMatrixUpdate(Game, Memory, Offsets);
   const GetCametaPtr = createGetCametaPtr(Game, Memory, Module, Offsets);
-  const GetCameraData = createGetCameraData(Memory);
+  const GetCameraData = createGetCameraData(Offsets, Game, Memory);
   const SetPosition = createSetPosition(Game, Memory);
   const EnableSpectate = createEnableSpectate(Game, Memory, Offsets, Module, GetCameraData, SetPosition);
   const DisableSpectate = createDisableSpectate(Game, Memory, Offsets, Module);
@@ -39,7 +39,7 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     SetPosition,
     SetSpeed,
   );
-  const SetCameraView = createSetCameraView(Game, Memory, SetPosition);
+  const SetCameraView = createSetCameraView(Game, Memory, Offsets, SetPosition);
 
   const camera = createCamera(
     GetCametaPtr,

@@ -69,6 +69,7 @@
                       <th><abbr title="Position">Pos x</abbr></th>
                       <th><abbr title="Position">Pos y</abbr></th>
                       <th><abbr title="Position">Pos z</abbr></th>
+                      <th><abbr title="Position">Angle</abbr></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -76,6 +77,7 @@
                       <td>{{ cinematic.position.x }}</td>
                       <td>{{ cinematic.position.y }}</td>
                       <td>{{ cinematic.position.z }}</td>
+                      <td>{{ cinematic.CameraRot.y }}</td>
                     </tr>
                   </tbody>
               </table>

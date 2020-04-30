@@ -36,9 +36,13 @@
       viewMatrix20: firstStep.viewMatrix[2][0],
       viewMatrix21: firstStep.viewMatrix[2][1],
       viewMatrix22: firstStep.viewMatrix[2][2],
+      CameraRotx: firstStep.CameraRot.x,
+      CameraRoty: firstStep.CameraRot.y,
+      CameraRotz: firstStep.CameraRot.z,
+      rotation: firstStep.CameraRot.y,
     };
-    
-    Camera.SetCameraView(cinematicValues);
+  
+    // Camera.SetCameraView(cinematicValues);
     
     const keyframes = cinematicSteps.map((step) => {
       return {
@@ -54,13 +58,69 @@
         viewMatrix20: step.viewMatrix[2][0],
         viewMatrix21: step.viewMatrix[2][1],
         viewMatrix22: step.viewMatrix[2][2],
+        CameraRotx: step.CameraRot.x,
+        CameraRoty: step.CameraRot.y,
+        CameraRotz: step.CameraRot.z,
+        rotation:  step.CameraRot.y,
       };
     });
 
     const cinematicSpeed = Number(speed || 10);
+    console.log('# cinematicValues', cinematicValues);
+
+    // gsap.registerPlugin(MotionPathPlugin);
+    // tween = gsap.to(cinematicValues, {
+    //   duration: cinematicSpeed,
+    //   ease: "none",
+    //   onComplete: () => {
+    //     if (shouldLoop) return playCinematic(cinematicSteps, speed, commit, shouldLoop, Camera);
+    //     commit('setMode', 'SPECTATE');
+    //     tween = null;
+    //   },
+    //   onUpdate: () => { 
+    //     console.log('# cinematicValues', cinematicValues.rotation);
+    //     Camera.SetCameraView(cinematicValues);
+    //     },
+    //   motionPath: {
+    //     path: relativize(cinematicValues, keyframes, "rotation", true),
+    //     relative: true
+    //   }
+    // });
+    // tween.play();
+
+    // converts the points into RELATIVE values, optionally making rotational values go in the shortest direction.
+    function relativize(start, points, rotationProperty, useRadians) {
+      let cur = start;
+      let cap = useRadians ? Math.PI * 2 : 360;
+      let result = [];
+      let p;
+      let i;
+      let point;
+      let rel;
+      let dif;
+      for (i = 0; i < points.length; i++) {
+        point = points[i];
+        rel = {};
+        for (p in point) {
+          rel[p] = point[p];
+          if (p === rotationProperty) {
+            dif = rel[p] % cap;
+            if (dif !== dif % (cap / 2)) {
+              rel[p] = dif < 0 ? dif + cap : dif - cap;
+            }
+          }
+        }
+        result.push(rel);
+        cur = point;
+      }
+      return result;
+    }
+
+    const path = relativize(cinematicValues, keyframes, "rotation", true);
+    console.log('# path', path);
     tween = TweenLite.to(cinematicValues, cinematicSpeed, {
       bezier: {
-        values: keyframes,
+        values: path,
         curviness: 0,
         type: 'soft',
         timeResolution: 0,
@@ -75,7 +135,13 @@
         commit('setMode', 'SPECTATE');
         tween = null;
       },
-      onUpdate: () => Camera.SetCameraView(cinematicValues)
+      onUpdate: () => {
+        const currentTime = tween.time();
+        const totalTime = tween.totalProgress();
+        console.log('# currentTime, totalTime', currentTime, totalTime);
+        //console.log('# cinematicValues', cinematicValues.rotation);
+        Camera.SetCameraView(cinematicValues);
+      }
     });
   };
 
@@ -112,7 +178,7 @@
           }
         }
         if (pressingKey(robot.KEY_F6)) store.dispatch('cleanWaypoints');
-      }, 90);
+      }, 20);
     },
     computed: {
       mode() { return this.$store.state.camera.mode; }

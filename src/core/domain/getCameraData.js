@@ -8,10 +8,15 @@ const clonedeep = require('lodash.clonedeep');
 const cameraBufferSize = 0x48;
 const cameraBuffer = new Buffer(cameraBufferSize);
 
-function GetCameraData(Memory) {
+const cameraRotBufferSize = 0xC;
+const cameraRotBuffer = new Buffer(cameraRotBufferSize);
+
+function GetCameraData(Offsets, Game, Memory) {
     return (Pointer) => {
       const camera = getCameraStruct();
+      const rotationPtr = Offsets[Game.client].CameraRot;
       Memory.readData(Pointer, cameraBuffer, cameraBufferSize);
+      Memory.readData(Pointer + rotationPtr, cameraRotBuffer, cameraRotBufferSize);
 
       camera.position.x = cameraBuffer.readFloatLE(0x8);
       camera.position.y = cameraBuffer.readFloatLE(0xC);
@@ -43,6 +48,12 @@ function GetCameraData(Memory) {
       camera.roll.x = camera.viewMatrix[2][0];
       camera.roll.y = camera.viewMatrix[2][1];
       camera.roll.z = camera.viewMatrix[2][2];
+
+      camera.CameraRot = {
+        x: cameraRotBuffer.readFloatLE(0),
+        y: cameraRotBuffer.readFloatLE(4),
+        z: cameraRotBuffer.readFloatLE(8),
+      };
 
       camera.Fov = cameraBuffer.readFloatLE(0x38);
       camera.NearClip = cameraBuffer.readFloatLE(0x3C);
