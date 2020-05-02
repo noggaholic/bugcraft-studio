@@ -35,7 +35,7 @@
             <div class="columns">
               <div class="column is-one-third">
                 <div class="field">
-                  <label class="label">Cinematic speed</label>
+                  <label class="label">Cinematic duration</label>
                   <div class="control">
                     <input 
                       class="input" 
@@ -43,9 +43,9 @@
                       ref="cinematic_speed"
                       v-model="cinematicSpeed"
                       v-on:input="setCinematicSpeed($event)"
-                      placeholder="Value in seconds, default to 10.">
+                      placeholder="Value in seconds, defaults to 10.">
                   </div>
-                  <p class="help">From 0.1 to whatever you want.</p>
+                  <p class="help">This sets how much the cinematic will last.</p>
                 </div>
               </div>
               <div class="column">
@@ -81,11 +81,12 @@
                       <td>{{ cinematic.position.z }}</td>
                       <td>{{ cinematic.yaw }}</td>
                       <td>{{ cinematic.pitch }}</td>
-                      <td><input 
+                      <td v-if="clientVersion === 'vanilla'"><input 
                         type="text" 
                         v-bind:value="cinematic.roll"
                         v-on:input="setRoll($event, index)"
                         /></td>
+                      <td v-if="clientVersion !== 'vanilla'">{{cinematic.roll}}</td>
                     </tr>
                   </tbody>
               </table>
@@ -138,7 +139,8 @@
       return { 
         cinematicSteps: this.$store.state.camera.cinematicSteps,
         cinematicSpeed: this.$store.state.camera.cinematicSpeed,
-        loopCinematic: this.$store.state.camera.loopCinematic
+        loopCinematic: this.$store.state.camera.loopCinematic,
+        clientVersion: this.$store.state.settings.client,
       };
     },
     watch: {

@@ -61,6 +61,9 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     setTimeOfday: (timeOfDay) => setTimeOfday(environmentStruct, timeOfDay),
   };
   return {
+    Game,
+    Memory,
+    Offsets,
     camera,
     environment,
   };

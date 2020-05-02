@@ -1,7 +1,7 @@
 
 export default {
   state: {
-    speed: 10,
+    speed: 1,
     mode: 'DISABLED', // ['DISABLED', 'SPECTATE', 'PLAYING']
     cinematicSteps: [],
     cinematicSpeed: 10,
@@ -26,7 +26,8 @@ export default {
     setSpeed(state, speed) {
       const core = this.getters.core.camera;
       state.speed = speed;
-      core.setSpeed(Number(speed));
+      const isSpectateEnabled = state.mode !== 'DISABLED';
+      core.setSpeed(Number(speed), isSpectateEnabled);
     },
     setRoll(state, { index, value }) {
       state.cinematicSteps[index].roll = parseFloat(value);

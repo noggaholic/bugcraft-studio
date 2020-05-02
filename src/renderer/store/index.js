@@ -4,7 +4,7 @@ import modules from './modules';
 import VTooltip from 'v-tooltip';
 
 Vue.use(Vuex);
-Vue.use(VTooltip);
+Vue.use(VTooltip, { autoHide: false });
 
 export default new Vuex.Store({
   modules,

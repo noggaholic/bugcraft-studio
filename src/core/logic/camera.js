@@ -66,9 +66,9 @@ module.exports = (
       disableSpectatorMode,
       disableSpectator,
       enableSpectator,
-      setSpeed: (newSpeed) => {
+      setSpeed: (newSpeed, isSpectateEnabled) => {
         speed = Number(newSpeed);
-        if (spectatorInterval) enableSpectator();
+        if (isSpectateEnabled) enableSpectator();
       },
       setPosition: (data) => SetPosition(Pointer, data.x, data.y, data.z),
       getViewMatrix: () => GetCameraData(Pointer).viewMatrix,
