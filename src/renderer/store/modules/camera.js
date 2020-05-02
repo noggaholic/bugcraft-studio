@@ -28,6 +28,9 @@ export default {
       state.speed = speed;
       core.setSpeed(Number(speed));
     },
+    setRoll(state, { index, value }) {
+      state.cinematicSteps[index].roll = parseFloat(value);
+    },
     setCinematicSpeed(state, speed) {
       state.cinematicSpeed = speed;
     },

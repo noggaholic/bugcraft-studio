@@ -4,6 +4,7 @@
 <script>
 
   const robot = require('robot-js');
+
   const Keyboard = robot.Keyboard;
   const Mouse = robot.Mouse;
   let tween;  
@@ -27,100 +28,29 @@
       x: firstStep.position.x,
       y: firstStep.position.y,
       z: firstStep.position.z,
-      viewMatrix00: firstStep.viewMatrix[0][0],
-      viewMatrix01: firstStep.viewMatrix[0][1],
-      viewMatrix02: firstStep.viewMatrix[0][2],
-      viewMatrix10: firstStep.viewMatrix[1][0],
-      viewMatrix11: firstStep.viewMatrix[1][1],
-      viewMatrix12: firstStep.viewMatrix[1][2],
-      viewMatrix20: firstStep.viewMatrix[2][0],
-      viewMatrix21: firstStep.viewMatrix[2][1],
-      viewMatrix22: firstStep.viewMatrix[2][2],
-      CameraRotx: firstStep.CameraRot.x,
-      CameraRoty: firstStep.CameraRot.y,
-      CameraRotz: firstStep.CameraRot.z,
-      rotation: firstStep.CameraRot.y,
+      yawCos: Math.cos(firstStep.yaw),
+      yawSin: Math.sin(firstStep.yaw),
+      pitch: firstStep.pitch,
+      roll: firstStep.roll,
     };
-  
-    // Camera.SetCameraView(cinematicValues);
     
     const keyframes = cinematicSteps.map((step) => {
       return {
         x: step.position.x,
         y: step.position.y,
         z: step.position.z,
-        viewMatrix00: step.viewMatrix[0][0],
-        viewMatrix01: step.viewMatrix[0][1],
-        viewMatrix02: step.viewMatrix[0][2],
-        viewMatrix10: step.viewMatrix[1][0],
-        viewMatrix11: step.viewMatrix[1][1],
-        viewMatrix12: step.viewMatrix[1][2],
-        viewMatrix20: step.viewMatrix[2][0],
-        viewMatrix21: step.viewMatrix[2][1],
-        viewMatrix22: step.viewMatrix[2][2],
-        CameraRotx: step.CameraRot.x,
-        CameraRoty: step.CameraRot.y,
-        CameraRotz: step.CameraRot.z,
-        rotation:  step.CameraRot.y,
+        yawCos: Math.cos(step.yaw),
+        yawSin: Math.sin(step.yaw),
+        pitch: step.pitch,
+        roll: step.roll,
       };
     });
 
     const cinematicSpeed = Number(speed || 10);
-    console.log('# cinematicValues', cinematicValues);
 
-    // gsap.registerPlugin(MotionPathPlugin);
-    // tween = gsap.to(cinematicValues, {
-    //   duration: cinematicSpeed,
-    //   ease: "none",
-    //   onComplete: () => {
-    //     if (shouldLoop) return playCinematic(cinematicSteps, speed, commit, shouldLoop, Camera);
-    //     commit('setMode', 'SPECTATE');
-    //     tween = null;
-    //   },
-    //   onUpdate: () => { 
-    //     console.log('# cinematicValues', cinematicValues.rotation);
-    //     Camera.SetCameraView(cinematicValues);
-    //     },
-    //   motionPath: {
-    //     path: relativize(cinematicValues, keyframes, "rotation", true),
-    //     relative: true
-    //   }
-    // });
-    // tween.play();
-
-    // converts the points into RELATIVE values, optionally making rotational values go in the shortest direction.
-    function relativize(start, points, rotationProperty, useRadians) {
-      let cur = start;
-      let cap = useRadians ? Math.PI * 2 : 360;
-      let result = [];
-      let p;
-      let i;
-      let point;
-      let rel;
-      let dif;
-      for (i = 0; i < points.length; i++) {
-        point = points[i];
-        rel = {};
-        for (p in point) {
-          rel[p] = point[p];
-          if (p === rotationProperty) {
-            dif = rel[p] % cap;
-            if (dif !== dif % (cap / 2)) {
-              rel[p] = dif < 0 ? dif + cap : dif - cap;
-            }
-          }
-        }
-        result.push(rel);
-        cur = point;
-      }
-      return result;
-    }
-
-    const path = relativize(cinematicValues, keyframes, "rotation", true);
-    console.log('# path', path);
     tween = TweenLite.to(cinematicValues, cinematicSpeed, {
       bezier: {
-        values: path,
+        values: keyframes,
         curviness: 0,
         type: 'soft',
         timeResolution: 0,
@@ -136,10 +66,8 @@
         tween = null;
       },
       onUpdate: () => {
-        const currentTime = tween.time();
-        const totalTime = tween.totalProgress();
-        console.log('# currentTime, totalTime', currentTime, totalTime);
-        //console.log('# cinematicValues', cinematicValues.rotation);
+        const yawToAngle = Math.atan2(cinematicValues.yawSin, cinematicValues.yawCos);
+        cinematicValues.yaw = yawToAngle;
         Camera.SetCameraView(cinematicValues);
       }
     });

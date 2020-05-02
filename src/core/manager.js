@@ -38,6 +38,8 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     GetCameraData,
     SetPosition,
     SetSpeed,
+    Offsets,
+    Memory,
   );
   const SetCameraView = createSetCameraView(Game, Memory, Offsets, SetPosition);
 
@@ -51,7 +53,7 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     SetPosition,
     SetCameraView,
     SetCollision,
-  )();
+  )(Offsets, Game, Memory);
 
   const setTimeOfday = createSetTimeOfday(Game, Memory, Offsets, Module);
   const environmentStruct = createGetEnvPtr(Game, Memory, Module, Offsets)();

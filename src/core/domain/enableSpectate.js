@@ -8,7 +8,8 @@ function enableSpectateMode(Game, Memory, Offsets, Module, GetCameraData, SetPos
       CameraValuesPointer,
     } = CameraStruct;
     if (Game.client === 'vanilla' || Game.client === 'alpha') {
-      Memory.writeData(InstructionPointer, Offsets[Game.client].camera.fix, Offsets[Game.client].camera.fix.byteLength);
+      const fixPositionPattern = Offsets[Game.client].camera.position[Game.build].fix;
+      Memory.writeData(InstructionPointer, fixPositionPattern, fixPositionPattern.byteLength);
     } else if (Game.client === 'ctl') {
       const { position } = GetCameraData(Pointer);
       SetPosition(CameraValuesPointer, position.x, position.y, position.z);

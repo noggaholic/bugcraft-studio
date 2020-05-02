@@ -2,7 +2,7 @@ const Robot = require('robot-js');
 const Keyboard = Robot.Keyboard;
 const Mouse = Robot.Mouse;
 
-function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition, SetSpeed) {
+function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition, SetSpeed, Offsets, Memory) {
   return (CameraStruct, speed) => {
     const {
       Pointer,
@@ -16,6 +16,10 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
       return 1;
     }
 
+    const enableCameraFacingBuffer = new Buffer([0xD6, 0x00, 0x00, 0x00, 0x61, 0x0E, 0xC2, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]);
+    const enableCameraFacingPtr = Offsets[Game.client].enableCameraFacing;
+    Memory.writeData(Pointer + enableCameraFacingPtr, enableCameraFacingBuffer, enableCameraFacingBuffer.byteLength);
+
     EnableSpectate(CameraStruct, Pointer);
     EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
     return setInterval(() => {
@@ -26,15 +30,15 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
       const camera = GetCameraData(Pointer);
       const state = Mouse.getState();
       if (Keyboard.getState(Robot.KEY_W) || (state[Robot.BUTTON_LEFT] && state[Robot.BUTTON_RIGHT])) {
-        const x = camera.position.x + camera.yaw.x * speed;
-        const y = camera.position.y + camera.yaw.y * speed;
-        const z = camera.position.z + camera.yaw.z * speed;
+        const x = camera.position.x + camera.forward.x * speed;
+        const y = camera.position.y + camera.forward.y * speed;
+        const z = camera.position.z + camera.forward.z * speed;
         return SetPosition(Pointer, x, y, z);
       }
       if (Keyboard.getState(Robot.KEY_S)) {
-        const x = camera.position.x - camera.yaw.x * speed;
-        const y = camera.position.y - camera.yaw.y * speed;
-        const z = camera.position.z - camera.yaw.z * speed;
+        const x = camera.position.x - camera.forward.x * speed;
+        const y = camera.position.y - camera.forward.y * speed;
+        const z = camera.position.z - camera.forward.z * speed;
         return SetPosition(Pointer, x, y, z);
       }
       if (Keyboard.getState(Robot.KEY_SPACE)) {

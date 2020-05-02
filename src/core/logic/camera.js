@@ -15,7 +15,7 @@ module.exports = (
   SetCameraView,
   SetCollision
 ) => {
-  return () => {
+  return (Offsets, Game, Memory) => {
     const {
       /**
        * For custom spectate controls
@@ -48,6 +48,9 @@ module.exports = (
     };
 
     const disableSpectatorMode = () => {
+      const enableCameraFacingBuffer = new Buffer([0xD7, 0x42, 0x00, 0x00, 0x61, 0x0E, 0xC2, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00]);
+      const enableCameraFacingPtr = Offsets[Game.client].enableCameraFacing;
+      Memory.writeData(Pointer + enableCameraFacingPtr, enableCameraFacingBuffer, enableCameraFacingBuffer.byteLength);
       clearInterval(spectatorInterval);
     };
 

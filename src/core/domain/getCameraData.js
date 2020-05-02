@@ -26,34 +26,16 @@ function GetCameraData(Offsets, Game, Memory) {
       camera.viewMatrix[0][1] = cameraBuffer.readFloatLE(0x18);
       camera.viewMatrix[0][2] = cameraBuffer.readFloatLE(0x1C);
 
-      camera.viewMatrix[1][0] = cameraBuffer.readFloatLE(0x20);
-      camera.viewMatrix[1][1] = cameraBuffer.readFloatLE(0x24);
-      camera.viewMatrix[1][2] = cameraBuffer.readFloatLE(0x28);
-
-      camera.viewMatrix[2][0] = cameraBuffer.readFloatLE(0x2C);
-      camera.viewMatrix[2][1] = cameraBuffer.readFloatLE(0x30);
-      camera.viewMatrix[2][2] = cameraBuffer.readFloatLE(0x34);
-
       /**
        * First row of the View Matrix is the forward vector
        */
-      camera.yaw.x = camera.viewMatrix[0][0];
-      camera.yaw.y = camera.viewMatrix[0][1];
-      camera.yaw.z = camera.viewMatrix[0][2];
+      camera.forward.x = camera.viewMatrix[0][0];
+      camera.forward.y = camera.viewMatrix[0][1];
+      camera.forward.z = camera.viewMatrix[0][2];
 
-      camera.pitch.x = camera.viewMatrix[1][0];
-      camera.pitch.y = camera.viewMatrix[1][1];
-      camera.pitch.z = camera.viewMatrix[1][2];
-
-      camera.roll.x = camera.viewMatrix[2][0];
-      camera.roll.y = camera.viewMatrix[2][1];
-      camera.roll.z = camera.viewMatrix[2][2];
-
-      camera.CameraRot = {
-        x: cameraRotBuffer.readFloatLE(0),
-        y: cameraRotBuffer.readFloatLE(4),
-        z: cameraRotBuffer.readFloatLE(8),
-      };
+      camera.yaw = cameraRotBuffer.readFloatLE(0);
+      camera.pitch = cameraRotBuffer.readFloatLE(4);
+      camera.roll = cameraRotBuffer.readFloatLE(8);
 
       camera.Fov = cameraBuffer.readFloatLE(0x38);
       camera.NearClip = cameraBuffer.readFloatLE(0x3C);
@@ -75,21 +57,14 @@ function getCameraStruct() {
       y: 0,
       z: 0,
     },
-    yaw: {
+    forward: {
       x: 0,
       y: 0,
       z: 0,
     },
-    pitch: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
-    roll: {
-      x: 0,
-      y: 0,
-      z: 0,
-    },
+    yaw: 0,
+    pitch: 0,
+    roll: 0,
     Fov: 0,
     NearClip: 0,
     FarClip: 0,

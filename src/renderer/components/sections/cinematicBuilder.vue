@@ -69,15 +69,23 @@
                       <th><abbr title="Position">Pos x</abbr></th>
                       <th><abbr title="Position">Pos y</abbr></th>
                       <th><abbr title="Position">Pos z</abbr></th>
-                      <th><abbr title="Position">Angle</abbr></th>
+                      <th><abbr title="Position">yaw</abbr></th>
+                      <th><abbr title="Position">pitch</abbr></th>
+                      <th><abbr title="Position">roll</abbr></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(cinematic, index) in cinematicSteps.slice().reverse()" :key="`cinematic-${index}`">
+                    <tr v-for="(cinematic, index) in cinematicSteps" :key="`cinematic-${index}`">
                       <td>{{ cinematic.position.x }}</td>
                       <td>{{ cinematic.position.y }}</td>
                       <td>{{ cinematic.position.z }}</td>
-                      <td>{{ cinematic.CameraRot.y }}</td>
+                      <td>{{ cinematic.yaw }}</td>
+                      <td>{{ cinematic.pitch }}</td>
+                      <td><input 
+                        type="text" 
+                        v-bind:value="cinematic.roll"
+                        v-on:input="setRoll($event, index)"
+                        /></td>
                     </tr>
                   </tbody>
               </table>
@@ -106,6 +114,9 @@
       
     },
     methods: {
+      setRoll ({ target: element }, index) {
+        this.$store.commit('setRoll', { index, value: element.value });
+      },
 		  setCinematicSpeed: function({ target: element }) {
         this.$store.commit('setCinematicSpeed', element.value);
       },
