@@ -33,25 +33,25 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
         const x = camera.position.x + camera.forward.x * speed;
         const y = camera.position.y + camera.forward.y * speed;
         const z = camera.position.z + camera.forward.z * speed;
-        return SetPosition(Pointer, x, y, z);
+        return SetPosition(CameraStruct, x, y, z);
       }
       if (Keyboard.getState(Robot.KEY_S)) {
         const x = camera.position.x - camera.forward.x * speed;
         const y = camera.position.y - camera.forward.y * speed;
         const z = camera.position.z - camera.forward.z * speed;
-        return SetPosition(Pointer, x, y, z);
+        return SetPosition(CameraStruct, x, y, z);
       }
       if (Keyboard.getState(Robot.KEY_SPACE)) {
         const x = camera.position.x;
         const y = camera.position.y;
         const z = camera.position.z + speed;
-        return SetPosition(Pointer, x, y, z);
+        return SetPosition(CameraStruct, x, y, z);
       }
       if (Keyboard.getState(Robot.KEY_LCONTROL)) {
         const x = camera.position.x;
         const y = camera.position.y;
         const z = camera.position.z - speed;
-        return SetPosition(Pointer, x, y, z);
+        return SetPosition(CameraStruct, x, y, z);
       }
     }, 0);
   };

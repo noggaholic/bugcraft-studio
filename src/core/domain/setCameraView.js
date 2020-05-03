@@ -9,14 +9,14 @@ function SetCameraView(Game, Memory, Offsets, SetPosition) {
     setViewMatrix(CameraStruct, x, y, z);
   };
   function setViewMatrix(CameraStruct, x, y, z) {
-    const { Pointer, CameraValuesPointer } = CameraStruct;
+    const { Pointer } = CameraStruct;
     const rotationPtr = Offsets[Game.client].CameraRot;
     if (Game.client === 'vanilla' || Game.client === 'alpha') {
       Memory.writeData(Pointer + rotationPtr, cameraRotBuffer, cameraRotBuffer.byteLength);
-      SetPosition(Pointer, x, y, z);
+      SetPosition(CameraStruct, x, y, z);
     } else {
       Memory.writeData(Pointer + rotationPtr, cameraRotBuffer, cameraRotBuffer.byteLength);
-      SetPosition(CameraValuesPointer, x, y, z);
+      SetPosition(CameraStruct, x, y, z);
     }
   }
 }
