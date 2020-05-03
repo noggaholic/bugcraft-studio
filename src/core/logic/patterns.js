@@ -227,7 +227,7 @@ export const vanilla = {
 
 export const tbc = {
   CameraRot: 0x104,
-  SpectatePointer: [0x00871B94, 0xCC, 0x49C],
+  SpectatePointer: [0x00A29D28, 0x128, 0x7FC, 0x7F8, 0x720, 0x6FC],
   CameraPointer: [0x86ECCC, 0x732c, 0],
   EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
   DisableSpectate: new Buffer([0, 0, 0, 0]),
