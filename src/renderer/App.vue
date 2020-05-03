@@ -30,6 +30,99 @@
    overflow: auto;
  }
 
+  /**
+  * Body
+  */
+  html, body {
+    background: #1a1e21;
+    color: #e8e8ea;
+  }
+
+  /**
+   * Label
+   */
+  .label {
+    color: #e8e8ea;
+  }
+
+  /**
+  * Input
+  */
+  .input {
+    border-radius: #4a473f;
+    background: #1a1e21;
+    color: #e8e8ea;
+  }
+
+  /**
+  * NavBar
+  */
+
+  .navbar {
+    background: #1a1e21;
+    border-bottom: 1px solid #29292b;
+  }
+
+  .navbar-item {
+    color: #e8e8ea;
+  }
+  .navbar-item:hover {
+    color: #e8e8ea;
+  }
+
+  .navbar-item:hover {
+    border-bottom: 1px solid #cc272d;
+  }
+  .navbar-item.router-link-exact-active {
+    border-bottom: 1px solid #cc272d;
+  }
+
+  /**
+  * Tabs
+  */
+  .tabs a {
+    color: #e8e8ea;
+  }
+  .tabs a:hover {
+    color: #e8e8ea;
+  }
+  .tabs.is-boxed a {
+    background-color: #1a1e21;
+    border: none;
+    border-radius: inherit;
+    border-bottom: 2px solid #1a1e21;
+  }
+  .tabs.is-boxed a:hover {
+    background-color: #1a1e21;
+    border: none;
+    border-radius: inherit;
+    border-bottom: 2px solid #cd262d;
+  }
+  .tabs.is-boxed a.router-link-exact-active {
+      border: none;
+      border-radius: inherit;
+      border-bottom: 2px solid #cd262d;
+  }
+  .tabs ul {
+    border: none;
+  }
+  /**
+   * Box
+   */
+  .box {
+    background-color: #20201e;
+    color: #e8e8ea;
+    border-left: 6px solid #464648;
+  }
+
+  .title {
+    color: #e8e8ea;
+  }
+  
+  .subtitle {
+    color: #e8e8ea;
+  }
+
  /**
   * Tooltip
   */

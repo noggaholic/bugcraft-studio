@@ -1,15 +1,11 @@
 <template>
   <div class="container">
-      <div class="columns">
-        <div class="column">
-          <div class="tabs is-boxed">
-            <spectateMenu></spectateMenu>
-          </div>
+    <div class="columns">
+      <div class="column">
+        <div class="tabs is-boxed">
+          <spectateMenu></spectateMenu>
         </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div v-if="!cinematicSteps.length" class="column">
+        <div v-if="!cinematicSteps.length" class="column">
               <div class="tile is-ancestor">
                   <div class="tile is-parent">
                       <article class="tile is-child box">
@@ -93,7 +89,7 @@
             </div>
           </div>
       </div>
-      </div>
+    </div>
   </div>
 </template>
 

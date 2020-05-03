@@ -1,15 +1,15 @@
 <template>
   <ul class="spectateMenu">
     <li>
-      <router-link to="/spectate" class="nav-item is-tab is-hidden-mobile" v-bind:class="{ 'is-active': spectateActived }">
+      <router-link to="/spectate" class="nav-item is-tab" v-bind:class="{ 'is-active': spectateActived }">
         <span class="icon is-small"><i class="fa fa-video"></i></span>
-        <span>Settings</span>
+        <span>Spectate settings</span>
       </router-link>
     </li>
     <li>
-      <router-link to="/spectate/cinematicBuilder" class="nav-item is-tab is-hidden-mobile"  v-bind:class="{ 'is-active': cinematicBuilderActived }">
+      <router-link to="/spectate/cinematicBuilder" class="nav-item is-tab" v-bind:class="{ 'is-active': cinematicBuilderActived }">
         <span class="icon is-small"><i class="fa fa-film"></i></span>
-        <span>Cinematic mode</span>
+        <span>Cinematic builder</span>
       </router-link>
     </li>
   </ul>

@@ -7,6 +7,11 @@ export default {
     cinematicSpeed: 10,
     loopCinematic: false,
     collision: true,
+    position: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
   },
   getters: {
     isSpectateEnabled: state => {
@@ -23,6 +28,14 @@ export default {
     mode: (state) => state.mode,
   },
   mutations: {
+    setCurrPosition(state, position) {
+      state.position = position;
+    },
+    setPosition(state, position) {
+      state.position = position;
+      const core = this.getters.core.camera;
+      core.setPosition(position);
+    },
     setSpeed(state, speed) {
       const core = this.getters.core.camera;
       state.speed = speed;

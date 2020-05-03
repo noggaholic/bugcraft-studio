@@ -70,7 +70,7 @@ module.exports = (
         speed = Number(newSpeed);
         if (isSpectateEnabled) enableSpectator();
       },
-      setPosition: (data) => SetPosition(Pointer, data.x, data.y, data.z),
+      setPosition: (data) => SetPosition(CameraStruct, data.x, data.y, data.z),
       getViewMatrix: () => GetCameraData(Pointer).viewMatrix,
       getView: () => GetCameraData(Pointer),
       SetCameraView: (cinematicValues) => SetCameraView(CameraStruct, cinematicValues),
