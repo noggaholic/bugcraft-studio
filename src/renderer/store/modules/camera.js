@@ -83,6 +83,8 @@ export default {
     addWaypoint(context) {
       const core = this.getters.core.camera;
       const camViewMatrix = core.getView();
+      const store = this;
+      addEnvironment(store, camViewMatrix);
       context.commit('addCinematicStep', camViewMatrix);
     },
     cleanWaypoints(context) {
@@ -94,3 +96,11 @@ export default {
     disableSpectate() {},
   },
 };
+
+function addEnvironment(store, cinematic) {
+  const isTimeOfDayEnabled = store.getters.isTimeOfDayEnabled;
+  if (!isTimeOfDayEnabled) return;
+  cinematic.environment = {
+    timeOfDay: store.getters.timeOfDay,
+  };
+}

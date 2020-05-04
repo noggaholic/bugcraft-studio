@@ -118,3 +118,5 @@ window.launch = launchCore;
 // 320.5095215
 
 // Start of block terrain? 00 F0 E2 23 00 60 E1 05
+
+// Time of day alpha vanilla E8 ?? ?? ?? 00 D9 ?? 04

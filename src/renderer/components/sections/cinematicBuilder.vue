@@ -65,9 +65,10 @@
                       <th><abbr title="Position">Pos x</abbr></th>
                       <th><abbr title="Position">Pos y</abbr></th>
                       <th><abbr title="Position">Pos z</abbr></th>
-                      <th><abbr title="Position">yaw</abbr></th>
-                      <th><abbr title="Position">pitch</abbr></th>
-                      <th><abbr title="Position">roll</abbr></th>
+                      <th><abbr title="Yaw">yaw</abbr></th>
+                      <th><abbr title="Pitch">pitch</abbr></th>
+                      <th><abbr title="Roll">roll</abbr></th>
+                      <th v-if="this.$store.state.environment.isTimeOfDayEnabled"><abbr title="Time of day">Time of day</abbr></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -83,6 +84,9 @@
                         v-on:input="setRoll($event, index)"
                         /></td>
                       <td v-if="clientVersion !== 'vanilla'">{{cinematic.roll}}</td>
+                      <td v-if="cinematic.environment">
+                        {{cinematic.environment.timeOfDay.hour}}:{{cinematic.environment.timeOfDay.minutes}}
+                      </td>
                     </tr>
                   </tbody>
               </table>

@@ -2,7 +2,6 @@
 </template>
 
 <script>
-
   const robot = require('robot-js');
 
   const Keyboard = robot.Keyboard;
@@ -21,8 +20,10 @@
     return Keyboard.getState(key) && shouldNotify();
   }
 
-  function playCinematic(cinematicSteps, speed, commit, shouldLoop, Camera) {
-    if (cinematicSteps.length === 0) return commit('setMode', 'SPECTATE');
+  function playCinematic(cinematicSteps, speed, store, shouldLoop) {
+    const { camera: Camera, environment: Environment } = store.getters.core;
+    const commit = store.commit;
+    if (cinematicSteps.length <= 1) return commit('setMode', 'SPECTATE');
     const firstStep = cinematicSteps[0];
     const cinematicValues = {
       x: firstStep.position.x,
@@ -43,11 +44,13 @@
         yawSin: Math.sin(step.yaw),
         pitch: step.pitch,
         roll: step.roll,
+        ...step
       };
     });
 
-    const cinematicSpeed = Number(speed || 10);
+    applyEnvironment(cinematicValues, firstStep, keyframes, store);
 
+    const cinematicSpeed = Number(speed || 10);
     tween = TweenLite.to(cinematicValues, cinematicSpeed, {
       bezier: {
         values: keyframes,
@@ -69,9 +72,23 @@
         const yawToAngle = Math.atan2(cinematicValues.yawSin, cinematicValues.yawCos);
         cinematicValues.yaw = yawToAngle;
         Camera.SetCameraView(cinematicValues);
+        if('timeOfDay' in cinematicValues) Environment.setNormalizedTimeOfDay(cinematicValues.timeOfDay);
       }
     });
   };
+
+  function applyEnvironment(cinematicValues, firstStep, keyframes, store) {
+    if (!firstStep.environment) return;
+    const environmentCore = store.getters.core.environment;
+    const timeOfDay = firstStep.environment.timeOfDay;
+    const time = environmentCore.GetNormalizedTimeOfDay(timeOfDay.hour, timeOfDay.minutes);
+    cinematicValues.timeOfDay = time;
+    keyframes = keyframes.map((keyframe) => {
+      const timeOfDay = keyframe.environment.timeOfDay;
+      keyframe.timeOfDay = environmentCore.GetNormalizedTimeOfDay(timeOfDay.hour, timeOfDay.minutes);
+      return keyframe;
+    }); 
+  }
 
   function shouldPlayCinematic(newMode, oldMode) {
     return newMode === 'PLAYING' || (newMode === 'SPECTATE' && oldMode === 'SPECTATE');
@@ -117,11 +134,10 @@
           if (shouldPlayCinematic(newMode, previousMode)) {
             this.$store.dispatch('playCinematic');
             const steps = this.$store.getters.steps;
-            const { camera: Camera } = this.$store.getters.core;
             const speed = this.$store.getters.cinematicSpeed;
-            const { commit } = this.$store;
             const shouldLoop = this.$store.state.camera.loopCinematic;
-            return playCinematic(steps, speed, commit, shouldLoop, Camera);
+            const store = this.$store;
+            return playCinematic(steps, speed, store, shouldLoop);
           }
         },
         deep: true

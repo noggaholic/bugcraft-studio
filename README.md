@@ -16,27 +16,27 @@
 ## Key Features 🎉
 
 * All WoW versions supported from Alpha to Legion
-  - Out of the box support for 0.5.3, 0.8.0 ... 1.12 ... 2.3.4... 3.3.5a ... 7.3
+  - Out of the box support for 0.5.3, 0.8.0 ... 1.12.1 ... 2.3.4... 3.3.5a ... 7.3.5
 * Built with latest technologies like Electron.js, Vue.js, Bulma.io and Robot.js
 * Build complex cinematic scenes with it's built-in editor
 * Full control of the environment
 * An explorer's dream come true ✨
-* Custom free camera mode for Alpha and Vanilla
+* Custom spectate camera mode for Alpha and Vanilla
 
 ### Features per version:
 
-| Version | Spectate | Cinematic | Environment |
-|---------|----------|-----------|-------------	|
-| 0.5.3        | ✔️        | ✔️         | ⚙️           |
-| 0.8.0        | ✔️        | ✔️         | ⚙️           |
-| 1.8.0        | ✔️        | ✔️         | ⚙️           |
-| 1.12.0       | ✔️        | ✔️         | ⚙️           |
-| 2.4.3        | ✔️        | ✔️         | ⚙️           |
-| 3.3.5a       | ✔️        | ✔️         | ⚙️           |
-| 4.3.4        | ✔️        | ✔️         | ⚙️           |
-| 6.2.3        | ✔️        | ✔️         | ⚙️           |
-| 7.2.5(24742) | ✔️        | ✔️         | ⚙️           |
-| 7.3.5(26972) | ✔️        | ⚙️         | ⚙️           |
+| Version          | Spectate | Cinematic mode | Environment |                      |
+|------------------|----------|----------------|-------------|-------------------   |
+| 0\.5\.3          | ✔️       | ✔️             | Time of day | Max view distance   |
+| 0\.8\.0          | ✔️       | ✔️             | ✔️          | ⚙️                 |
+| 1\.8\.0          | ✔️       | ✔️             | ✔️          | ⚙️                 |
+| 1\.12\.0         | ✔️       | ✔️             | ✔️          | ⚙️                 |
+| 2\.4\.3          | ✔️       | ✔️             | ✔️          | ⚙️                 |
+| 3\.3\.5a         | ✔️       | ✔️             | ✔️          | ⚙️                 |
+| 4\.3\.4          | ✔️       | ✔️             | ✔️          | ⚙️                 |
+| 6\.2\.3          | ✔️       | ✔️             | ✔️          | ⚙️                 |
+| 7\.2\.5\(24742\) | ✔️       | ✔️             | ✔️          | ⚙️                 |
+| 7\.3\.5\(26972\) | ✔️       | ✔️             | ⚙️          | ⚙️                 |
 
 ⚙️ Means that the development of that feature it's not finished yet for that version.
 
