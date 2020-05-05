@@ -27,7 +27,9 @@
                 min="0"
                 max="1"
                 step="0.005"
-                value="0.5">
+                value="0.5"
+                ref="hour"
+              >
             </p>
           </div>
           <div class="field">
@@ -43,7 +45,9 @@
                 min="0"
                 max="1"
                 step="0.005"
-                value="0.5">
+                value="0.5"
+                ref="minutes"
+              >
             </p>
           </div>
         </div>
@@ -81,6 +85,16 @@
 <script>
   export default {
     name: 'environment',
+    mounted() {
+      const hourEl = this.$refs.hour;
+      const minutesEl = this.$refs.minutes;
+      const currentHour = this.$store.state.environment.timeOfDay.hour;
+      const currentMinutes = this.$store.state.environment.timeOfDay.minutes;
+      const toHour = (currentHour * 3600) / 86400;
+      const toMinutes = (currentMinutes * 60) / 3600;
+      hourEl.value = toHour;
+      minutesEl.value = toMinutes;
+    },
     methods: {
       setTimeOfDayStatus ({ target: element }) {
         const isChecked = element.checked;
