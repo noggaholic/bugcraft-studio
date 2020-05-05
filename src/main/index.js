@@ -20,7 +20,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1400,
     minWidth: 330,
-    height: 350,
+    height: 370,
     frame: false,
     title: 'BugCraft Studio',
     bottom: 0,

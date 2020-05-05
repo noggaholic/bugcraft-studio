@@ -5,18 +5,18 @@ function enableSpectateMode(Game, Memory, Offsets, Module, GetCameraData, SetPos
       InstructionPointer,
       SpectatePointer,
       Pointer,
-      CameraValuesPointer,
     } = CameraStruct;
     if (Game.client === 'vanilla' || Game.client === 'alpha') {
-      Memory.writeData(InstructionPointer, Offsets[Game.client].camera.fix, Offsets[Game.client].camera.fix.byteLength);
+      const fixPositionPattern = Offsets[Game.client].camera.position[Game.build].fix;
+      Memory.writeData(InstructionPointer, fixPositionPattern, fixPositionPattern.byteLength);
     } else if (Game.client === 'ctl') {
       const { position } = GetCameraData(Pointer);
-      SetPosition(CameraValuesPointer, position.x, position.y, position.z);
+      SetPosition(CameraStruct, position.x, position.y, position.z);
       Memory.writeData(Module + Offsets[Game.client].SpectatePointer, Offsets[Game.client].EnableSpectate, Offsets[Game.client].EnableSpectate.byteLength);
       Memory.writeData(Pointer + Offsets[Game.client].EnableCorrectKeyboardControls, Offsets[Game.client].EnableSpectateOnCam, Offsets[Game.client].EnableSpectateOnCam.byteLength);
     } else {
       const { position } = GetCameraData(Pointer);
-      SetPosition(CameraValuesPointer, position.x, position.y, position.z);
+      SetPosition(CameraStruct, position.x, position.y, position.z);
       Memory.writeData(SpectatePointer, Offsets[Game.client].EnableSpectate, Offsets[Game.client].EnableSpectate.byteLength);
     }
   };

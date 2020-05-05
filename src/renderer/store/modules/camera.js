@@ -1,12 +1,17 @@
 
 export default {
   state: {
-    speed: 10,
+    speed: 1,
     mode: 'DISABLED', // ['DISABLED', 'SPECTATE', 'PLAYING']
     cinematicSteps: [],
     cinematicSpeed: 10,
     loopCinematic: false,
     collision: true,
+    position: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
   },
   getters: {
     isSpectateEnabled: state => {
@@ -23,10 +28,22 @@ export default {
     mode: (state) => state.mode,
   },
   mutations: {
+    setCurrPosition(state, position) {
+      state.position = position;
+    },
+    setPosition(state, position) {
+      state.position = position;
+      const core = this.getters.core.camera;
+      core.setPosition(position);
+    },
     setSpeed(state, speed) {
       const core = this.getters.core.camera;
       state.speed = speed;
-      core.setSpeed(Number(speed));
+      const isSpectateEnabled = state.mode !== 'DISABLED';
+      core.setSpeed(Number(speed), isSpectateEnabled);
+    },
+    setRoll(state, { index, value }) {
+      state.cinematicSteps[index].roll = parseFloat(value);
     },
     setCinematicSpeed(state, speed) {
       state.cinematicSpeed = speed;
@@ -66,6 +83,8 @@ export default {
     addWaypoint(context) {
       const core = this.getters.core.camera;
       const camViewMatrix = core.getView();
+      const store = this;
+      addEnvironment(store, camViewMatrix);
       context.commit('addCinematicStep', camViewMatrix);
     },
     cleanWaypoints(context) {
@@ -77,3 +96,11 @@ export default {
     disableSpectate() {},
   },
 };
+
+function addEnvironment(store, cinematic) {
+  const isTimeOfDayEnabled = store.getters.isTimeOfDayEnabled;
+  if (!isTimeOfDayEnabled) return;
+  cinematic.environment = {
+    timeOfDay: store.getters.timeOfDay,
+  };
+}

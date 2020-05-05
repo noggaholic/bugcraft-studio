@@ -33,13 +33,13 @@ function initialize(cb) {
 
   const findPattern = pattern => memory.find(pattern, 0, -1, 1, '-x');
 
-  function resolvePtrBySetOfInstruction(patternBase, ptrFix) {
+  function resolvePtrBySetOfInstruction(patternBase, build, ptrFix) {
     ptrFix = ptrFix || 0;
     const hexPattern = patternBase.pattern.toString('hex');
     let patternPtr = findPattern(hexPattern);
     if (patternPtr.length === 0) return;
     patternPtr = patternPtr.shift();
-    patternPtr += patternBase.patternFix;
+    patternPtr += patternBase.patternFix[build];
     memory.readData(patternPtr, ptrContainer, ptrContainer.byteLength);
     const ptr = reverseArrayOfBytesAsNumber(ptrContainer);
     if (Array.isArray(ptrFix)) {

@@ -1,10 +1,11 @@
 
 function enableViewMatrixUpdate(Game, Memory, Offsets) {
-  return (ViewMatrixInstructionsPointer) => {
-      Memory.writeData(ViewMatrixInstructionsPointer,
-        Offsets[Game.client].cameraViewMatrix.version[Game.build].pattern,
-        Offsets[Game.client].cameraViewMatrix.version[Game.build].pattern.byteLength,
-        );
+  return () => {
+    if (Game.client !== 'alpha') return;
+    const patterns = Offsets[Game.client].cameraViewMatrix.version[Game.build];
+    patterns.forEach((instruction) => {
+      Memory.writeData(instruction.offset, instruction.pattern, instruction.pattern.byteLength);
+    });
   };
 }
 

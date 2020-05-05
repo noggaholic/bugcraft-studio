@@ -1,10 +1,10 @@
 
-function SetTimeOfday(Game, Memory, Offsets, Module) {
+function SetTimeOfday(Memory, GetNormalizedTimeOfDay) {
     const timeOfDayBuffer = new Buffer(0x4);
     return (environmentStruct, { hour, minutes }) => {
       const timeOfDayPtr = environmentStruct.timeOfDay;
       if (!timeOfDayPtr) return;
-      const timeNormalized = ((3600 * hour) + (60 * minutes)) / 86400;
+      const timeNormalized = GetNormalizedTimeOfDay(hour, minutes);
       timeOfDayBuffer.writeFloatLE(timeNormalized);
       Memory.writeData(timeOfDayPtr, timeOfDayBuffer, timeOfDayBuffer.byteLength);
     };

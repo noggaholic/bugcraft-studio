@@ -1,15 +1,11 @@
 <template>
   <div class="container">
-      <div class="columns">
-        <div class="column">
-          <div class="tabs is-boxed">
-            <spectateMenu></spectateMenu>
-          </div>
+    <div class="columns">
+      <div class="column">
+        <div class="tabs is-boxed">
+          <spectateMenu></spectateMenu>
         </div>
-      </div>
-      <div class="columns">
-        <div class="column">
-          <div v-if="!cinematicSteps.length" class="column">
+        <div v-if="!cinematicSteps.length" class="column">
               <div class="tile is-ancestor">
                   <div class="tile is-parent">
                       <article class="tile is-child box">
@@ -35,7 +31,7 @@
             <div class="columns">
               <div class="column is-one-third">
                 <div class="field">
-                  <label class="label">Cinematic speed</label>
+                  <label class="label">Cinematic duration</label>
                   <div class="control">
                     <input 
                       class="input" 
@@ -43,9 +39,9 @@
                       ref="cinematic_speed"
                       v-model="cinematicSpeed"
                       v-on:input="setCinematicSpeed($event)"
-                      placeholder="Value in seconds, default to 10.">
+                      placeholder="Value in seconds, defaults to 10.">
                   </div>
-                  <p class="help">From 0.1 to whatever you want.</p>
+                  <p class="help">This sets how much the cinematic will last.</p>
                 </div>
               </div>
               <div class="column">
@@ -69,20 +65,35 @@
                       <th><abbr title="Position">Pos x</abbr></th>
                       <th><abbr title="Position">Pos y</abbr></th>
                       <th><abbr title="Position">Pos z</abbr></th>
+                      <th><abbr title="Yaw">yaw</abbr></th>
+                      <th><abbr title="Pitch">pitch</abbr></th>
+                      <th><abbr title="Roll">roll</abbr></th>
+                      <th v-if="this.$store.state.environment.isTimeOfDayEnabled"><abbr title="Time of day">Time of day</abbr></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(cinematic, index) in cinematicSteps.slice().reverse()" :key="`cinematic-${index}`">
+                    <tr v-for="(cinematic, index) in cinematicSteps" :key="`cinematic-${index}`">
                       <td>{{ cinematic.position.x }}</td>
                       <td>{{ cinematic.position.y }}</td>
                       <td>{{ cinematic.position.z }}</td>
+                      <td>{{ cinematic.yaw }}</td>
+                      <td>{{ cinematic.pitch }}</td>
+                      <td v-if="clientVersion === 'vanilla'"><input 
+                        type="text" 
+                        v-bind:value="cinematic.roll"
+                        v-on:input="setRoll($event, index)"
+                        /></td>
+                      <td v-if="clientVersion !== 'vanilla'">{{cinematic.roll}}</td>
+                      <td v-if="cinematic.environment">
+                        {{cinematic.environment.timeOfDay.hour}}:{{cinematic.environment.timeOfDay.minutes}}
+                      </td>
                     </tr>
                   </tbody>
               </table>
             </div>
           </div>
       </div>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -104,6 +115,9 @@
       
     },
     methods: {
+      setRoll ({ target: element }, index) {
+        this.$store.commit('setRoll', { index, value: element.value });
+      },
 		  setCinematicSpeed: function({ target: element }) {
         this.$store.commit('setCinematicSpeed', element.value);
       },
@@ -125,7 +139,8 @@
       return { 
         cinematicSteps: this.$store.state.camera.cinematicSteps,
         cinematicSpeed: this.$store.state.camera.cinematicSpeed,
-        loopCinematic: this.$store.state.camera.loopCinematic
+        loopCinematic: this.$store.state.camera.loopCinematic,
+        clientVersion: this.$store.state.settings.client,
       };
     },
     watch: {

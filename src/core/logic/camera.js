@@ -15,7 +15,7 @@ module.exports = (
   SetCameraView,
   SetCollision
 ) => {
-  return () => {
+  return (Offsets, Game, Memory) => {
     const {
       /**
        * For custom spectate controls
@@ -48,6 +48,9 @@ module.exports = (
     };
 
     const disableSpectatorMode = () => {
+      const enableCameraFacingBuffer = new Buffer([0xD7, 0x42, 0x00, 0x00, 0x61, 0x0E, 0xC2, 0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00]);
+      const enableCameraFacingPtr = Offsets[Game.client].enableCameraFacing;
+      Memory.writeData(Pointer + enableCameraFacingPtr, enableCameraFacingBuffer, enableCameraFacingBuffer.byteLength);
       clearInterval(spectatorInterval);
     };
 
@@ -63,11 +66,11 @@ module.exports = (
       disableSpectatorMode,
       disableSpectator,
       enableSpectator,
-      setSpeed: (newSpeed) => {
+      setSpeed: (newSpeed, isSpectateEnabled) => {
         speed = Number(newSpeed);
-        if (spectatorInterval) enableSpectator();
+        if (isSpectateEnabled) enableSpectator();
       },
-      setPosition: (data) => SetPosition(Pointer, data.x, data.y, data.z),
+      setPosition: (data) => SetPosition(CameraStruct, data.x, data.y, data.z),
       getViewMatrix: () => GetCameraData(Pointer).viewMatrix,
       getView: () => GetCameraData(Pointer),
       SetCameraView: (cinematicValues) => SetCameraView(CameraStruct, cinematicValues),

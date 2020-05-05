@@ -2,6 +2,11 @@
 const createCamera = require('./logic/camera.js');
 const createGetCametaPtr = require('./domain/getCameraPtr');
 const createGetEnvPtr = require('./domain/environment/getEnvPtr');
+const createEnableTimeOfDay = require('./domain/environment/enableTimeOfDay');
+const createDisableTimeOfDay = require('./domain/environment/disableTimeOfDay');
+const createGetNormalizedTimeOfDay = require('./domain/environment/getNormalizedTimeOfDay');
+const createSetTimeOfday = require('./domain/environment/setTimeOfday');
+const createSetNormalizedTimeOfDay = require('./domain/environment/setNormalizedTimeOfDay');
 const createEnableSpectate = require('./domain/enableSpectate');
 const createDisableSpectate = require('./domain/disableSpectate');
 const createEnableViewMatrixUpdate = require('./domain/enableViewMatrixUpdate');
@@ -11,7 +16,6 @@ const createEnableKeyboardControls = require('./domain/enableKeyboardControls');
 const createSetPosition = require('./domain/setPosition');
 const createSetCameraView = require('./domain/setCameraView');
 const createSetCollision = require('./domain/setCollision');
-const createSetTimeOfday = require('./domain/environment/setTimeOfday');
 const createSetSpeed = require('./domain/setSpeed');
 
 module.exports = (process, Module, Memory, window, Offsets) => {
@@ -25,7 +29,7 @@ module.exports = (process, Module, Memory, window, Offsets) => {
   const EnableViewMatrixUpdate = createEnableViewMatrixUpdate(Game, Memory, Offsets);
   const DisableViewMatrixUpdate = createDisableViewMatrixUpdate(Game, Memory, Offsets);
   const GetCametaPtr = createGetCametaPtr(Game, Memory, Module, Offsets);
-  const GetCameraData = createGetCameraData(Memory);
+  const GetCameraData = createGetCameraData(Offsets, Game, Memory);
   const SetPosition = createSetPosition(Game, Memory);
   const EnableSpectate = createEnableSpectate(Game, Memory, Offsets, Module, GetCameraData, SetPosition);
   const DisableSpectate = createDisableSpectate(Game, Memory, Offsets, Module);
@@ -38,8 +42,10 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     GetCameraData,
     SetPosition,
     SetSpeed,
+    Offsets,
+    Memory,
   );
-  const SetCameraView = createSetCameraView(Game, Memory, SetPosition);
+  const SetCameraView = createSetCameraView(Game, Memory, Offsets, SetPosition);
 
   const camera = createCamera(
     GetCametaPtr,
@@ -51,14 +57,25 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     SetPosition,
     SetCameraView,
     SetCollision,
-  )();
+  )(Offsets, Game, Memory);
 
-  const setTimeOfday = createSetTimeOfday(Game, Memory, Offsets, Module);
+  const EnableTimeOfDay = createEnableTimeOfDay(Game, Memory, Offsets);
+  const DisableTimeOfDay = createDisableTimeOfDay(Game, Memory, Offsets);
+  const GetNormalizedTimeOfDay = createGetNormalizedTimeOfDay(Game);
+  const setTimeOfday = createSetTimeOfday(Memory, GetNormalizedTimeOfDay);
+  const setNormalizedTimeOfDay = createSetNormalizedTimeOfDay(Memory);
   const environmentStruct = createGetEnvPtr(Game, Memory, Module, Offsets)();
   const environment = {
     setTimeOfday: (timeOfDay) => setTimeOfday(environmentStruct, timeOfDay),
+    setNormalizedTimeOfDay: (timeOfDay) => setNormalizedTimeOfDay(environmentStruct, timeOfDay),
+    GetNormalizedTimeOfDay,
+    enableTimeOfDay: () => EnableTimeOfDay(environmentStruct),
+    disableTimeOfDay: () => DisableTimeOfDay(environmentStruct),
   };
   return {
+    Game,
+    Memory,
+    Offsets,
     camera,
     environment,
   };
