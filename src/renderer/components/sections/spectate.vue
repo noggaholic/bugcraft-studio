@@ -1,18 +1,21 @@
 <template>
-  <div class="container">
-    <div class="columns">
+    <div>
+      <div class="columns">
       <div class="column">
         <div class="tabs is-boxed">
           <spectateMenu></spectateMenu>
         </div>
       </div>
     </div>
+  <div class="container">
     <div class="columns">
-      <div class="column">
+      <div class="column is-one-fifth">
         <div class="field">
           <label class="label is-normal">Camera position (x)</label>
           <p class="control">
-            <input class="input" 
+            <input 
+              type="number"
+              class="input" 
               v-model="pos_x"
               name="pos_x"
               ref="pos_x"
@@ -23,7 +26,9 @@
         <div class="field">
           <label class="label is-normal">Camera position (y)</label>
           <p class="control">
-            <input class="input" 
+            <input
+              type="number"
+              class="input" 
               v-model="pos_y"
               name="pos_y"
               ref="pos_y"
@@ -34,7 +39,9 @@
         <div class="field">
           <label class="label is-normal">Camera position (z)</label>
           <p class="control">
-            <input class="input" 
+            <input
+              type="number"
+              class="input" 
               v-model="pos_z"
               name="pos_z"
               ref="pos_z"
@@ -43,49 +50,31 @@
           </p>
         </div>
       </div>
-      <div class="column">
-        <label class="label is-normal">Spectate options</label>
+      <div class="column is-one-fifth">
         <div class="field">
-          <input
-            type="checkbox"
-            id="toggle_spectate"
-            :checked="this.$store.state.camera.mode !== 'DISABLED'"
-            name="toggle_spectate"
-            ref="toggle_spectate"
-            data-id="ENABLE_SPECTATOR"
-            v-on:click="toggleSpectate"
-          />
-          <label for="toggle_spectate">
-            <span></span>Toggle Spectate Mode (F3)
-          </label>
+          <label class="label is-normal">Yaw (Radians)</label>
+          <p class="control">
+            <input
+              v-model="yaw"
+              class="input"
+              type="text"
+              ref="yaw"
+              disabled
+            />
+          </p>
         </div>
         <div class="field">
-          <input
-            :disabled="clientVersion === 'vanilla' || clientVersion === 'alpha'"
-            type="checkbox"
-            v-on:click="toggleCollision"
-            id="toggle_collision"
-            name="toggle_collision"
-            :checked="this.$store.state.camera.collision"
-          />
-          <label for="toggle_collision">
-            <span></span>Collision enabled
-          </label>
+          <label class="label is-normal">Pitch</label>
+          <p class="control">
+            <input
+              v-model="pitch"
+              class="input"
+              type="text"
+              ref="pitch"
+              disabled
+            />
+          </p>
         </div>
-        <div class="field">
-          <input type="checkbox" disabled id="toggle_look_at_target" name="toggle_look_at_target" />
-          <label for="toggle_look_at_target">
-            <span></span>Look at selected unit
-          </label>
-        </div>
-        <div class="field">
-          <input type="checkbox" disabled id="toggle_follow_target" name="toggle_follow_target" />
-          <label for="toggle_follow_target">
-            <span></span>Follow target
-          </label>
-        </div>
-      </div>
-      <div class="column">
         <div class="field">
           <label class="label is-normal">Spectate Speed</label>
           <p class="control">
@@ -103,12 +92,60 @@
             />
           </p>
         </div>
-        <div class="field">
-          <cameraViewer />
-        </div>
+      </div>
+      <div class="column is-one-fifth">
+        <label class="label is-normal">Spectate options</label>
+        <label class="checkbox checkbox-custom">
+          <input
+            type="checkbox"
+            id="toggle_spectate"
+            :checked="this.$store.state.camera.mode !== 'DISABLED'"
+            name="toggle_spectate"
+            ref="toggle_spectate"
+            data-id="ENABLE_SPECTATOR"
+            v-on:click="toggleSpectate"
+          />
+          <label for="renderer_details">
+            <span></span>Toggle Spectate Mode (F3)
+          </label>
+          <div class="checkbox_indicator no-drop"></div>
+        </label>
+        <label class="checkbox checkbox-custom">
+          <input
+            :disabled="clientVersion === 'vanilla' || clientVersion === 'alpha'"
+            type="checkbox"
+            v-on:click="toggleCollision"
+            id="toggle_collision"
+            name="toggle_collision"
+            :checked="this.$store.state.camera.collision"
+          />
+          <label for="renderer_details">
+            <span></span>Collision enabled
+          </label>
+          <div class="checkbox_indicator no-drop"></div>
+        </label>
+        <label class="checkbox checkbox-custom">
+          <input
+            type="checkbox" disabled id="toggle_look_at_target" name="toggle_look_at_target"
+          />
+          <label for="renderer_details">
+            <span></span>Look at selected unit
+          </label>
+          <div class="checkbox_indicator no-drop"></div>
+        </label>
+        <label class="checkbox checkbox-custom">
+          <input
+            type="checkbox" disabled id="toggle_follow_target" name="toggle_follow_target"
+          />
+          <label for="renderer_details">
+            <span></span>Follow target
+          </label>
+          <div class="checkbox_indicator no-drop"></div>
+        </label>
       </div>
     </div>
   </div>
+    </div>
 </template>
 
 <script>
@@ -124,11 +161,15 @@ export default {
   mounted() {
     const store = this.$store;
     if (store.getters.core && this.$refs) {
-      const { x, y, z } = store.getters.core.camera.getView().position;
+      const { position, yaw, pitch } = store.getters.core.camera.getView();
+      const { x, y, z } = position;
       const refs = this.$refs;
       refs.pos_x.value = x;
       refs.pos_y.value = y;
       refs.pos_z.value = z;
+
+      refs.yaw.value = yaw;
+      refs.pitch.value = pitch;
       store.commit("setCurrPosition", { x, y, z });
     }
     positionInterval = setInterval(() => {
@@ -138,12 +179,16 @@ export default {
         console.log('# nothing to do');
          return;
       }
-      const { x, y, z } = store.getters.core.camera.getView().position;
+      const { position, yaw, pitch } = store.getters.core.camera.getView();
+      const { x, y, z } = position;
       store.commit("setCurrPosition", { x, y, z });
       const refs = this.$refs;
       refs.pos_x.value = x;
       refs.pos_y.value = y;
       refs.pos_z.value = z;
+
+      refs.yaw.value = yaw;
+      refs.pitch.value = pitch;
     }, 1000);
   },
   destroyed() {
@@ -188,11 +233,16 @@ export default {
       clientVersion: this.$store.state.settings.client,
       pos_x: this.$store.state.camera.position.x,
       pos_y: this.$store.state.camera.position.y,
-      pos_z: this.$store.state.camera.position.z
+      pos_z: this.$store.state.camera.position.z,
+      yaw: this.$store.state.camera.position.z,
+      pitch: this.$store.state.camera.position.z,
     };
   }
 };
 </script>
 
-<style>
+<style scoped>
+  .columns {
+    margin-bottom: 0;
+  }
 </style>

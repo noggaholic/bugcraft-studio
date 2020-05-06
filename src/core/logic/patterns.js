@@ -355,7 +355,8 @@ export const mop = {
   environment: {
     version: {
       ['5.4.8']: {
-        timeOfDay: 0xC8DF14
+        timeOfDay: 0xC8DF14,
+        timeOfDaySpeed: 0xC8DF00,
       }
     }
   },
@@ -381,7 +382,8 @@ export const draenor = {
   environment: {
     version: {
       ['6.2.3']: {
-        timeOfDay: 0xD7D614
+        timeOfDay: 0xD7D614,
+        timeOfDaySpeed: 0xD7D600,
       }
     }
   },
@@ -422,7 +424,12 @@ export const legion = {
   environment: {
     version: {
       ['7.2.5']: {
-        timeOfDay: 0xE116C4
+        timeOfDay: 0xE116C4,
+        timeOfDaySpeed: 0xE116B0,
+      },
+      ['7.3.5']: {
+        timeOfDay: 0,
+        timeOfDaySpeed: 0,
       }
     }
   },

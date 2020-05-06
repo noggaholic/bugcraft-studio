@@ -1,7 +1,7 @@
 
 export default {
   state: {
-    timeOfDay: { hour: 0, minutes: 0, normalized: 0 },
+    timeOfDay: { hour: 0, minutes: 0 },
     isTimeOfDayEnabled: false,
   },
   getters: {

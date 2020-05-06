@@ -8,6 +8,13 @@
         <div class="container">
           <h1 class="title">laboratory control.</h1>
           <h2 class="subtitle">Nothing implemented yet.</h2>
+          <p>World of Warcraft® and Blizzard Entertainment® are 
+            all trademarks or registered trademarks of Blizzard 
+            Entertainment in the United States and/or other 
+            countries. These terms and all related materials, 
+            logos, and images are copyright © Blizzard 
+            Entertainment. This app is in no way associated with 
+            or endorsed by Blizzard Entertainment®.”</p>
         </div>
       </div>
     </section>
@@ -33,13 +40,6 @@
               MiRia, Morbe, mrd3wd, Najimi, Riqpe, Sikk, Tetsu, Meisio and those who I forgot their name but live in my heart.
             </i>
             <br>
-            World of Warcraft® and Blizzard Entertainment® are 
-            all trademarks or registered trademarks of Blizzard 
-            Entertainment in the United States and/or other 
-            countries. These terms and all related materials, 
-            logos, and images are copyright © Blizzard 
-            Entertainment. This site is in no way associated with 
-            or endorsed by Blizzard Entertainment®.”
           </div>
         </article>
       </div>
@@ -58,7 +58,7 @@ function secret(e) {
   if (key == requiredKey) {
     codePos++;
     if (codePos == code.length) {
-      wellDone();
+      SecretFound();
       codePos = 0;
     }
   } else {
@@ -66,7 +66,7 @@ function secret(e) {
   }
 }
 
-function wellDone() {
+function SecretFound() {
   document.querySelector('.modal').classList.add('is-active');
   alert("You can clip our wings but we'll always remember what it was like to fly!");
 }

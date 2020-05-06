@@ -1,14 +1,14 @@
 <template>
-  <ul class="spectateMenu">
+  <ul>
     <li>
       <router-link to="/spectate" class="nav-item is-tab" v-bind:class="{ 'is-active': spectateActived }">
-        <span class="icon is-small"><i class="fa fa-video"></i></span>
-        <span>Spectate settings</span>
+        <span class="icon is-small"><i data-feather="video"></i></span>
+        <span>Settings</span>
       </router-link>
     </li>
     <li>
       <router-link to="/spectate/cinematicBuilder" class="nav-item is-tab" v-bind:class="{ 'is-active': cinematicBuilderActived }">
-        <span class="icon is-small"><i class="fa fa-film"></i></span>
+        <span class="icon is-small"><i data-feather="film"></i></span>
         <span>Cinematic builder</span>
       </router-link>
     </li>
@@ -18,6 +18,9 @@
 <script>
   export default {
     name: 'spectateMenu',
+    mounted() {
+      feather.replace({  width: "16", height: "16" })
+    },
     data() {
       const data = {
         spectateActived: false,
@@ -32,3 +35,6 @@
     },
   };
 </script>
+
+<style>
+</style>

@@ -1,87 +1,39 @@
 <template>
-  <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-      <a class="navbar-item" style="-webkit-app-region: drag;font-size: 1.2rem;">{{ brand }}</a>
-      <a
-        role="button"
-        class="navbar-burger burger"
-        aria-label="menu"
-        aria-expanded="false"
-        data-target="navPortraitMenu"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-    <div id="navPortraitMenu" class="navbar-menu">
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-menu">
       <div class="navbar-start">
-        <router-link to="/" class="navbar-item" data-id="general">
-          <span class="icon">
-            <i class="fa fa-home"></i>
-          </span>
-          &nbsp;General
-        </router-link>
-        <router-link to="/spectate" class="navbar-item" data-id="spectate">
-          <span class="icon">
-            <i class="fa fa-film"></i>
-          </span>
-          &nbsp;Spectate
-        </router-link>
-        <router-link to="/environment" class="navbar-item" data-id="environment">
-          <span class="icon">
-            <i class="fa fa-palette"></i>
-          </span>
-          &nbsp;Environment
-        </router-link>
-        <router-link to="/settings" class="navbar-item" data-id="settings">
-          <span class="icon">
-            <i class="fa fa-sliders-h"></i>
-          </span>
-          &nbsp;Settings
-        </router-link>
-        <a
-          class="navbar-item"
-          v-on:click="open('https://github.com/noggaholic/bugcraft-studio/wiki')"
-          data-id="faq"
-        >
-          <span class="icon">
-            <i class="fa fa-info"></i>
-          </span>
-          &nbsp;Documentation
-        </a>
-      </div>
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <div v-if="this.$store.state.camera.mode === 'SPECTATE'" class="spectate-status">
-            <span class="icon" style="color: green;">
-              <i class="fas fa-circle"></i>
+        <router-link to="/" class="navbar-item navbar-menu-item" data-id="general">
+          <div class="navbar-menu-icon">
+            <span class="icon">
+              <i data-feather="home"></i>
             </span>
-            <div>[F4] Add wp - [F5] Play - [F6] Clear wps</div>
           </div>
-          <div v-if="this.$store.state.camera.mode === 'DISABLED'" class="spectate-status">
-            <span class="icon" style="color: gray;">
-              <i class="fas fa-circle"></i>
+          <div class="navbar-menu-title">General</div>
+        </router-link>
+        <router-link to="/spectate" class="navbar-item navbar-menu-item" data-id="spectate">
+          <div class="navbar-menu-icon">
+            <span class="icon">
+             <i data-feather="video"></i>
             </span>
-            <div>[F3] Toggle Spectate</div>
           </div>
-          <div v-if="this.$store.state.camera.mode === 'PLAYING'" class="spectate-status">
-            <span class="icon" style="color: red;">
-              <i class="fas fa-circle"></i>
+          <div class="navbar-menu-title">Spectate</div>
+        </router-link>
+        <router-link to="/environment" class="navbar-item navbar-menu-item" data-id="environment">
+          <div class="navbar-menu-icon">
+            <span class="icon">
+             <i data-feather="image"></i>
             </span>
-            <div>[F5] Stop cinematic</div>
           </div>
-        </div>
-        <a class="navbar-item" v-on:click="open('http://www.twitter.com/nogg_aholic')">
-          <span class="icon">
-            <i class="fab fa-twitter"></i>
-          </span>
-        </a>
-        <a class="navbar-item" v-on:click="open('https://github.com/noggaholic/bugcraft-studio')">
-          <span class="icon">
-            <i class="fab fa-github"></i>
-          </span>
-        </a>
+          <div class="navbar-menu-title">Environment</div>
+        </router-link>
+        <router-link to="/settings" class="navbar-item navbar-menu-item" data-id="settings">
+          <div class="navbar-menu-icon">
+            <span class="icon">
+              <i data-feather="sliders"></i>
+            </span>
+          </div>
+          <div class="navbar-menu-title">Settings</div>
+        </router-link>
       </div>
     </div>
   </nav>
@@ -91,15 +43,16 @@
 const { shell } = require("electron");
 
 function navData() {
-  const data = {
-    brand: "BugCraft Studio"
-  };
+  const data = {};
   return data;
 }
 
 export default {
   name: "navbar",
   data: navData,
+  mounted() {
+    feather.replace({  width: "20", height: "20", 'stroke-width': 2 })
+  },
   methods: {
     open(link) {
       shell.openExternal(link);
@@ -132,9 +85,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
-<style>
-.spectate-status {
-  display: flex;
-  align-items: center;
-}
+<style scoped>
+  .navbar-menu {
+    display: flex;
+  }
+  @media screen and (max-width: 1023px) {
+    .navbar-menu {
+      background: transparent;
+      padding: 0;
+    }
+  }
 </style>

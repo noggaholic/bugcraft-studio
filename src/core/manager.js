@@ -2,8 +2,8 @@
 const createCamera = require('./logic/camera.js');
 const createGetCametaPtr = require('./domain/getCameraPtr');
 const createGetEnvPtr = require('./domain/environment/getEnvPtr');
-const createEnableTimeOfDay = require('./domain/environment/enableTimeOfDay');
-const createDisableTimeOfDay = require('./domain/environment/disableTimeOfDay');
+const createEnableTimeOfDayUpdate = require('./domain/environment/enableTimeOfDay');
+const createDisableTimeOfDayUpdate = require('./domain/environment/disableTimeOfDay');
 const createGetNormalizedTimeOfDay = require('./domain/environment/getNormalizedTimeOfDay');
 const createSetTimeOfday = require('./domain/environment/setTimeOfday');
 const createSetNormalizedTimeOfDay = require('./domain/environment/setNormalizedTimeOfDay');
@@ -59,8 +59,8 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     SetCollision,
   )(Offsets, Game, Memory);
 
-  const EnableTimeOfDay = createEnableTimeOfDay(Game, Memory, Offsets);
-  const DisableTimeOfDay = createDisableTimeOfDay(Game, Memory, Offsets);
+  const EnableTimeOfDay = createEnableTimeOfDayUpdate(Game, Memory, Offsets);
+  const DisableTimeOfDay = createDisableTimeOfDayUpdate(Game, Memory, Offsets);
   const GetNormalizedTimeOfDay = createGetNormalizedTimeOfDay(Game);
   const setTimeOfday = createSetTimeOfday(Memory, GetNormalizedTimeOfDay);
   const setNormalizedTimeOfDay = createSetNormalizedTimeOfDay(Memory);

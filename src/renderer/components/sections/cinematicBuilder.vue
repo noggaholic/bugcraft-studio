@@ -1,10 +1,12 @@
 <template>
-  <div class="container">
+<div>
+
+  <div class="tabs is-boxed">
+    <spectateMenu></spectateMenu>
+  </div>
+  <div class="container cinematic_builder">
     <div class="columns">
       <div class="column">
-        <div class="tabs is-boxed">
-          <spectateMenu></spectateMenu>
-        </div>
         <div v-if="!cinematicSteps.length" class="column">
               <div class="tile is-ancestor">
                   <div class="tile is-parent">
@@ -85,7 +87,11 @@
                         /></td>
                       <td v-if="clientVersion !== 'vanilla'">{{cinematic.roll}}</td>
                       <td v-if="cinematic.environment">
-                        {{cinematic.environment.timeOfDay.hour}}:{{cinematic.environment.timeOfDay.minutes}}
+                        <TimeSelector
+                          v-bind:hour=cinematic.environment.timeOfDay.hour
+                          v-bind:minutes=cinematic.environment.timeOfDay.minutes
+                          v-bind:index=index
+                        />
                       </td>
                     </tr>
                   </tbody>
@@ -95,10 +101,12 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
   
+
   function reportWindowSize() {
     if (this.$refs.table_cinematic) {
       const height = window.innerHeight - 100;
@@ -108,6 +116,10 @@
 
   export default {
     name: 'cinematicBuilder',
+    components: {
+      TimeSelector: require('./inputs/timeSelector.vue'),
+      spectateMenu: require('./spectateMenu'),
+    },
     beforeCreate: () => {
       
     },
@@ -132,9 +144,6 @@
       reportWindowSize.bind(this)();
       window.addEventListener('resize', reportWindowSize.bind(this));
     },
-    components: {
-      spectateMenu: require('./spectateMenu'),
-    },
     data() {
       return { 
         cinematicSteps: this.$store.state.camera.cinematicSteps,
@@ -150,5 +159,7 @@
 </script>
 
 <style>
-
+  .cinematic_builder {
+    user-select: none;
+  }
 </style>
