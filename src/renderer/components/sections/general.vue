@@ -12,7 +12,7 @@
               My passion for this has driven my career. Being part of the Nogg-Aholic back in the old days made me be curious about the world.
             </p>
             <p class="subtitle">
-              I present this tool for your pleasure. I hope it brings you joy and encouragement to reach any goal you have. The time has come for you to explore without limits.
+              I present this tool for your pleasure. I hope it brings you joy and encouragement to be curious about the outside world. The time has come for you to explore without limits.
             </p>
             <p class="subtitle">
               <i>karliky (aka Bugcraft)</i>

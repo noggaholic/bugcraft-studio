@@ -43,7 +43,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .error {
     margin: 0;
     display: flex;

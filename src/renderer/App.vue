@@ -21,10 +21,6 @@
   };
 </script>
 
-<style>
-  /* CSS */
-</style>
-
 <style lang="scss">
   html {
     overflow-y: auto;
@@ -192,6 +188,23 @@
   }
 
   /**
+   * Button
+   */
+   .button {
+      border: none;
+      background: #10141c;
+      color: #e8e8ea;
+      font-size: 14px;
+      border: 1px solid #1e2433;
+      width: initial;
+   }
+
+   .button:hover, .button:active, .button:focus {
+      color: #e8e8ea;
+      border: 1px solid #1e2433;
+   }
+
+  /**
    * Input range
    */
   input[type=range] {
@@ -209,7 +222,7 @@
     background: #ff1a3b;
   }
   input[type=range]::-webkit-slider-thumb {
-    border: 1px solid #1e2433;
+    border: 2px solid #1e2433;
     height: 22px;
     width: 22px;
     border-radius: 50%;

@@ -5,6 +5,11 @@ const createGetEnvPtr = require('./domain/environment/getEnvPtr');
 const createEnableTimeOfDayUpdate = require('./domain/environment/enableTimeOfDay');
 const createDisableTimeOfDayUpdate = require('./domain/environment/disableTimeOfDay');
 const createGetNormalizedTimeOfDay = require('./domain/environment/getNormalizedTimeOfDay');
+const createSetRenderFlags = require('./domain/environment/setRenderFlags');
+const createGetRenderFlags = require('./domain/environment/getRenderFlags');
+const createSetCustomRenderFlags = require('./domain/environment/setCustomRenderFlags');
+const createResetRenderFlags = require('./domain/environment/resetRenderFlags');
+
 const createSetTimeOfday = require('./domain/environment/setTimeOfday');
 const createSetNormalizedTimeOfDay = require('./domain/environment/setNormalizedTimeOfDay');
 const createEnableSpectate = require('./domain/enableSpectate');
@@ -65,12 +70,20 @@ module.exports = (process, Module, Memory, window, Offsets) => {
   const setTimeOfday = createSetTimeOfday(Memory, GetNormalizedTimeOfDay);
   const setNormalizedTimeOfDay = createSetNormalizedTimeOfDay(Memory);
   const environmentStruct = createGetEnvPtr(Game, Memory, Module, Offsets)();
+  const GetRenderFlags = createGetRenderFlags(Memory);
+  const SetRenderFlags = createSetRenderFlags(Memory, GetRenderFlags);
+  const SetCustomRenderFlags = createSetCustomRenderFlags(Memory);
+  const ResetRenderFlags = createResetRenderFlags(Memory);
   const environment = {
     setTimeOfday: (timeOfDay) => setTimeOfday(environmentStruct, timeOfDay),
     setNormalizedTimeOfDay: (timeOfDay) => setNormalizedTimeOfDay(environmentStruct, timeOfDay),
     GetNormalizedTimeOfDay,
     enableTimeOfDay: () => EnableTimeOfDay(environmentStruct),
     disableTimeOfDay: () => DisableTimeOfDay(environmentStruct),
+    SetRenderFlags: (index, isNegative) => SetRenderFlags(environmentStruct, index, isNegative),
+    SetCustomRenderFlags: (renderFlags) => SetCustomRenderFlags(environmentStruct, renderFlags),
+    GetRenderFlags: (index) => GetRenderFlags(environmentStruct, index),
+    ResetRenderFlags: () => ResetRenderFlags(environmentStruct),
   };
   return {
     Game,

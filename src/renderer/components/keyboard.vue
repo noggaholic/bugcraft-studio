@@ -64,7 +64,7 @@
         configurable: null,
       },
       onComplete: () => {
-        if (shouldLoop) return playCinematic(cinematicSteps, speed, commit, shouldLoop, Camera);
+        if (shouldLoop) return playCinematic(cinematicSteps, speed, store, shouldLoop);
         commit('setMode', 'SPECTATE');
         tween = null;
       },
@@ -146,5 +146,5 @@
   };
 </script>
 
-<style>
+<style scoped>
 </style>

@@ -120,3 +120,20 @@ window.launch = launchCore;
 // Start of block terrain? 00 F0 E2 23 00 60 E1 05
 
 // Time of day alpha vanilla E8 ?? ?? ?? 00 D9 ?? 04
+
+// rendering control 4.3.4
+// 55 8B EC A1 AC41E900 23 05 A841E900 A9 00000008 74 14 8B 0D 7CF4ED00 8B 11 8B 82 C4000000 6A 00 6A 08 FF D0 D9 45 0C 51 8B 4D 08 D9 1C 24 51 E8 07630000 8B 15 AC41E900 23 15 A841E900 83 C4 08 F7 C2 00000008 74 14 8B 0D 7CF4ED00 8B 01 8B 90 C4000000 6A 01 6A 08 FF D2  5D                   
+// Default value 0001BFFF
+// next to default 1.890624881
+
+// whole row FF BF 01 00 FF FF F1 3F FF FF FF FF 00 00 00 00 00 00 00 00 00 00 00 00
+// near 00 C0 35 44 00 C0 35 44
+// 40 00 00 00 00 C0 35 44 00 C0 35 44
+
+ // 3.3.5a and 2.4.3 patterns for rendering 0F84 ?? ?? ?? ?? F7 05 ?? ?? ?? ?? 00002000
+ // CTL and above 55 8B EC A1 ???????? 23 05 ???????? A9 00000008         
+ // CTL and above FF BF 01 00 FF FF F1 7F FF FF FF FF 
+ // CTL and above, this one works 00 00 C8 46 00 00 00 00
+ // Legion working 55 8B EC 83 7D 0C 00 8B 45 08 74 08 09 05 ????????
+ // 0.5.3 .port -1315 -1216 60.0582 0
+ // rendering 0.5.3 top lighting 80 99 90 07

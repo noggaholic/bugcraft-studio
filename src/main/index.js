@@ -21,6 +21,7 @@ function createWindow() {
     width: 1280,
     minWidth: 750,
     height: 370,
+    backgroundColor: "#161b26",
     frame: false,
     title: 'BugCraft Studio',
     bottom: 0,

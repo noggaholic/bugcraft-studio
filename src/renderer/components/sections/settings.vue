@@ -37,6 +37,9 @@
             </label>
             <div class="checkbox_indicator no-drop"></div>
           </label>
+          <label>
+            <button class="button" v-on:click="openDevTools" >Open dev tools</button>
+          </label>
         </div>
       </div>
       <small><i>World of Warcraft® and Blizzard Entertainment® are 
@@ -59,6 +62,9 @@ export default {
     settingsMenu: require("./settingsMenu")
   },
   methods: {
+    openDevTools() {
+      win.toggleDevTools();
+    },
     setAlwaysOnTop: function({ target: element }) {
       this.$store.commit("setAlwaysOnTop", element.checked);
       win.setAlwaysOnTop(element.checked);
@@ -82,5 +88,5 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 </style>

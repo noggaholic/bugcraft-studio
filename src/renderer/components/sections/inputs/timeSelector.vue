@@ -83,7 +83,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .time_selector {
     cursor: row-resize;
   }

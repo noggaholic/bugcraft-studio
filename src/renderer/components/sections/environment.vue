@@ -1,86 +1,21 @@
 <template>
   <div class="container">
     <div class="columns columns-top">
-      <div class="column render is-one-third">
-        <label class="label is-normal">Render</label>
-        <label class="checkbox checkbox-custom" v-tooltip="'Not implemented yet'">
-          <input
-            disabled
-            type="checkbox"
-            class="checkbox checkbox-custom"
-            checked="checked"
-            name="renderer_m2"
-          />
-          <label for="renderer_m2">
-            <span></span>Decoration objects (M2)
-          </label>
-          <div class="checkbox_indicator no-drop"></div>
-        </label>
-        <label class="checkbox checkbox-custom" v-tooltip="'Not implemented yet'">
-          <input
-            disabled
-            type="checkbox"
-            class="checkbox checkbox-custom"
-            checked="checked"
-            name="renderer_details"
-          />
-          <label for="renderer_details">
-            <span></span>Details
-          </label>
-          <div class="checkbox_indicator no-drop"></div>
-        </label>
-        <label class="checkbox checkbox-custom" v-tooltip="'Not implemented yet'">
-          <input
-            disabled
-            type="checkbox"
-            class="checkbox checkbox-custom"
-            checked="checked"
-            name="renderer_terrain"
-          />
-          <label for="renderer_terrain">
-            <span></span>Terrain
-          </label>
-          <div class="checkbox_indicator no-drop"></div>
-        </label>
-        <label class="checkbox checkbox-custom" v-tooltip="'Not implemented yet'">
-          <input
-            disabled
-            type="checkbox"
-            class="checkbox checkbox-custom"
-            checked="checked"
-            name="renderer_wmo"
-          />
-          <label for="renderer_wmo">
-            <span></span>World Model Object (WMO)
-          </label>
-          <div class="checkbox_indicator no-drop"></div>
-        </label>
-        <label class="checkbox checkbox-custom" v-tooltip="'Not implemented yet'">
-          <input
-            disabled
-            type="checkbox"
-            class="checkbox checkbox-custom"
-            checked="checked"
-            name="renderer_liquids"
-          />
-          <label for="renderer_liquids">
-            <span></span>Liquids
-          </label>
-          <div class="checkbox_indicator no-drop"></div>
-        </label>
-        <label class="checkbox checkbox-custom" v-tooltip="'Not implemented yet'">
-          <input
-            disabled
-            type="checkbox"
-            class="checkbox checkbox-custom"
-            checked="checked"
-            name="renderer_mountains"
-          />
-          <label for="renderer_mountains">
-            <span></span>Mountains
-          </label>
-          <div class="checkbox_indicator no-drop"></div>
-        </label>
+      <div class="column is-one-third">
+        <label class="label is-normal">Render flags (hex 0 to 0xFF)</label>
+        <div class="render">
+          <div class="byteSelectors">
+            <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[0]" index=0 />
+            <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[1]" index=1 />
+            <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[2]" index=2 />
+            <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[3]" index=3 />
+          </div>
+          <div class="buttons">
+            <button class="button random" v-on:click="setRenderToRandom">Set to random</button>
+            <button class="button random" v-on:click="copyRender">Copy value to clipboard</button>
+            <button class="button random" v-on:click="resetRender">Reset to default</button>
+          </div>
+        </div>
       </div>
       <div class="column">
         <div class="field">
@@ -141,9 +76,61 @@
 </template>
 
 <script>
+const { clipboard } = require('electron')
+function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export default {
   name: "environment",
+  components: {
+      ByteSelector: require('./inputs/byteSelector'),
+  },
+  mounted() {
+    feather.replace({  width: "20", height: "20", 'stroke-width': 2 });
+    if (!this.$store.getters.core) return;
+    const { GetRenderFlags } = this.$store.getters.core.environment;
+    const renderflags = [
+      GetRenderFlags(0), 
+      GetRenderFlags(1), 
+      GetRenderFlags(2), 
+      GetRenderFlags(3)
+    ];
+    this.renderflags = renderflags;
+  },
   methods: {
+    resetRender() {
+      const { ResetRenderFlags } = this.$store.getters.core.environment;
+      ResetRenderFlags();
+    },
+    setRenderToRandom() {
+      const { SetCustomRenderFlags } = this.$store.getters.core.environment;
+      const randomRender = [
+        randomInteger(0, 255),
+        randomInteger(0, 255),
+        randomInteger(0, 255),
+        randomInteger(0, 255),
+      ];
+      SetCustomRenderFlags(randomRender);
+      this.renderflags = randomRender;
+    },
+    copyRender() {
+      const renderFlags = Buffer.from(this.renderflags, 'utf8').toString('hex').toUpperCase();
+      clipboard.writeText(renderFlags);
+    },
+    upRenderFlags({ index }) {
+      const renderIndex = Number(index);
+      const { SetRenderFlags, GetRenderFlags } = this.$store.getters.core.environment;
+      SetRenderFlags(renderIndex);
+      this.$set(this.renderflags, renderIndex, GetRenderFlags(renderIndex));
+    },
+    downRenderFlags({ index }) {
+      const renderIndex = Number(index);
+      const { SetRenderFlags, GetRenderFlags } = this.$store.getters.core.environment;
+      const isNegative = true;
+      SetRenderFlags(renderIndex, isNegative);
+      this.$set(this.renderflags, renderIndex, GetRenderFlags(renderIndex));
+    },
     setTimeOfDayStatus({ target: element }) {
       const isChecked = element.checked;
       this.$store.commit("setTimeOfDayStatus", isChecked);
@@ -186,14 +173,27 @@ export default {
   data() {
     return {
       timeOfDay: this.$store.state.environment.timeOfDay,
-      isTimeOfDayEnabled: this.$store.state.environment.isTimeOfDayEnabled
+      isTimeOfDayEnabled: this.$store.state.environment.isTimeOfDayEnabled,
+      renderflags: [0, 0, 0, 0]
     };
   }
 };
 </script>
 
-<style>
+<style scoped>
 .columns-top {
   margin-top: auto;
+}
+.byteSelectors {
+  display: flex;
+  align-items: row;
+}
+
+.buttons .button:not(:last-child):not(.is-fullwidth) {
+  margin-right: 0;
+}
+.buttons {
+  align-items: inherit;
+  flex-direction: column;
 }
 </style>

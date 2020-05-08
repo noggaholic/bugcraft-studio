@@ -176,12 +176,16 @@ export const alpha = {
       ['0.5.3']: {
         timeOfDayPattern: new Buffer([0xE8, 0x04, 0x0C, 0x14, 0x00, 0xD9, 0x5F, 0x04]),
         timeOfDayPatternFix: new Buffer([0xE8, 0x04, 0x0C, 0x14, 0x00, 0xD9, 0x1F, 0x90]),
-        timeOfDay: 0xCB23B4
+        timeOfDay: 0xCB23B4,
+        renderFlags: 0xA4046C,
+        renderFlagsDefault: 0x07104B73
       },
       ['0.8.0']: {
         timeOfDayPattern: new Buffer([0xE8, 0x43, 0xE5, 0x17, 0x00, 0xD9, 0x5E, 0x04]),
         timeOfDayPatternFix: new Buffer([0xE8, 0x43, 0xE5, 0x17, 0x00, 0xD9, 0x1E, 0x90]),
-        timeOfDay: 0xC00AD4
+        timeOfDay: 0xC00AD4,
+        renderFlags: 0xA96C30,
+        renderFlagsDefault: 0x1F900B77
       }
     }
   },
@@ -232,17 +236,23 @@ export const vanilla = {
       ['1.1.2']: {
         timeOfDayPattern: new Buffer([0xE8, 0x4F, 0xCD, 0x1A, 0x00, 0xD9, 0x5F, 0x04]),
         timeOfDayPatternFix: new Buffer([0xE8, 0x4F, 0xCD, 0x1A, 0x00, 0xD9, 0x1F, 0x90]),
-        timeOfDay: 0x70EB04
+        timeOfDay: 0x70EB04,
+        renderFlags: 0x69FE7C,
+        renderFlagsDefault: 0x1F110F77
       },
       ['1.8.0']: {
         timeOfDayPattern: new Buffer([0xE8, 0xFE, 0x0C, 0x1A, 0x00, 0xD9, 0x5E, 0x04]),
         timeOfDayPatternFix: new Buffer([0xE8, 0xFE, 0x0C, 0x1A, 0x00, 0xD9, 0x1E, 0x90]),
-        timeOfDay: 0x85AD1C
+        timeOfDay: 0x85AD1C,
+        renderFlags: 0x7EC93C,
+        renderFlagsDefault: 0x9F110F77
       },
       ['1.12.0']: {
         timeOfDayPattern: new Buffer([0xE8, 0x8E, 0x0E, 0x1C, 0x00, 0xD9, 0x5E, 0x04]),
         timeOfDayPatternFix: new Buffer([0xE8, 0x8E, 0x0E, 0x1C, 0x00, 0xD9, 0x1E, 0x90]),
-        timeOfDay: 0x8E9B64
+        timeOfDay: 0x8E9B64,
+        renderFlags: 0x87B2A4,
+        renderFlagsDefault: 0x9F910F77
       },
     }
   },
@@ -270,7 +280,9 @@ export const tbc = {
       ['2.4.3']: {
         timeOfDayPattern: new Buffer([0xE8, 0xFF, 0x44, 0x19, 0x00, 0xD9, 0x5E, 0x04]),
         timeOfDayPatternFix: new Buffer([0xE8, 0xFF, 0x44, 0x19, 0x00, 0xD9, 0x1E, 0x90]),
-        timeOfDay: 0xA18DEC
+        timeOfDay: 0xA18DEC,
+        renderFlags: 0x9A4510,
+        renderFlagsDefault: 0x1F104F73
       }
     }
   },
@@ -298,7 +310,9 @@ export const wlk = {
       ['3.3.5a']: {
         timeOfDayPattern: new Buffer([0xE8, 0x4F, 0x4A, 0x27, 0x00, 0xD9, 0x5E, 0x04]),
         timeOfDayPatternFix: new Buffer([0xE8, 0x4F, 0x4A, 0x27, 0x00, 0xD9, 0x1E, 0x90]),
-        timeOfDay: 0x938B04
+        timeOfDay: 0x938B04,
+        renderFlags: 0x8D774C,
+        renderFlagsDefault: 0x1F104F73
       }
     }
   },
@@ -329,7 +343,9 @@ export const ctl = {
       ['4.3.4']: {
         timeOfDayPattern: new Buffer([0xA3, 0xE4, 0x23, 0xEA, 0x00, 0xF3, 0x0F, 0x11, 0x05, 0xE8, 0x23, 0xEA, 0x00]),
         timeOfDayPatternFix: new Buffer([0xA3, 0xE4, 0x23, 0xEA, 0x00, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90]),
-        timeOfDay: 0xA423E8
+        timeOfDay: 0xA423E8,
+        renderFlags: 0xA741A8,
+        renderFlagsDefault: 0x0001BFFF
       }
     }
   },
@@ -357,6 +373,8 @@ export const mop = {
       ['5.4.8']: {
         timeOfDay: 0xC8DF14,
         timeOfDaySpeed: 0xC8DF00,
+        renderFlags: 0xE371D4,
+        renderFlagsDefault: 0x0001BFFF
       }
     }
   },
@@ -384,6 +402,8 @@ export const draenor = {
       ['6.2.3']: {
         timeOfDay: 0xD7D614,
         timeOfDaySpeed: 0xD7D600,
+        renderFlags: 0xF8422C,
+        renderFlagsDefault: 0x00011FFF
       }
     }
   },
@@ -426,10 +446,14 @@ export const legion = {
       ['7.2.5']: {
         timeOfDay: 0xE116C4,
         timeOfDaySpeed: 0xE116B0,
+        renderFlags: 0x102FF3C,
+        renderFlagsDefault: 0x7FF7FFFF
       },
       ['7.3.5']: {
         timeOfDay: 0,
         timeOfDaySpeed: 0,
+        renderFlags: 0x1252CC0,
+        renderFlagsDefault: 0x7FF7FFFF
       }
     }
   },

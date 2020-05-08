@@ -158,7 +158,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .cinematic_builder {
     user-select: none;
   }

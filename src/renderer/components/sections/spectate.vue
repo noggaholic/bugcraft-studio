@@ -93,7 +93,7 @@
           </p>
         </div>
       </div>
-      <div class="column is-one-fifth">
+      <div class="column">
         <label class="label is-normal">Spectate options</label>
         <label class="checkbox checkbox-custom">
           <input
@@ -208,6 +208,9 @@ export default {
       if (x === 0) x = currX;
       if (y === 0) y = currY;
       if (z === 0) z = currZ;
+      if (isNaN(x)) return;
+      if (isNaN(y)) return;
+      if (isNaN(z)) return;
       store.commit("setPosition", { x, y, z });
     },
     toggleSpectate(element) {
@@ -224,6 +227,7 @@ export default {
     setSpeed(element) {
       const domElement = element.currentTarget;
       const speed = domElement.value;
+      if (isNaN(speed)) return;
       this.$store.commit("setSpeed", speed);
     }
   },
