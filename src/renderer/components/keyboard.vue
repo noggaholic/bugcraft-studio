@@ -3,6 +3,7 @@
 
 <script>
   const robot = require('robot-js');
+  const _ = require('lodash');
 
   const Keyboard = robot.Keyboard;
   const Mouse = robot.Mouse;
@@ -19,8 +20,55 @@
   function pressingKey(key) {
     return Keyboard.getState(key) && shouldNotify();
   }
-
+  
   function playCinematic(cinematicSteps, speed, store, shouldLoop) {
+    const { camera: Camera, environment: Environment } = store.getters.core;
+    const commit = store.commit;
+    if (cinematicSteps.length <= 1) return commit('setMode', 'SPECTATE');
+    const firstStep = cinematicSteps[0];
+    const cinematicValues = {
+      x: firstStep.position.x,
+      y: firstStep.position.y,
+      z: firstStep.position.z,
+      yawCos: Math.cos(firstStep.yaw),
+      yawSin: Math.sin(firstStep.yaw),
+      pitch: firstStep.pitch,
+      roll: firstStep.roll,
+    };
+
+    const keyframes = cinematicSteps.map((step) => {
+      return {
+        x: step.position.x,
+        y: step.position.y,
+        z: step.position.z,
+        yawCos: Math.cos(step.yaw),
+        yawSin: Math.sin(step.yaw),
+        pitch: step.pitch,
+        roll: step.roll,
+      };
+    });
+
+    const cinematicSpeed = Number(speed || 10);
+
+    tween = anime({
+      targets: cinematicValues,
+      duration: cinematicSpeed * 1000,
+      easing: 'spring(1, 80, 10, 0)',
+      keyframes,
+      update: function() {
+        const yawToAngle = Math.atan2(cinematicValues.yawSin, cinematicValues.yawCos);
+        cinematicValues.yaw = yawToAngle;
+        Camera.SetCameraView(cinematicValues);
+      },
+      complete: function() {
+        if (shouldLoop) return playCinematic(cinematicSteps, speed, store, shouldLoop);
+        commit('setMode', 'SPECTATE');
+        tween = null;
+      }
+    });
+  };
+
+  function oldPlayCinematic(cinematicSteps, speed, store, shouldLoop) {
     const { camera: Camera, environment: Environment } = store.getters.core;
     const commit = store.commit;
     if (cinematicSteps.length <= 1) return commit('setMode', 'SPECTATE');
@@ -95,7 +143,7 @@
   }
 
   function stopCinematic(store) {
-    tween.kill();
+    tween.pause();
     tween = undefined;
   }
 
