@@ -53,7 +53,7 @@
     tween = anime({
       targets: cinematicValues,
       duration: cinematicSpeed * 1000,
-      easing: 'spring(1, 80, 10, 0)',
+      easing: 'linear',
       keyframes,
       update: function() {
         const yawToAngle = Math.atan2(cinematicValues.yawSin, cinematicValues.yawCos);
