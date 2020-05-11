@@ -137,3 +137,5 @@ window.launch = launchCore;
  // Legion working 55 8B EC 83 7D 0C 00 8B 45 08 74 08 09 05 ????????
  // 0.5.3 .port -1315 -1216 60.0582 0
  // rendering 0.5.3 top lighting 80 99 90 07
+ // only wmo wireframe 74 4B 10 31
+ // more clear 755500FF
