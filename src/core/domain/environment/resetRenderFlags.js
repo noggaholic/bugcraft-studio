@@ -5,7 +5,6 @@ function resetRenderFlags(Memory) {
       const renderFlagsDefault = environmentStruct.renderFlagsDefault;
       if (!renderFlagsPtr) return;
       SetRenderFlagsBuffer.writeUInt32LE(renderFlagsDefault);
-      console.log('# SetRenderFlagsBuffer', SetRenderFlagsBuffer.toString('hex'));
       Memory.writeData(renderFlagsPtr, SetRenderFlagsBuffer, SetRenderFlagsBuffer.byteLength);
     };
 }

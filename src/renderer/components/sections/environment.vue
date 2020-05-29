@@ -1,23 +1,31 @@
 <template>
   <div class="container">
     <div class="columns columns-top">
-      <div class="column is-one-third">
-        <label class="label is-normal">Render flags (hex 0 to 0xFF)</label>
+      <div class="column is-one-fifth">
         <div class="render">
-          <div class="byteSelectors">
-            <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[0]" index=0 />
-            <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[1]" index=1 />
-            <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[2]" index=2 />
-            <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[3]" index=3 />
+          <div>
+            <label class="label is-normal">
+              <div class="render_flags">
+                <div class="render_flags_title">Render flags</div>
+                <div v-tooltip="`${renderflagsHelp}`"><i data-feather="help-circle"></i></div>
+              </div>
+              <div class="render_flags_subtitle">hex 0 to 0xFF</div>
+            </label>
+            <div class="byteSelectors">
+              <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[0]" index=0 />
+              <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[1]" index=1 />
+              <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[2]" index=2 />
+              <ByteSelector @upRenderFlags="upRenderFlags" @downRenderFlags="downRenderFlags" v-bind:byte="renderflags[3]" index=3 />
+            </div>
           </div>
           <div class="buttons">
-            <button class="button random" v-on:click="setRenderToRandom">Set to random</button>
-            <button class="button random" v-on:click="copyRender">Copy value to clipboard</button>
-            <button class="button random" v-on:click="resetRender">Reset to default</button>
+            <button class="button random" v-on:click="copyRender" v-tooltip="`Copy render flags to clipboard`"><i data-feather="clipboard"></i></button>
+            <button class="button random" v-on:click="setRenderToRandom" v-tooltip="`Set render flags to a random value`"><i data-feather="shuffle"></i></button>
+            <button class="button random" v-on:click="resetRender" v-tooltip="`Reset render flags to default`"><i data-feather="refresh-ccw"></i></button>
           </div>
         </div>
       </div>
-      <div class="column">
+      <div class="column is-one-third">
         <div class="field">
           <label class="label is-normal">Time of day ({{timeOfDay.hour}}:{{timeOfDay.minutes}})</label>
           <label class="checkbox checkbox-custom">
@@ -87,7 +95,7 @@ export default {
       ByteSelector: require('./inputs/byteSelector'),
   },
   mounted() {
-    feather.replace({  width: "20", height: "20", 'stroke-width': 2 });
+    feather.replace({  width: "20", height: "20", 'stroke-width': 2, color: '#626b82' });
     if (!this.$store.getters.core) return;
     const { GetRenderFlags } = this.$store.getters.core.environment;
     const renderflags = [
@@ -174,7 +182,8 @@ export default {
     return {
       timeOfDay: this.$store.state.environment.timeOfDay,
       isTimeOfDayEnabled: this.$store.state.environment.isTimeOfDayEnabled,
-      renderflags: [0, 0, 0, 0]
+      renderflags: [0, 0, 0, 0],
+      renderflagsHelp: 'Render flags control how WoW is rendered.<br/>Changing these values may break your client, specially from WoW Alpha to WoW 3.x'
     };
   }
 };
@@ -188,12 +197,20 @@ export default {
   display: flex;
   align-items: row;
 }
-
 .buttons .button:not(:last-child):not(.is-fullwidth) {
   margin-right: 0;
 }
-.buttons {
-  align-items: inherit;
-  flex-direction: column;
+.render_flags_title {
+  display: flex;
+  margin-right: 5px;
+}
+.render_flags {
+  display: flex;
+}
+.render_flags_title > svg {
+  padding-left: 5px;
+}
+.render_flags_subtitle {
+  color: #626b82;
 }
 </style>

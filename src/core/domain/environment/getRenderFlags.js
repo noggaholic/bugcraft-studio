@@ -6,6 +6,6 @@ function GetRenderFlags(Memory) {
     Memory.readData(renderFlagsPtr + index, GetRenderFlagsBuffer, GetRenderFlagsBuffer.byteLength);
     return GetRenderFlagsBuffer.readUInt8();
   };
-  }
+}
 
 module.exports = GetRenderFlags;
