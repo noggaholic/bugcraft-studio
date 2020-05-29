@@ -20,7 +20,7 @@
     return Keyboard.getState(key) && shouldNotify();
   }
 
-  function playCinematic(cinematicSteps, speed, store, shouldLoop) {
+  function playCinematic(cinematicSteps, speed, store, shouldLoop, easing = Power0.easeNone) {
     const { camera: Camera, environment: Environment } = store.getters.core;
     const commit = store.commit;
     if (cinematicSteps.length <= 1) return commit('setMode', 'SPECTATE');
@@ -34,6 +34,10 @@
       pitch: firstStep.pitch,
       roll: firstStep.roll,
     };
+
+    const yawToAngle = Math.atan2(cinematicValues.yawSin, cinematicValues.yawCos);
+    cinematicValues.yaw = yawToAngle;
+    Camera.SetCameraView(cinematicValues);
     
     const keyframes = cinematicSteps.map((step) => {
       return {
@@ -58,13 +62,9 @@
         type: 'soft',
         timeResolution: 0,
       },
-      ease: {
-        base: 'easeNone',
-        sub: 'easeNone',
-        configurable: null,
-      },
+      ease: easing,
       onComplete: () => {
-        if (shouldLoop) return playCinematic(cinematicSteps, speed, store, shouldLoop);
+        if (shouldLoop) return playCinematic(cinematicSteps, speed, store, shouldLoop, easing);
         commit('setMode', 'SPECTATE');
         tween = null;
       },
@@ -137,7 +137,9 @@
             const speed = this.$store.getters.cinematicSpeed;
             const shouldLoop = this.$store.state.camera.loopCinematic;
             const store = this.$store;
-            return playCinematic(steps, speed, store, shouldLoop);
+            const easing = this.$store.state.camera.easing;
+            console.log('# easing', easing);
+            return playCinematic(steps, speed, store, shouldLoop, easing);
           }
         },
         deep: true

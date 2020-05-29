@@ -31,7 +31,7 @@
           </div>
           <div v-if="cinematicSteps.length" class="is-scrollable" ref="table_cinematic">
             <div class="columns">
-              <div class="column is-one-third">
+              <div class="column is-one-quarter">
                 <div class="field">
                   <label class="label">Cinematic duration</label>
                   <div class="control">
@@ -42,6 +42,30 @@
                       v-model="cinematicSpeed"
                       v-on:input="setCinematicSpeed($event)"
                       placeholder="Value in seconds, defaults to 10.">
+                  </div>
+                  <p class="help">This sets how much the cinematic will last.</p>
+                </div>
+              </div>
+              <div class="column is-one-quarter">
+                <div class="field">
+                  <label class="label">Easing</label>
+                  <div class="control">
+                    <div class="select">
+                      <select v-on:change="setEasing">
+                        <option>Power0.easeNone</option>
+                        <option>Power1.easeOut</option>
+                        <option>Power2.easeOut</option>
+                        <option>Power3.easeOut</option>
+                        <option>Power4.easeOut</option>
+                        <option>Bounce.easeOut</option>
+                        <option>Back.easeOut</option>
+                        <option>Elastic.easeOut</option>
+                        <option>SlowMo.ease</option>
+                        <option>Circ.easeOut</option>
+                        <option>Expo.easeOut</option>
+                        <option>Sine.easeOut</option>
+                      </select>
+                    </div>
                   </div>
                   <p class="help">This sets how much the cinematic will last.</p>
                 </div>
@@ -105,8 +129,6 @@
 </template>
 
 <script>
-  
-
   function reportWindowSize() {
     if (this.$refs.table_cinematic) {
       const height = window.innerHeight - 100;
@@ -120,12 +142,6 @@
       TimeSelector: require('./inputs/timeSelector.vue'),
       spectateMenu: require('./spectateMenu'),
     },
-    beforeCreate: () => {
-      
-    },
-    beforeDestroy: () => {
-      
-    },
     methods: {
       setRoll ({ target: element }, index) {
         this.$store.commit('setRoll', { index, value: element.value });
@@ -136,6 +152,14 @@
       setLoopCinematic: function({ target: element }) {
         this.$store.commit('setLoopCinematic', element.checked);
       },
+      setEasing: function({ target: element }) {
+        const easing = element.options[element.selectedIndex].text;
+        let ease = easing;
+        if (ease === 'Back.easeOut') ease = Back.easeOut.config(1.7, 1.7);
+        if (ease === 'Elastic.easeOut') ease = Elastic.easeOut.config(1, 1, 0.3, 0.3);
+        if (ease === 'SlowMo.ease') ease = SlowMo.ease.config(0.7, 0.7, false);
+        this.$store.commit('setEasing', ease);
+      }
 	  },
     destroyed: function() {
       window.removeEventListener('resize', reportWindowSize);

@@ -7,6 +7,7 @@ export default {
     cinematicSpeed: 10,
     loopCinematic: false,
     collision: true,
+    easing: 'Power0.easeNone',
     position: {
       x: 0,
       y: 0,
@@ -50,6 +51,9 @@ export default {
     },
     setLoopCinematic(state, loop) {
       state.loopCinematic = loop;
+    },
+    setEasing(state, easing) {
+      state.easing = easing;
     },
     addCinematicStep(state, step) {
       state.cinematicSteps.push(step);
