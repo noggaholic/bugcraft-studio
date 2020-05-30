@@ -33,7 +33,8 @@
             <div class="columns">
               <div class="column is-one-quarter">
                 <div class="field">
-                  <label class="label">Cinematic duration</label>
+                  <label class="label">Cinematic duration in seconds</label>
+                  <p class="help">This sets how much the cinematic will last.</p>
                   <div class="control">
                     <input 
                       class="input" 
@@ -43,12 +44,12 @@
                       v-on:input="setCinematicSpeed($event)"
                       placeholder="Value in seconds, defaults to 10.">
                   </div>
-                  <p class="help">This sets how much the cinematic will last.</p>
                 </div>
               </div>
               <div class="column is-one-quarter">
                 <div class="field">
                   <label class="label">Easing</label>
+                  <p class="help easing">Open <a v-on:click="open('https://greensock.com/docs/v2/Easing')">Ease Visualizer</a></p>
                   <div class="control">
                     <div class="select">
                       <select v-on:change="setEasing">
@@ -67,21 +68,20 @@
                       </select>
                     </div>
                   </div>
-                  <p class="help">This sets how much the cinematic will last.</p>
                 </div>
               </div>
               <div class="column">
-                <div class="field">
-                  <input 
-                    type="checkbox" 
-                    id="loop_cinematic" 
-                    name="loop_cinematic"
-                    v-model="loopCinematic" 
-                    v-on:change="setLoopCinematic($event)"
-                  />
-                  <label for="loop_cinematic"><span></span>Loop cinematic</label>
-                  <p class="help">Cinematic plays in infinite loop</p>
-                </div>
+          <label class="checkbox checkbox-custom">
+            Play in infinite loop
+            <input
+              type="checkbox" 
+              id="loop_cinematic" 
+              name="loop_cinematic"
+              v-model="loopCinematic" 
+              v-on:change="setLoopCinematic($event)"
+            />
+            <div class="checkbox_indicator"></div>
+          </label>
               </div>
           </div>
             <div class="table-container">
@@ -129,6 +129,9 @@
 </template>
 
 <script>
+
+  const { shell } = require('electron');
+
   function reportWindowSize() {
     if (this.$refs.table_cinematic) {
       const height = window.innerHeight - 100;
@@ -143,6 +146,9 @@
       spectateMenu: require('./spectateMenu'),
     },
     methods: {
+      open(url) {
+        shell.openExternal(url);
+      },
       setRoll ({ target: element }, index) {
         this.$store.commit('setRoll', { index, value: element.value });
       },
@@ -183,7 +189,22 @@
 </script>
 
 <style scoped>
-  .cinematic_builder {
-    user-select: none;
+  .help {
+    color: #626b82;
+    margin-top: 0;
+  }
+  a {
+    color: #626b82;
+    text-decoration: underline;
+  }
+  a:hover {
+    text-decoration: none;
+    color: #ff1a3b;
+  }
+  .easing {
+    margin-top: -2px;
+  }
+  .label, .label:not(:last-child) {
+    margin-bottom: 0;
   }
 </style>

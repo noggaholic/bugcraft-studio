@@ -138,7 +138,6 @@
             const shouldLoop = this.$store.state.camera.loopCinematic;
             const store = this.$store;
             const easing = this.$store.state.camera.easing;
-            console.log('# easing', easing);
             return playCinematic(steps, speed, store, shouldLoop, easing);
           }
         },

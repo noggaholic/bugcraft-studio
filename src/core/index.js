@@ -200,14 +200,10 @@ window.launch = launchCore;
 // 4.3.4 probably ignore me wow.exe+201937 - F3 0F10 15 6067EF00   - movss xmm2,[wow.exe+7B6760] { (-340282346638528860000000000000000000000.00) }
 // 4.3.4 Fog related? wow.exe+4E4BDE - E8 BD70FBFF           - call wow.exe+49BCA0
 // 4.3.4 This renders a lot of things wow.exe+4E2D30 - E8 8B0EC8FF           - call wow.exe+163BC0
-
-
 // Common pattern 01 00 00 00 3A 12 0A 43 00 40 1C C6 AB 6A 2D 44
 // 3.3.5a Wow.exe+393813 - E8 F8C20300           - call Wow.exe+3CFB10
 // 4.3.4 may be related with rendering wow.exe+6C3188 - D8 0D E4902301        - fmul dword ptr [wow.exe+7890E4] { (1333788672) }
 //wow.exe+35CBA4 - E8 B7AAFFFF           - call wow.exe+357660
-
-
 // 4.3.4 this is environment wow.exe+35D266 - E8 6569FFFF           - call wow.exe+353BD0
 // 4.3.4 water related wow.exe+328B2D - D9 05 58752701        - fld dword ptr [wow.exe+7C7558] { (0.94) }
 // 4.3.4 everything wow.exe+328B9D - E8 DEA90200           - call wow.exe+353580
