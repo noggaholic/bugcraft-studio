@@ -11,7 +11,7 @@
   <a href="#license">License</a>
 </p>
 
-![BugCraft Studio UI](https://github.com/noggaholic/bugcraft-studio/edit/master/ui.png?raw=true)
+![BugCraft Studio UI](https://raw.githubusercontent.com/noggaholic/bugcraft-studio/master/ui.png)
 
 ## Key Features 🎉
 
