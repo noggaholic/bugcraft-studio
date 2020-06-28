@@ -11,7 +11,7 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](https://noggaholic.github.io/UI.png)
+![BugCraft Studio UI](https://github.com/noggaholic/bugcraft-studio/edit/master/ui.png?raw=true)
 
 ## Key Features 🎉
 
@@ -23,11 +23,11 @@
 * An explorer's dream come true ✨
 * Custom spectate camera mode for Alpha and Vanilla
 
-### Features per version:
+### Features per WoW version:
 
 | Version          | Spectate | Cinematic mode | Environment | Max view distance |
 |------------------|----------|----------------|-------------|-------------------   |
-| 0\.5\.3          | ✔️       | ✔️             | ⚙️       | ⚙️   |
+| 0\.5\.3          | ✔️       | ✔️             | ⚙️          | ⚙️                 |
 | 0\.8\.0          | ✔️       | ✔️             | ⚙️          | ⚙️                 |
 | 1\.8\.0          | ✔️       | ✔️             | ⚙️          | ⚙️                 |
 | 1\.12\.0         | ✔️       | ✔️             | ⚙️          | ⚙️                 |
