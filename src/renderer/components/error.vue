@@ -11,17 +11,13 @@
             v-on:click="open('https://github.com/noggaholic/bugcraft-studio')"
           >https://github.com/noggaholic/bugcraft-studio</a>
         </p>
-        <button class="err-button" v-on:click="exit()">Close BugCraft Studio</button>
+        <div class="actions">
+          <button class="err-button" v-on:click="reload()">Reload</button>
+          <button class="err-button" v-on:click="exit()">Close BugCraft Studio</button>
+        </div>
       </div>
     </div>
   </div>
-  <!-- <div class="card card--default is-active">
-  <div class="card__header">
-    <img class="card__img"..../>
-    <h1 class="card__title"></h1>
-  </div>
-  <div class="card__body"></div>
-</div> -->
 </template>
 <script>
   const { shell, remote } = require('electron');
@@ -35,6 +31,10 @@
       exit() {
         let w = remote.getCurrentWindow()
         w.close();
+      },
+      reload() {
+        const getUrl = window.location;
+        window.location.href = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
       },
       open(link) {
         shell.openExternal(link);
@@ -88,6 +88,7 @@
   }
   .err-button {
     border-radius: 5px;
+    margin: 5px;
     padding: 10px 10px 15px 10px;
     font-size: 16px;
     font-size: 16px;
@@ -111,5 +112,9 @@
   }
   .description {
     color: red;
+  }
+  .actions {
+    display: flex;
+    align-items: center;
   }
 </style>

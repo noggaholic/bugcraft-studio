@@ -42,6 +42,9 @@
           </label>
         </div>
       </div>
+      <div class="columns">
+        Settings are saved at {{this.$store.state.settings.configPath}}
+      </div>
       <small><i>World of Warcraft® and Blizzard Entertainment® are 
             all trademarks or registered trademarks of Blizzard 
             Entertainment in the United States and/or other 
@@ -89,4 +92,7 @@ export default {
 </script>
 
 <style scoped>
+  small {
+    color:#5a5a5a;
+  }
 </style>

@@ -5,6 +5,9 @@
 </template>
 
 <script>
+  const electron = require("electron");
+  const fs = require('fs');
+  const { get } = require('lodash');
   export default {
     name: 'bugcraft-studio',
     mounted() {
@@ -16,9 +19,49 @@
         }
         store.commit('setGameInfo', AppManager.Game);
         store.commit('setCore', AppManager);
+
+        setTimeout(() => {
+          /**
+           * Save/Load Settings
+           */
+          const settingsPaths = this.$store.state.settings.configPath;
+          try {
+            console.log('# Loading settings from ', settingsPaths);
+            fs.accessSync(settingsPaths, fs.constants.R_OK | fs.constants.W_OK);
+            const settings = JSON.parse(fs.readFileSync(settingsPaths, 'utf8'));
+            console.log('# Existing settings', settings);
+            applySettings(settings, store);
+          } catch (error) {
+            try {
+              if (error.message.includes('ENOENT: no such file or directory, access')) {
+                console.log('# Creating settings as they don\'t exist ', settingsPaths);
+                const settings = JSON.stringify(this.$store.getters.getExistingSettings);
+                return fs.writeFileSync(settingsPaths, settings, 'utf8');
+              }
+              this.$router.push({ name: 'error', params: { error: error.message }});
+            } catch (error) {
+              this.$router.push({ name: 'error', params: { error: error.message }});
+            }
+          }
+        });
       });
     }
   };
+
+  function applySettings (settings, store) {
+    const win = electron.remote.getCurrentWindow();
+    const cameraCollision = get(settings, 'camera.collision', undefined);
+    const spectateSpeed = get(settings, 'camera.spectateSpeed', undefined);
+    const timeOfDayEnabled = get(settings, 'environment.timeOfDayEnabled', undefined);
+    const alwaysOnTop = get(settings, 'settings.alwaysOnTop', undefined);
+    if (cameraCollision !== undefined) store.commit("setCollision", cameraCollision);
+    if (spectateSpeed !== undefined) store.commit("setSpeed", spectateSpeed);
+    if (timeOfDayEnabled !== undefined) store.commit("setTimeOfDayStatus", timeOfDayEnabled);
+    if (alwaysOnTop !== undefined) {
+      store.commit("setAlwaysOnTop", alwaysOnTop);
+      win.setAlwaysOnTop(alwaysOnTop);
+    }
+  }
 </script>
 
 <style lang="scss">

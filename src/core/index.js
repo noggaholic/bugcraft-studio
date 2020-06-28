@@ -137,6 +137,7 @@ window.launch = launchCore;
  // Legion working 55 8B EC 83 7D 0C 00 8B 45 08 74 08 09 05 ????????
  // 0.5.3 .port -1315 -1216 60.0582 0
  // rendering 0.5.3 top lighting 80 99 90 07
+ // Wireframe ligithing 82FAF921
  // only wmo wireframe 74 4B 10 31
  // more clear 755500FF
  // only near 09D2F824
@@ -180,6 +181,8 @@ window.launch = launchCore;
 // WoW.exe+83486 - C7 45 DC 00000000     - mov [ebp-24],00000000 { 0 }
 // WoW.exe+8348D - C7 45 E0 00000000     - mov [ebp-20],00000000 { 0 }
 // 0.5.3 WoWClient.DayNightRenderSky+8B - E9 2024FEFF           - jmp WoWClient.DNClouds::Render
+// 0.5.3 WoWClient.GxRsSet+72 - 68 58788500           - push WoWClient.exe+457858 { ("value >= -2.0f && value <= 2.0f") }
+// 0.5.3 Texture LOD 00E40520
 // 1.12.1 funny low poly mode WoW.exe+8368F - D9 05 A0B4C700        - fld dword ptr [WoW.exe+87B4A0] { (0.00) }
 // 1.12.1 disable m2 rendering WoW.exe+836A6 - E8 55522800           - call WoW.exe+308900
 // 1.12.1 disable grass rendering WoW.exe+836CA - E8 F1CA1E00           - call WoW.exe+2701C0
@@ -228,3 +231,7 @@ window.launch = launchCore;
 // WMO Common pattern 74 8B 1E 46 7C 0B BC C5
 // 4.3.4 WMO rendering related wow.exe+39F37E - 39 46 50              - cmp [esi+50],eax
 // 4.3.4 WMO Rendering change this wow.exe+39F378 - 8B 87 94000000        - mov eax,[edi+00000094] to 00000090
+// Player Scale pattern 1.12 00 00 80 3F 00 00 80 3F 00 00 80 3F 9A 99 99 3F 00 00 00 00 00 00 00 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 D9 11 68 40 F8 64 00 C0 42 DA 94 BF C8 53 54 BF B5 31 CB 3F
+// Small pattern by nogg 00 00 00 3F 00 00 80 3F 00 00 80 3F 9A 99 99 3F 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00
+// 0.5.3 Scale WoWClient.CGObject_C::GetScale+3 - D9 40 10              - fld dword ptr [eax+10]
+// 0.5.3 WoWClient.CGObject_C::GetScale+3 - D9 05 18390B01        - fld dword ptr [WoWClient.exe+CB23B4] { (0.70) }

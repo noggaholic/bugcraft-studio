@@ -31,20 +31,29 @@
 <script>
   const { remote } = require('electron');
   var TMP = { maximized: false }
-  let win;
+
   export default {
     name: 'topbar',
     created() {
-      win = remote.BrowserWindow.getFocusedWindow();
+      const store = this.$store;
+      window.onbeforeunload = (e) => {
+        const win = remote.getCurrentWindow();
+        store.dispatch('saveSettings');
+        store.commit('setMode', 'DISABLED');
+        store.commit("setTimeOfDayStatus", false);
+        process.nextTick(() => win.destroy());
+      }
     },
     mounted() {
-        feather.replace({  width: "16", height: "16" })
+      feather.replace({  width: "16", height: "16" })
     },
     methods: {
         minimize() {
+          const win = remote.getCurrentWindow();
           win.minimize();
         },
         maximize() {
+          const win = remote.getCurrentWindow();
           if(TMP.maximized === true) {
             TMP.maximized = false;
             win.unmaximize();
@@ -54,6 +63,7 @@
           }
         },
         close() {
+          const win = remote.getCurrentWindow();
           win.close();
         },
     },
