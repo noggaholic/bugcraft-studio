@@ -189,7 +189,7 @@ export default {
 
       refs.yaw.value = yaw;
       refs.pitch.value = pitch;
-    }, 1000);
+    }, 500);
   },
   destroyed() {
     clearInterval(positionInterval);
