@@ -3,15 +3,15 @@
  * This is the cinematic struct that evolves through time
  */
 function BuildKeyframes(steps) {
-  const firstStep = steps[0];
+  const step = steps[0];
   const cinematicValues = {
-    x: firstStep.position.x,
-    y: firstStep.position.y,
-    z: firstStep.position.z,
-    yawCos: Math.cos(firstStep.yaw),
-    yawSin: Math.sin(firstStep.yaw),
-    pitch: firstStep.pitch,
-    roll: firstStep.roll,
+    x: step.position.x,
+    y: step.position.y,
+    z: step.position.z,
+    yawCos: Math.cos(step.yaw),
+    yawSin: Math.sin(step.yaw),
+    pitch: step.pitch,
+    roll: step.roll,
   };
   const keyframes = steps.map((step) => {
     return {
@@ -49,8 +49,9 @@ function createSetView(Store) {
  */
 function createGetCinematicOptions(ApplyEnvironment, Store) {
   const { environment: Environment } = Store.getters.core;
+  const { commit: CommitState } = Store;
   const SetView = createSetView(Store);
-  return (keyframes, cinematicValues, easing, steps, speed, store, shouldLoop, cinematic, commit) => {
+  return (keyframes, cinematicValues, easing, steps, speed, store, shouldLoop, cinematic) => {
     return {
       bezier: {
         values: keyframes,
@@ -64,7 +65,7 @@ function createGetCinematicOptions(ApplyEnvironment, Store) {
           const CinematicBuilder = createCinematicBuilder(ApplyEnvironment);
           return CinematicBuilder(steps, speed, store, shouldLoop, easing);
         }
-        commit('setMode', 'SPECTATE');
+        CommitState('setMode', 'SPECTATE');
         cinematic.tween = null;
       },
       onUpdate: () => {
@@ -102,11 +103,10 @@ function createCinematicBuilder(ApplyEnvironment) {
     ApplyEnvironment(cinematicValues, firstStep, keyframes, Store);
 
     const cinematicSpeed = Number(speed || 10);
-
     const cinematic = GetCinematicStruct();
 
     const GetCinematicOptions = createGetCinematicOptions(ApplyEnvironment, Store);
-    const cinematicOptions = GetCinematicOptions(keyframes, cinematicValues, easing, steps, speed, Store, shouldLoop, cinematic, commit);
+    const cinematicOptions = GetCinematicOptions(keyframes, cinematicValues, easing, steps, speed, Store, shouldLoop, cinematic);
     cinematic.tween = TweenLite.to(
       cinematicValues,
       cinematicSpeed,
