@@ -5180,9 +5180,6 @@ input[type=range]::-moz-range-thumb {
 .range.blue::-webkit-slider-thumb {
   border-color: #3bade3; }
 
-.range.ltpurple::-webkit-slider-thumb {
-  border-color: #576fe6; }
-
 .range.purple::-webkit-slider-thumb {
   border-color: #9844b7; }
 
@@ -5191,9 +5188,6 @@ input[type=range]::-moz-range-thumb {
 
 .range.blue::-moz-range-thumb {
   border-color: #3bade3; }
-
-.range.ltpurple::-moz-range-thumb {
-  border-color: #576fe6; }
 
 .range.purple::-moz-range-thumb {
   border-color: #9844b7; }

@@ -46,7 +46,7 @@
             <p class="control">
               <input
                 :disabled="isTimeOfDayEnabled === false"
-                class="input range ltpurple"
+                class="input range"
                 v-tooltip="`Current time: ${timeOfDay.hour}:${timeOfDay.minutes}`"
                 type="range"
                 v-on:change="setTimeOfDay($event, 'hour')"
@@ -64,7 +64,7 @@
             <p class="control">
               <input
                 :disabled="isTimeOfDayEnabled === false"
-                class="input range ltpurple"
+                class="input range"
                 v-tooltip="`Current time: ${timeOfDay.hour}:${timeOfDay.minutes}`"
                 type="range"
                 v-on:change="setTimeOfDay($event, 'minutes')"

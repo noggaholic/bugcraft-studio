@@ -10,7 +10,7 @@
             <label class="label">Window transparency</label>
             <div class="control">
               <input
-                class="input range ltpurple"
+                class="input range transparency"
                 v-model="windowTransparency"
                 min="50"
                 max="100"
@@ -92,6 +92,9 @@ export default {
 </script>
 
 <style scoped>
+  .transparency {
+    margin: 0 0;
+  }
   small {
     color:#5a5a5a;
   }
