@@ -46,42 +46,57 @@
                   </div>
                 </div>
               </div>
-              <div class="column is-one-quarter">
+              <div class="column is-one-quarter easing-select">
                 <div class="field">
                   <label class="label">Easing</label>
                   <p class="help easing">Open <a v-on:click="open('https://greensock.com/docs/v2/Easing')">Ease Visualizer</a></p>
                   <div class="control">
                     <div class="select">
                       <select v-on:change="setEasing">
-                        <option>Power0.easeNone</option>
-                        <option>Power1.easeOut</option>
-                        <option>Power2.easeOut</option>
-                        <option>Power3.easeOut</option>
-                        <option>Power4.easeOut</option>
-                        <option>Bounce.easeOut</option>
-                        <option>Back.easeOut</option>
-                        <option>Elastic.easeOut</option>
-                        <option>SlowMo.ease</option>
-                        <option>Circ.easeOut</option>
-                        <option>Expo.easeOut</option>
-                        <option>Sine.easeOut</option>
+                        <option>Power0</option>
+                        <option>Power1</option>
+                        <option>Power2</option>
+                        <option>Power3</option>
+                        <option>Power4</option>
+                        <option>Bounce</option>
+                        <option>Back</option>
+                        <option>Elastic</option>
+                        <option>SlowMo</option>
+                        <option>Circ</option>
+                        <option>Expo</option>
+                        <option>Sine</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">&nbsp;</label>
+                  <p class="help easing">&nbsp;</p>
+                  <div class="control">
+                    <div class="select">
+                      <select v-on:change="setEasingTypeSelected">
+                        <option
+                          v-for="(type) in this.$store.state.camera.easingType"
+                          v-bind:key="type"
+                          :selected="easingTypeSelected === type"
+                        >{{type}}</option>
                       </select>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="column">
-          <label class="checkbox checkbox-custom">
-            Play in infinite loop
-            <input
-              type="checkbox" 
-              id="loop_cinematic" 
-              name="loop_cinematic"
-              v-model="loopCinematic" 
-              v-on:change="setLoopCinematic($event)"
-            />
-            <div class="checkbox_indicator"></div>
-          </label>
+                <label class="checkbox checkbox-custom">
+                  Play in infinite loop
+                  <input
+                    type="checkbox" 
+                    id="loop_cinematic" 
+                    name="loop_cinematic"
+                    v-model="loopCinematic" 
+                    v-on:change="setLoopCinematic($event)"
+                  />
+                  <div class="checkbox_indicator"></div>
+                </label>
               </div>
           </div>
             <div class="table-container">
@@ -145,6 +160,9 @@
       TimeSelector: require('./inputs/timeSelector.vue'),
       spectateMenu: require('./spectateMenu'),
     },
+    created() {
+      this.$store.commit('setEasingType', this.$store.state.camera.easing);
+    },
     methods: {
       open(url) {
         shell.openExternal(url);
@@ -161,10 +179,12 @@
       setEasing: function({ target: element }) {
         const easing = element.options[element.selectedIndex].text;
         let ease = easing;
-        if (ease === 'Back.easeOut') ease = Back.easeOut.config(1.7, 1.7);
-        if (ease === 'Elastic.easeOut') ease = Elastic.easeOut.config(1, 1, 0.3, 0.3);
-        if (ease === 'SlowMo.ease') ease = SlowMo.ease.config(0.7, 0.7, false);
         this.$store.commit('setEasing', ease);
+        this.$store.commit('setEasingType', ease);
+      },
+      setEasingTypeSelected: function({ target: element }) {
+        const easing = element.options[element.selectedIndex].text;
+        this.$store.commit('setEasingTypeSelected', easing);
       }
 	  },
     destroyed: function() {
@@ -180,6 +200,8 @@
         cinematicSpeed: this.$store.state.camera.cinematicSpeed,
         loopCinematic: this.$store.state.camera.loopCinematic,
         clientVersion: this.$store.state.settings.client,
+        easingType: this.$store.state.camera.easingType,
+        easingTypeSelected: this.$store.state.camera.easingTypeSelected
       };
     },
     watch: {
@@ -206,5 +228,8 @@
   }
   .label, .label:not(:last-child) {
     margin-bottom: 0;
+  }
+  .easing-select {
+    display: flex;
   }
 </style>

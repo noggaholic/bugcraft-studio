@@ -106,6 +106,7 @@ function createCinematicBuilder(ApplyEnvironment) {
     const cinematic = GetCinematicStruct();
 
     const GetCinematicOptions = createGetCinematicOptions(ApplyEnvironment, Store);
+    console.log('# Playing cinematic with easing', easing, 'and duration', speed);
     const cinematicOptions = GetCinematicOptions(keyframes, cinematicValues, easing, steps, speed, Store, shouldLoop, cinematic);
     cinematic.tween = TweenLite.to(
       cinematicValues,

@@ -41,6 +41,7 @@
         store.dispatch('saveSettings');
         store.commit('setMode', 'DISABLED');
         store.commit("setTimeOfDayStatus", false);
+        if (process.env.NODE_ENV === 'development') return;
         process.nextTick(() => win.destroy());
       }
     },

@@ -64,7 +64,7 @@
             const speed = this.$store.getters.cinematicSpeed;
             const shouldLoop = this.$store.state.camera.loopCinematic;
             const store = this.$store;
-            const easing = this.$store.state.camera.easing;
+            const easing = `${this.$store.state.camera.easing}.${this.$store.state.camera.easingTypeSelected}`;
             cinematic = CinematicBuilder(steps, speed, store, shouldLoop, easing);
           }
         },

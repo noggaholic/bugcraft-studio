@@ -7,7 +7,23 @@ export default {
     cinematicSpeed: 10,
     loopCinematic: false,
     collision: true,
-    easing: 'Power0.easeNone',
+    easing: 'Power0',
+    easingTypeSelected: 'easeNone',
+    easingType: [],
+    easingTypeDefintion: {
+      Power0: ['easeNone'],
+      Power1: ['easeIn', 'easeInOut', 'easeOut'],
+      Power2: ['easeIn', 'easeInOut', 'easeOut'],
+      Power3: ['easeIn', 'easeInOut', 'easeOut'],
+      Power4: ['easeIn', 'easeInOut', 'easeOut'],
+      Bounce: ['easeIn', 'easeInOut', 'easeOut'],
+      Back: ['easeIn', 'easeInOut', 'easeOut'],
+      Elastic: ['easeIn', 'easeInOut', 'easeOut'],
+      SlowMo: ['easeNone'],
+      Circ: ['easeIn', 'easeInOut', 'easeOut'],
+      Expo: ['easeIn', 'easeInOut', 'easeOut'],
+      Sine: ['easeIn', 'easeInOut', 'easeOut']
+    },
     position: {
       x: 0,
       y: 0,
@@ -54,6 +70,15 @@ export default {
     },
     setEasing(state, easing) {
       state.easing = easing;
+    },
+    setEasingType(state, type) {
+      state.easingType = [];
+      const types = state.easingTypeDefintion[type];
+      types.forEach(type => state.easingType.push(type));
+      state.easingTypeSelected = types[0];
+    },
+    setEasingTypeSelected(state, type) {
+      state.easingTypeSelected = type;
     },
     addCinematicStep(state, step) {
       state.cinematicSteps.push(step);
