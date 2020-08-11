@@ -351,13 +351,14 @@ export const ctl = {
   },
 };
 
+const OFFSET_FIX = 0x4F0;
 export const mop = {
-  SpectatePointer: [0xCFEFAC, 0x1504, 0x8],
+  SpectatePointer: [0xCFEFAC + OFFSET_FIX, 0x1504, 0x8],
   CameraRot: 0x10C,
-  CameraPointer: [0xD6496C, 0x8208, 0],
+  CameraPointer: [0xD64E5C, 0x8208, 0],
   EnableSpectate: new Buffer([0x00, 0x00, 0x48, 0x00]),
   DisableSpectate: new Buffer([0, 0, 0, 0]),
-  CameraValuesPointer: 0x00F67EB8,
+  CameraValuesPointer: { offset: 0xB68118, module: true },
   Collision: 0x48,
   Speed: 0x44,
   cameraViewMatrix: {
@@ -371,10 +372,10 @@ export const mop = {
   environment: {
     version: {
       ['5.4.8']: {
-        timeOfDay: 0xC8DF14,
-        timeOfDaySpeed: 0xC8DF00,
-        renderFlags: 0xE371D4,
-        renderFlagsDefault: 0x0001BFFF
+        timeOfDay: 0xC8DF14 + OFFSET_FIX,
+        timeOfDaySpeed: 0xC8DF00 + OFFSET_FIX,
+        renderFlags: 0xE371D4 + OFFSET_FIX,
+        renderFlagsDefault: 0x0001BFFF + OFFSET_FIX
       }
     }
   },
