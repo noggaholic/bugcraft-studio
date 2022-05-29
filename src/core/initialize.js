@@ -75,11 +75,11 @@ function initialize(cb) {
     module = module.getBase();
 
     // Determine if game is 64Bit
-    const is64Bit = process.is64Bit();
+    // const is64Bit = process.is64Bit();
 
-    if (is64Bit) {
-      return cb(new Error('64bit process is not supported at the moment'));
-    }
+    // if (is64Bit) {
+      // return cb(new Error('64bit process is not supported at the moment'));
+    // }
 
     // Create a new memory object
     memory = Memory(process);

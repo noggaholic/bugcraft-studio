@@ -47,7 +47,7 @@
     "gsap": "^3.0.2",
     "lodash.clonedeep": "^4.5.0",
     "portable-executable": "0.0.1",
-    "robot-js": "git@github.com:Robot/robot-js.git#dev",
+    "robot-js": "github:Robot/robot-js.git",
     "v-tooltip": "^2.0.3",
     "vue": "2.6.11",
     "vue-electron": "^1.0.6",
