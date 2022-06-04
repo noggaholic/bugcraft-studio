@@ -25,14 +25,23 @@ function GetCameraPtr(Game, memory, Module, offsets) {
           CameraValuesPointer: null,
         };
       } else if (offsets[Game.client].base) {
-        const SpectatePointerFinder = offsets[Game.client].base.version[Game.build].SpectatePointer;
-        const SpectatePointer = Array.isArray(SpectatePointerFinder) ? memory.readMultiLevelPtr(SpectatePointerFinder) : SpectatePointerFinder;
+        let SpectatePointer;
+        if (offsets[Game.client].base.version[Game.build].PlayerPointer) {
+          // Might not be player pointer... we should confirm the type of the object we're accessing.
+          const PlayerPointerFinder = offsets[Game.client].base.version[Game.build].PlayerPointer;
+          const PlayerPointer = Array.isArray(PlayerPointerFinder) ? memory.readMultiLevelPtr(PlayerPointerFinder) : PlayerPointerFinder;
+          SpectatePointer = PlayerPointer + offsets[Game.client].base.version[Game.build].PlayerFlagsOffset;
+          // ^ this is a pointer to PlayerFlags.
+        } else {
+          const SpectatePointerFinder = offsets[Game.client].base.version[Game.build].SpectatePointer;
+          SpectatePointer = Array.isArray(SpectatePointerFinder) ? memory.readMultiLevelPtr(SpectatePointerFinder) : SpectatePointerFinder;
+        }
         const Pointer = memory.readMultiLevelPtr(offsets[Game.client].base.version[Game.build].CameraPointer);
         const CameraValuesPointer = Module + offsets[Game.client].base.version[Game.build].CameraValuesPointer;
 
         console.log('# Camera SpectatePointer found at', `0x${SpectatePointer.toString(16)}
-        - Camera spectate values at: 0x${CameraValuesPointer.toString(16)}
-        - Camera values at: 0x${Pointer.toString(16)}`);
+         - Camera spectate values at: 0x${CameraValuesPointer.toString(16)}
+         - Camera values at: 0x${Pointer.toString(16)}`);
         return {
           Pointer,
           InstructionPointer: null,

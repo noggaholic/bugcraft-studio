@@ -2,11 +2,11 @@
 
 export const getVersion = (Memory) => {
 
-  const build = Memory.findStrPattern(' (build ');
+  const build = Memory.findStrPattern('Build (build ');
   const buildStr = new Buffer(0xE);
   if (build.length === 0) return;
   const versionPtr = build[0];
-  Memory.readData(versionPtr, buildStr, buildStr.byteLength);
+  Memory.readData(versionPtr + 7, buildStr, buildStr.byteLength);
   const buildFound = buildStr.toString('ascii').match(/\d/g).join('');
   console.log('# WoW Build Found', buildFound);
   if (buildFound === '3368') return { client: 'alpha', build: '0.5.3' };
@@ -21,9 +21,13 @@ export const getVersion = (Memory) => {
   if (buildFound === '20779') return { client: 'draenor', build: '6.2.3' };
   if (buildFound === '24742') return { client: 'legion', build: '7.2.5' };
   if (buildFound === '26972') return { client: 'legion', build: '7.3.5' };
+  if (buildFound === '34963') return { client: 'bfa', build: '8.3.0' };
 };
 
 export const alpha = {
+  CameraPositionOffset: 0x08,
+  CameraViewMatrixOffset: 0x14,
+  CameraFovOffset: 0x38,
   camera: {
     position: {
       ['0.5.3']: {
@@ -192,6 +196,9 @@ export const alpha = {
 };
 
 export const vanilla = {
+  CameraPositionOffset: 0x08,
+  CameraViewMatrixOffset: 0x14,
+  CameraFovOffset: 0x38,
   CameraRot: 0xF0,
   enableCameraFacing: 0x90,
   camera: {
@@ -259,6 +266,10 @@ export const vanilla = {
 };
 
 export const tbc = {
+  CameraPositionOffset: 0x08,
+  CameraViewMatrixOffset: 0x14,
+  CameraValuesPositionOffset: 0xC,
+  CameraFovOffset: 0x38,
   CameraRot: 0x104,
   SpectatePointer: [0x00A29D28, 0x128, 0x7FC, 0x7F8, 0x720, 0x6FC],
   CameraPointer: [0x86ECCC, 0x732c, 0],
@@ -289,6 +300,10 @@ export const tbc = {
 };
 
 export const wlk = {
+  CameraPositionOffset: 0x08,
+  CameraViewMatrixOffset: 0x14,
+  CameraValuesPositionOffset: 0xC,
+  CameraFovOffset: 0x38,
   SpectatePointer: [0x006DB754, 0x38, 0x98, 0x240],
   CameraPointer: [0x77436C, 0x7e20, 0],
   EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
@@ -319,6 +334,10 @@ export const wlk = {
 };
 
 export const ctl = {
+  CameraPositionOffset: 0x08,
+  CameraViewMatrixOffset: 0x14,
+  CameraValuesPositionOffset: 0xC,
+  CameraFovOffset: 0x38,
   SpectatePointer: 0x163BEC,
   CameraRot: 0x104,
   CameraPointer: [0xAD7A10, 0x80D0, 0],
@@ -353,6 +372,10 @@ export const ctl = {
 
 const OFFSET_FIX = 0x4F0;
 export const mop = {
+  CameraPositionOffset: 0x08,
+  CameraViewMatrixOffset: 0x14,
+  CameraValuesPositionOffset: 0xC,
+  CameraFovOffset: 0x38,
   SpectatePointer: [0xCFEFAC + OFFSET_FIX, 0x1504, 0x8],
   CameraRot: 0x10C,
   CameraPointer: [0xD64E5C, 0x8208, 0],
@@ -382,6 +405,10 @@ export const mop = {
 };
 
 export const draenor = {
+  CameraPositionOffset: 0x08,
+  CameraViewMatrixOffset: 0x14,
+  CameraValuesPositionOffset: 0xC,
+  CameraFovOffset: 0x38,
   SpectatePointer: [0x00E379B0, 0xD4, 0x50, 0x350],
   CameraRot: 0x128,
   CameraPointer: [0xEAF270, 0x7610, 0],
@@ -411,6 +438,10 @@ export const draenor = {
 };
 
 export const legion = {
+  CameraPositionOffset: 0x08,
+  CameraValuesPositionOffset: 0xC,
+  CameraViewMatrixOffset: 0x14,
+  CameraFovOffset: 0x38,
   EnableSpectate: new Buffer([0x00, 0x00, 0x48, 0x00]),
   DisableSpectate: new Buffer([0, 0, 0, 0]),
   Collision: 0x90,
@@ -455,6 +486,47 @@ export const legion = {
         timeOfDaySpeed: 0,
         renderFlags: 0x1252CC0,
         renderFlagsDefault: 0x7FF7FFFF
+      }
+    }
+  },
+};
+
+export const bfa = {
+  CameraPositionOffset: 0x10,
+  CameraValuesPositionOffset: 0x10,
+  CameraViewMatrixOffset: 0x1C,
+  CameraFovOffset: 0x40,
+  SpectateFlags: 0x480000,
+  Collision: 0x98,
+  Speed: 0x8C,
+  CameraRot: 0x13C,
+  base: {
+    version: {
+      ['8.3.0']: {
+        WorldScenePointer: 0x28CDB40,
+        WorldSceneNearFarClipOffset: 0x4B4,
+        PlayerPointer: [0x296A490 + 0x10, 0x08, 0],
+        PlayerFlagsOffset: 0x1AB8,
+        CameraPointer: [0x2A6BAA8, 0x3438, 0],
+        CameraValuesPointer: 0x2ABB1F0,
+      }
+    }
+  },
+  cameraViewMatrix: {
+    version: {
+      ['8.3.0']: {
+        pattern: new Buffer([0x48, 0x8B, 0xD0, 0x48, 0x8B, 0xCF, 0xE8, 0x72, 0x34, 0xFF, 0xFF, 0x33]),
+        fix:     new Buffer([0x48, 0x8B, 0xD0, 0x48, 0x8B, 0xCF, 0x90, 0x90, 0x90, 0x90, 0x90, 0x33]),
+      }
+    }
+  },
+  environment: {
+    version: {
+      ['8.3.0']: {
+        timeOfDay: 0,
+        timeOfDaySpeed: 0,
+        renderFlags: 0x0,
+        renderFlagsDefault: 0x0
       }
     }
   },
