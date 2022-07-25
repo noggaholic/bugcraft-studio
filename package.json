@@ -44,7 +44,7 @@
     "@electron/remote": "^2.0.8",
     "axios": "^0.16.1",
     "bulma": "0.8.2",
-    "crazymem": "file:../../Crazymem",
+    "crazymem": "git@github.com:karliky/Crazymem.git",
     "curve-interpolator": "^2.0.8",
     "globaluserinput": "^2.0.0",
     "gsap": "^3.10.4",
