@@ -51,7 +51,6 @@ module.exports = (process, Module, Memory, window, Offsets) => {
     Memory,
   );
   const SetCameraView = createSetCameraView(Game, Memory, Offsets, SetPosition);
-
   const camera = createCamera(
     GetCametaPtr,
     DisableSpectate,

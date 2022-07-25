@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  const electron = require("electron");
+  const remote = require('@electron/remote');
   const fs = require('fs');
   const { get } = require('lodash');
   export default {
@@ -14,12 +14,13 @@
       const store = this.$store;
       launch((error, AppManager) => {
         if (error) {
+          console.log('# Error', error)
           if (this.$route.path !== '/error') this.$router.push({ name: 'error', params: { error: error.message }});
           return;
         }
         store.commit('setGameInfo', AppManager.Game);
         store.commit('setCore', AppManager);
-
+  	    console.timeEnd('startup');
         setTimeout(() => {
           /**
            * Save/Load Settings
@@ -49,7 +50,7 @@
   };
 
   function applySettings (settings, store) {
-    const win = electron.remote.getCurrentWindow();
+    const win = remote.getCurrentWindow();
     const cameraCollision = get(settings, 'camera.collision', undefined);
     const spectateSpeed = get(settings, 'camera.spectateSpeed', undefined);
     const timeOfDayEnabled = get(settings, 'environment.timeOfDayEnabled', undefined);
@@ -137,15 +138,15 @@
     padding-bottom: 12px;
     margin-bottom: 5px;
   }
-  .navbar-item:hover {
+  .navbar-item:hover, a.navbar-item:hover, a.navbar-item:focus-within {
     color: #e8e8ea;
   }
 
-  .navbar-item:hover {
+  .navbar-item:hover, a.navbar-item:hover {
     background-color: #10141c;
     border-radius: 5px;
   }
-  .navbar-item.router-link-exact-active {
+  a.navbar-item.router-link-exact-active {
     background-color: #10141c;
     border-radius: 5px;
   }

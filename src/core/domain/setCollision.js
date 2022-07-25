@@ -3,6 +3,7 @@ function setCollision(Game, Memory, Offsets) {
   const collisionBuffer = new Buffer(0x4);
   return (CameraValuesPointer, isEnabled) => {
     const collisionPtr = CameraValuesPointer + Offsets[Game.client].Collision;
+    if (!collisionPtr) return; // No collision for WoW Vanilla and Alpha
     if (isEnabled) {
       collisionBuffer.writeInt32LE(1, 0);
       Memory.writeData(collisionPtr, collisionBuffer, collisionBuffer.byteLength);

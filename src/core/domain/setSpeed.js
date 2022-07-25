@@ -1,5 +1,5 @@
 
-function setCollision(Game, Memory, Offsets) {
+function setSpeed(Game, Memory, Offsets) {
   const speedBuffer = new Buffer(0x4);
   return (CameraStruct, speed) => {
     const { CameraValuesPointer } = CameraStruct;
@@ -10,4 +10,4 @@ function setCollision(Game, Memory, Offsets) {
   };
 }
 
-module.exports = setCollision;
+module.exports = setSpeed;
