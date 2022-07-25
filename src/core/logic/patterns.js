@@ -288,7 +288,7 @@ export const tbc = {
 };
 
 export const wlk = {
-  SpectatePointer: [0x006DB754, 0x38, 0x98, 0x240],
+  SpectatePointer: [0x006DACA4, 0xC, 0x24, 0x8, 0x258],
   CameraPointer: [0x77436C, 0x7e20, 0],
   EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
   DisableSpectate: new Buffer([0, 0, 0, 0]),

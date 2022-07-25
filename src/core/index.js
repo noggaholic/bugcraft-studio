@@ -8,9 +8,7 @@ function launchCore(cb) {
     const program = createProgram(process, module, memory, window, patterns);
     return cb(err, program);
   };
-  return setTimeout(() => {
-    initialize(init);
-  }, 5000);
+  return initialize(init);
 }
 
 window.launch = launchCore;

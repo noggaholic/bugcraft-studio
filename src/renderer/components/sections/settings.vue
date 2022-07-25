@@ -57,7 +57,7 @@
 </template>
 
 <script>
-const { ipcRenderer } = require('electron');
+const { BrowserWindow } = require('@electron/remote')
 
 export default {
   name: "settings",
@@ -66,11 +66,11 @@ export default {
   },
   methods: {
     openDevTools() {
-      ipcRenderer.invoke('openDevTools');
+      BrowserWindow.getFocusedWindow().webContents.openDevTools()
     },
     setAlwaysOnTop: function({ target: element }) {
       this.$store.commit("setAlwaysOnTop", element.checked);
-      ipcRenderer.invoke('toggleOnTop', element.checked);
+      BrowserWindow.getFocusedWindow().setAlwaysOnTop(element.checked);
     },
     setWindowTransparency: function({ target: element }) {
       this.$store.commit("setWindowTransparency", element.value);
