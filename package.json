@@ -43,7 +43,7 @@
   "dependencies": {
     "@electron/remote": "^2.0.8",
     "active-window-sync": "github:karliky/active-window-sync",
-    "axios": "^0.16.1",
+    "axios": "^0.21.2",
     "bulma": "0.8.2",
     "crazymem": "git@github.com:karliky/Crazymem.git",
     "curve-interpolator": "^2.0.8",
