@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  const electron = require("electron");
+  const remote = require('@electron/remote');
   const fs = require('fs');
   const { get } = require('lodash');
   export default {
@@ -14,6 +14,7 @@
       const store = this.$store;
       launch((error, AppManager) => {
         if (error) {
+          console.log('# Error', error)
           if (this.$route.path !== '/error') this.$router.push({ name: 'error', params: { error: error.message }});
           return;
         }
@@ -49,7 +50,7 @@
   };
 
   function applySettings (settings, store) {
-    const win = electron.remote.getCurrentWindow();
+    const win = remote.getCurrentWindow();
     const cameraCollision = get(settings, 'camera.collision', undefined);
     const spectateSpeed = get(settings, 'camera.spectateSpeed', undefined);
     const timeOfDayEnabled = get(settings, 'environment.timeOfDayEnabled', undefined);

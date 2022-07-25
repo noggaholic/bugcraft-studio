@@ -1,4 +1,8 @@
-import { app, BrowserWindow } from 'electron' // eslint-disable-line
+require('@electron/remote/main').initialize();
+const { app, BrowserWindow } = require('electron');
+
+import * as remoteMain from '@electron/remote/main';
+
 const path = require('path');
 /**
  * Set `__static` path to static files in production
@@ -29,9 +33,13 @@ function createWindow() {
     transparent: true,
     webPreferences: {
       devTools: true,
+      contextIsolation: false,
+      nodeIntegration: true,
+      nodeIntegrationInWorker: true,                                                  
+      enableRemoteModule: true  
     },
   });
-
+  remoteMain.enable(mainWindow.webContents);
   mainWindow.loadURL(winURL);
 
   mainWindow.on('closed', () => {

@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return, no-restricted-syntax,padded-blocks,no-multi-spaces,key-spacing,comma-dangle,max-len,no-mixed-operators,curly,comma-spacing,comma-style,no-useless-computed-key */
 
 export const getVersion = (Memory) => {
-
   const build = Memory.findStrPattern(' (build ');
   const buildStr = new Buffer(0xE);
   if (build.length === 0) return;

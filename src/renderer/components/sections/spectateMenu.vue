@@ -41,7 +41,7 @@
 
 <script>
 const filters = [{ name: `BugCraft's Studio Cinematic (JSON)`, extensions: ['json'] }];
-const { dialog } = require('electron').remote;
+const { dialog } = window.require('electron');
 const fs = require('fs');
 
 export default {
