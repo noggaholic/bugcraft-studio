@@ -138,15 +138,15 @@
     padding-bottom: 12px;
     margin-bottom: 5px;
   }
-  .navbar-item:hover {
+  .navbar-item:hover, a.navbar-item:hover, a.navbar-item:focus-within {
     color: #e8e8ea;
   }
 
-  .navbar-item:hover {
+  .navbar-item:hover, a.navbar-item:hover {
     background-color: #10141c;
     border-radius: 5px;
   }
-  .navbar-item.router-link-exact-active {
+  a.navbar-item.router-link-exact-active {
     background-color: #10141c;
     border-radius: 5px;
   }

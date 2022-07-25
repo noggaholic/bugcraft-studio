@@ -20,13 +20,14 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
 
     EnableSpectate(CameraStruct, Pointer);
     EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
+
     return setInterval(() => {
-/*       if (Robot.Window.getActive().getTitle() !== 'World of Warcraft') {
-        return; // only move the camera if the active window is the game window
-      } */
+      // if (activeWindow !== 'World of Warcraft') {
+      //   return; // only move the camera if the active window is the game window
+      // }
 
       const camera = GetCameraData(Pointer);
-      if (gui.keyboard.isDown(0x57) /* || (state[Robot.BUTTON_LEFT] && state[Robot.BUTTON_RIGHT]) */) { // W Key
+      if (gui.keyboard.isDown(0x57) || (gui.mouse.isDown(0x01) && gui.mouse.isDown(0x02)) ) { // W Key or Mouse left and Mouse right
         const x = camera.position.x + camera.forward.x * speed;
         const y = camera.position.y + camera.forward.y * speed;
         const z = camera.position.z + camera.forward.z * speed;
