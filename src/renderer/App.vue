@@ -20,7 +20,7 @@
         }
         store.commit('setGameInfo', AppManager.Game);
         store.commit('setCore', AppManager);
-
+  	    console.timeEnd('startup');
         setTimeout(() => {
           /**
            * Save/Load Settings
