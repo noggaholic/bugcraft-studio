@@ -2,7 +2,7 @@
 </template>
 
 <script>
-  const robot = require('crazymem');
+  const ActiveWindow = require('active-window-sync');
   const ApplyEnvironment = require('../domain/applyEnvironment');
   const CreateCinematicBuilder = require('../domain/cinematicBuilder');
   const CinematicBuilder = CreateCinematicBuilder.default(ApplyEnvironment.default);
@@ -35,7 +35,7 @@
     mounted() {
       const store = this.$store;
       setInterval(() => {
-        //if (robot.Window.getActive().getTitle() !== 'World of Warcraft') return;
+        if (ActiveWindow.find() !== 'World of Warcraft') return;
         if (pressingKey(0x72)) { // F3
           if (cinematic && cinematic.tween) cinematic.stop();
           store.dispatch('toggleSpectate');

@@ -1,4 +1,5 @@
 const gui = require("globaluserinput").default;
+const ActiveWindow = require('active-window-sync');
 
 function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition, SetSpeed, Offsets, Memory) {
   return (CameraStruct, speed) => {
@@ -22,9 +23,9 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
     EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
 
     return setInterval(() => {
-      // if (activeWindow !== 'World of Warcraft') {
-      //   return; // only move the camera if the active window is the game window
-      // }
+      if (ActiveWindow.find() !== 'World of Warcraft') {
+        return; // only move the camera if the active window is the game window
+      }
 
       const camera = GetCameraData(Pointer);
       if (gui.keyboard.isDown(0x57) || (gui.mouse.isDown(0x01) && gui.mouse.isDown(0x02)) ) { // W Key or Mouse left and Mouse right
