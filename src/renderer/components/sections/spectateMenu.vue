@@ -41,7 +41,7 @@
 
 <script>
 const filters = [{ name: `BugCraft's Studio Cinematic (JSON)`, extensions: ['json'] }];
-const { dialog } = require('electron').remote;
+const { dialog } = require('@electron/remote');
 const fs = require('fs');
 
 export default {
@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     loadCinematic() {
-      const [ cinematicPath ] = dialog.showOpenDialog({ 
+      const [ cinematicPath ] = dialog.showOpenDialogSync({ 
         properties: ['openFile'], 
         filters
       });
@@ -69,17 +69,17 @@ export default {
       this.$store.commit('setEasingTypeSelected', easingType);
       if (isTimeOfDayEnabled) this.$store.commit("setTimeOfDayStatus", true);
       cinematicSteps.forEach(step => this.$store.commit('addCinematicStep', step));
-      // Weird way to force a refresh of the UI :(
+      // TODO: Weird way to force a refresh of the UI :(
       this.$router.push({ path: "/spectate" });
       setTimeout(() => app.$router.push({ path: "/spectate/cinematicBuilder" }));
     },
     saveCinematic() {
       const date = new Date();
       const defaultPath = `cinematic-${this.$store.state.settings.client}-${this.$store.state.settings.build}-${date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()}`;
-      const cinematicPath = dialog.showSaveDialog({ 
+      const cinematicPath = dialog.showSaveDialogSync({ 
         properties: ['openFile'], 
         filters,
-        title: "Save BugCraft Studio Cinematic",
+        title: "Save BugCraft's Studio Cinematic",
         defaultPath,
       });
       const cinematicSteps = this.$store.getters.steps;

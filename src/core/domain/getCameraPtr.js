@@ -1,7 +1,8 @@
 function GetCameraPtr(Game, memory, Module, offsets) {
     return () => {
       if (Game.client === 'alpha' || Game.client === 'vanilla') {
-        const InstructionPointer = memory.find(offsets[Game.client].camera.position[Game.build].pattern.toString('hex'), 0, -1, 1, '-x')[0];
+        const searchPattern = offsets[Game.client].camera.position[Game.build].pattern;
+        const InstructionPointer = memory.find(searchPattern, searchPattern.length)[0];
         const instructionBase = offsets[Game.client].camera.base;
         const ptrFix = offsets[Game.client].camera.base.version[Game.build].ptrFix;
         let Pointer = memory.resolvePtrBySetOfInstruction(instructionBase, Game.build, ptrFix);

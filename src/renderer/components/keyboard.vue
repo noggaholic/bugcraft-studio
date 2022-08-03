@@ -2,13 +2,12 @@
 </template>
 
 <script>
-  const robot = require('robot-js');
+  const ActiveWindow = require('active-window-sync');
   const ApplyEnvironment = require('../domain/applyEnvironment');
   const CreateCinematicBuilder = require('../domain/cinematicBuilder');
   const CinematicBuilder = CreateCinematicBuilder.default(ApplyEnvironment.default);
-  const Keyboard = robot.Keyboard;
-  const Mouse = robot.Mouse;
-  
+  const gui = require("globaluserinput").default;
+  gui.init();
   let currTime = new Date();
   const shouldNotify = () => {
     const now = new Date().getTime();
@@ -19,7 +18,7 @@
   };
 
   function pressingKey(key) {
-    return Keyboard.getState(key) && shouldNotify();
+    return gui.keyboard.isDown(key) && shouldNotify();
   }
 
   function shouldPlayCinematic(newMode, oldMode) {
@@ -36,20 +35,20 @@
     mounted() {
       const store = this.$store;
       setInterval(() => {
-        if (robot.Window.getActive().getTitle() !== 'World of Warcraft') return;
-        if (pressingKey(robot.KEY_F3)) {
+        if (ActiveWindow.find() !== 'World of Warcraft') return;
+        if (pressingKey(0x72)) { // F3
           if (cinematic && cinematic.tween) cinematic.stop();
           store.dispatch('toggleSpectate');
         }
-        if (pressingKey(robot.KEY_F4)) store.dispatch('addWaypoint');
-        if (pressingKey(robot.KEY_F5)) {
+        if (pressingKey(0x73)) store.dispatch('addWaypoint'); // F4
+        if (pressingKey(0x74)) { // F5
           if (store.getters.mode === 'SPECTATE') store.dispatch('playCinematic');
           if (store.getters.mode === 'PLAYING' && (cinematic && cinematic.tween)) {
             cinematic.stop();
             store.commit('setMode', 'SPECTATE');
           }
         }
-        if (pressingKey(robot.KEY_F6)) store.dispatch('cleanWaypoints');
+        if (pressingKey(0x75)) store.dispatch('cleanWaypoints'); // F6
       }, 20);
     },
     computed: {

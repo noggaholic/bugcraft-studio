@@ -29,15 +29,14 @@
 </template>
 
 <script>
-  const { remote } = require('electron');
-  var TMP = { maximized: false }
-
+  const { BrowserWindow } = require('@electron/remote')
+  var WindowStatus = { maximized: false }
+  const win = BrowserWindow.getFocusedWindow();
   export default {
     name: 'topbar',
     created() {
       const store = this.$store;
       window.onbeforeunload = (e) => {
-        const win = remote.getCurrentWindow();
         store.dispatch('saveSettings');
         store.commit('setMode', 'DISABLED');
         store.commit("setTimeOfDayStatus", false);
@@ -50,21 +49,18 @@
     },
     methods: {
         minimize() {
-          const win = remote.getCurrentWindow();
           win.minimize();
         },
         maximize() {
-          const win = remote.getCurrentWindow();
-          if(TMP.maximized === true) {
-            TMP.maximized = false;
+          if(WindowStatus.maximized === true) {
+            WindowStatus.maximized = false;
             win.unmaximize();
           } else {
-            TMP.maximized = true;
+            WindowStatus.maximized = true;
             win.maximize();
           }
         },
         close() {
-          const win = remote.getCurrentWindow();
           win.close();
         },
     },

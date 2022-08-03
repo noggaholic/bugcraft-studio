@@ -1,6 +1,5 @@
-const Robot = require('robot-js');
-const Keyboard = Robot.Keyboard;
-const Mouse = Robot.Mouse;
+const gui = require("globaluserinput").default;
+const ActiveWindow = require('active-window-sync');
 
 function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, GetCameraData, SetPosition, SetSpeed, Offsets, Memory) {
   return (CameraStruct, speed) => {
@@ -21,32 +20,32 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
 
     EnableSpectate(CameraStruct, Pointer);
     EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);
+
     return setInterval(() => {
-      if (Robot.Window.getActive().getTitle() !== 'World of Warcraft') {
+      if (ActiveWindow.find() !== 'World of Warcraft') {
         return; // only move the camera if the active window is the game window
       }
 
       const camera = GetCameraData(Pointer);
-      const state = Mouse.getState();
-      if (Keyboard.getState(Robot.KEY_W) || (state[Robot.BUTTON_LEFT] && state[Robot.BUTTON_RIGHT])) {
+      if (gui.keyboard.isDown(0x57) || (gui.mouse.isDown(0x01) && gui.mouse.isDown(0x02)) ) { // W Key or Mouse left and Mouse right
         const x = camera.position.x + camera.forward.x * speed;
         const y = camera.position.y + camera.forward.y * speed;
         const z = camera.position.z + camera.forward.z * speed;
         return SetPosition(CameraStruct, x, y, z);
       }
-      if (Keyboard.getState(Robot.KEY_S)) {
+      if (gui.keyboard.isDown(0x53)) {
         const x = camera.position.x - camera.forward.x * speed;
         const y = camera.position.y - camera.forward.y * speed;
         const z = camera.position.z - camera.forward.z * speed;
         return SetPosition(CameraStruct, x, y, z);
       }
-      if (Keyboard.getState(Robot.KEY_SPACE)) {
+      if (gui.keyboard.isDown(0x20)) { // Space
         const x = camera.position.x;
         const y = camera.position.y;
         const z = camera.position.z + speed;
         return SetPosition(CameraStruct, x, y, z);
       }
-      if (Keyboard.getState(Robot.KEY_LCONTROL)) {
+      if (gui.keyboard.isDown(0xA2)) {
         const x = camera.position.x;
         const y = camera.position.y;
         const z = camera.position.z - speed;

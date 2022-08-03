@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return, no-restricted-syntax,padded-blocks,no-multi-spaces,key-spacing,comma-dangle,max-len,no-mixed-operators,curly,comma-spacing,comma-style,no-useless-computed-key */
 
 export const getVersion = (Memory) => {
-
+  console.time('startup');
   const build = Memory.findStrPattern('Build (build ');
   const buildStr = new Buffer(0xE);
   if (build.length === 0) return;
@@ -304,7 +304,7 @@ export const wlk = {
   CameraViewMatrixOffset: 0x14,
   CameraValuesPositionOffset: 0xC,
   CameraFovOffset: 0x38,
-  SpectatePointer: [0x006DB754, 0x38, 0x98, 0x240],
+  SpectatePointer: [0x006DACA4, 0xC, 0x24, 0x8, 0x258],
   CameraPointer: [0x77436C, 0x7e20, 0],
   EnableSpectate: new Buffer([0x00, 0x00, 0x7F, 0x43]),
   DisableSpectate: new Buffer([0, 0, 0, 0]),
