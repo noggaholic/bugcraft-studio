@@ -7,7 +7,6 @@ function EnableKeyboardControls(Game, EnableSpectate, EnableViewMatrixUpdate, Ge
       Pointer,
       ViewMatrixInstructionsPointer,
     } = CameraStruct;
-
     if (!(Game.client === 'vanilla') && !(Game.client === 'alpha')) {
       EnableSpectate(CameraStruct, Pointer);
       EnableViewMatrixUpdate(ViewMatrixInstructionsPointer);

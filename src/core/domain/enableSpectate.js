@@ -1,3 +1,5 @@
+const flagsBufferSize = 4;
+const flagsBuffer = new Buffer(flagsBufferSize);
 
 function enableSpectateMode(Game, Memory, Offsets, Module, GetCameraData, SetPosition) {
   return (CameraStruct) => {
@@ -5,6 +7,7 @@ function enableSpectateMode(Game, Memory, Offsets, Module, GetCameraData, SetPos
       InstructionPointer,
       SpectatePointer,
       Pointer,
+      CameraValuesPointer,
     } = CameraStruct;
     if (Game.client === 'vanilla' || Game.client === 'alpha') {
       const fixPositionPattern = Offsets[Game.client].camera.position[Game.build].fix;
@@ -17,7 +20,16 @@ function enableSpectateMode(Game, Memory, Offsets, Module, GetCameraData, SetPos
     } else {
       const { position } = GetCameraData(Pointer);
       SetPosition(CameraStruct, position.x, position.y, position.z);
-      Memory.writeData(SpectatePointer, Offsets[Game.client].EnableSpectate, Offsets[Game.client].EnableSpectate.byteLength);
+
+      if (Offsets[Game.client].base.version[Game.build].PlayerPointer) {
+        Memory.readData(SpectatePointer, flagsBuffer, 4);
+        const flags = flagsBuffer.readUInt32LE() | Offsets[Game.client].SpectateFlags;
+        flagsBuffer.fill();
+        flagsBuffer.writeUInt32LE(flags);
+        Memory.writeData(SpectatePointer, flagsBuffer, 4);
+      } else {
+        Memory.writeData(SpectatePointer, Offsets[Game.client].EnableSpectate, Offsets[Game.client].EnableSpectate.byteLength);
+      }
     }
   };
 }
